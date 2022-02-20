@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="META-INF.com.peachblossom.mapper.memberMapper">
+
+	<insert id="join" parameterType="com.peachblossom.domain.MemberVO">
+		
+		INSERT INTO mb_tbl(
+			mb_id, 
+			mb_password, 
+			mb_name, 
+			mb_email, 
+			mb_zipcode, 
+			mb_addr, 
+			mb_addr_d, 
+			mb_mobile1, 
+			mb_mobile2, 
+			mb_mobile3, 
+			mb_accept_e
+			)
+		VALUES(
+			#{mb_id},
+			#{mb_password},
+			#{mb_name},
+			#{mb_email},
+			#{mb_zipcode},
+			#{mb_addr},
+			#{mb_addr_d},
+			#{mb_mobile1},
+			#{mb_mobile2},
+			#{mb_mobile3},
+			#{mb_accept_e}
+		)
+		
+	</insert>
+	
+	<select id="checkID" resultType="string">
+	
+		SELECT 
+			mb_id 
+		FROM 
+			mb_tbl
+		WHERE 
+			mb_id = #{mb_id}
+	
+	</select>
+	
+	<select id="login" resultType="com.peachblossom.domain.MemberVO">
+	
+		SELECT
+			mb_id, mb_password, mb_name, mb_email, mb_zipcode, mb_addr, mb_addr_d, mb_mobile1, mb_mobile2, mb_mobile3, mb_accept_e, mb_point, mb_date_sub, mb_date_upd, mb_date_last
+		FROM
+			mb_tbl
+		WHERE 
+			mb_id = #{mb_id}
+	
+	</select>
+	
+	<select id="searchPwByEmail" resultType="string">
+	
+		SELECT 
+			mb_email 
+		FROM 
+			mb_tbl
+		WHERE 
+			mb_email = #{mb_email}
+	
+	</select>
+	
+	<update id="changePw">
+	
+		UPDATE
+			mb_tbl
+		SET 
+			mb_password = #{mb_password}
+		WHERE
+			mb_email = #{mb_email}
+	
+	</update>
+	
+	<select id="currentPwConfirm" resultType="string">
+	
+		SELECT 
+			mb_password 
+		FROM 
+			mb_tbl
+		WHERE 
+			mb_id = #{mb_id} 
+	
+	</select>
+	
+	<update id="changeNewPw">
+	
+		UPDATE
+			mb_tbl
+		SET 
+			mb_password = #{change_mb_password}
+		WHERE
+			mb_id = #{mb_id}
+	
+	</update>
+	
+	<update id="modify">
+	
+		UPDATE
+			mb_tbl
+		SET
+			mb_email = #{mb_email}, 
+			mb_zipcode = #{mb_zipcode}, 
+			mb_addr = #{mb_addr}, 
+			mb_addr_d = #{mb_addr_d}, 
+			mb_mobile1 = #{mb_mobile1}, 
+			mb_mobile2 = #{mb_mobile2}, 
+			mb_mobile3 = #{mb_mobile3}, 
+			mb_accept_e = #{mb_accept_e},
+			mb_date_upd = sysdate
+			
+		WHERE
+			mb_id = #{mb_id}
+	
+	</update>
+	
+	<delete id="regDelete">
+	
+		DELETE FROM
+			mb_tbl
+		WHERE
+			mb_id = #{mb_id}
+	
+	
+	</delete>
+
+</mapper>
