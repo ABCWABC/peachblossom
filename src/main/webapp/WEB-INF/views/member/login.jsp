@@ -217,10 +217,10 @@
 						<div class="xans-element- xans-member xans-member-login ">
 							<div class="login">
 								<fieldset>
-									<label class="col-sm-12 col-form-label" title="아이디">
-									<input type="text" class="form-control" id="mb_id" name="mb_id" placeholder="아이디"></label>
-									<label class="col-sm-12 col-form-label" title="비밀번호">
-									<input type="password" class="form-control" id="mb_password" name="mb_password" placeholder="비밀번호"></label>
+									<label class="col-sm-12 col-form-label" title="아이디"></label>
+									<input type="text" class="form-control" id="mb_id" name="mb_id" placeholder="아이디">
+									<label class="col-sm-12 col-form-label" title="비밀번호"></label>
+									<input type="password" class="form-control" id="mb_password" name="mb_password" placeholder="비밀번호">
 									<p class="security">
 										<input type="checkbox" id="" name="">
 										<label for="">아이디 저장</label>
@@ -278,11 +278,11 @@
               alert("로그인 성공.");
               location.href = "/";
             }else if(data == "idFail"){
-              alert("아이디를 확인해주세요.");
+              alert("아이디가 일치하지 않습니다.");
               mb_id.focus();
               
             }else if(data == "pwFail"){
-              alert("비밀번호를 확인해주세요.");
+              alert("비밀번호가 일치하지 않습니다.");
               mb_password.focus();
             }
           } 

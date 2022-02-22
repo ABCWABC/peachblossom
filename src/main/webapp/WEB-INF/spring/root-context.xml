@@ -55,8 +55,8 @@
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	 -->
 	
-	<mybatis-spring:scan base-package="com.peachblossom.mapper"/>
-	<context:component-scan base-package="com.peachblossom.sevice"/>
+	<mybatis-spring:scan base-package="com.peachblossom.mapper" />
+	<context:component-scan base-package="com.peachblossom.sevice" />
 	
 	<!-- 스케줄링 작업을 위한 설정 -->
 	<!-- 
@@ -66,8 +66,8 @@
 	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	 	<property name="host"  value="smtp.gmail.com" />
 		<property name="port" value="587"></property>
-		<property name="username" value=""></property>
-		<property name="password" value=""></property>
+		<property name="username" value="leeyumi0713@gmail.com"></property>
+		<property name="password" value="spring3170!"></property>
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.auth">true</prop>

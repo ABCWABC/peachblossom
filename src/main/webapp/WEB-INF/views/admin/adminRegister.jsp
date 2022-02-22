@@ -30,6 +30,14 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-blue sidebar-mini">
+<script>
+	let msg = '${msg}';
+	if(msg == "success"){
+		alert("관리자로 등록됨.");
+	}else if(msg == "fail"){
+		alert("관리자 등록실패.");
+	}
+</script>
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -57,7 +65,22 @@ desired effect
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
-
+	<form action="/admin/adminRegister" method="post" id="adminForm">
+		<div class="form-row">
+		    <div class="col-md-5">
+		      <label for="ad_userid">관리자 ID</label>
+		      <input type="text" class="form-control" id="ad_userid" name="ad_userid">
+		    </div>
+		    <div class="col-md-5">
+		      <label for="ad_userpw">관리자 PW</label>
+		      <input type="password" class="form-control" id="ad_userpw" name="ad_userpw">
+		    </div>
+		    <div class="col-md-2">
+		      <label for="ad_user">&nbsp;</label>
+		      <input type="submit" class="form-control" id="ad_user" value="관리자 등록">
+		    </div>
+	   </div>
+   </form>
     </section>
     <!-- /.content -->
   </div>

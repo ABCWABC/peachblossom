@@ -9,6 +9,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- css, js 파일포함 -->
 <!-- 절대경로  /WEB-INF/views/include/header_info.jsp -->
 <%@include file="/WEB-INF/views/admin/include/header_info.jsp" %>
+
+<%@include file="/WEB-INF/views/include/plugin_js.jsp" %>
 <!--
 BODY TAG OPTIONS:
 =================

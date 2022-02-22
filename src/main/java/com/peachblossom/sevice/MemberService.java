@@ -20,6 +20,6 @@ public interface MemberService {
 	
 	public String currentPwConfirm(String mb_id, PasswordEncoder cryptPassEnc, String cur_mb_password, String change_mb_password);
 	
-	public int regDelete(String mb_id, PasswordEncoder cryptPassEncm,String mb_password);
+	public int regDelete(String mb_id, PasswordEncoder cryptPassEnc, String mb_password);
 
 }

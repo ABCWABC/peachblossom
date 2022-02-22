@@ -4,36 +4,39 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin Login</title>
-<%@include file="/WEB-INF/views/include/plugin_js.jsp" %>
+<title>Insert title here</title>
+<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+<script>
+	let msg = '${msg}';
+	if(msg == "failId"){
+		alert("아이디를 확인하세요.");
+	}else if(msg == "failPw"){
+		alert("비밀번호를 확인하세요.");
+	}
+</script>
 </head>
-
-<body class="text-center">
-    
-	<div class="login-form">
-	  <form>
-	    <img class="mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-	    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-	
-	    <div class="form-floating">
-	      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-	      <label for="floatingInput">Email address</label>
-	    </div>
-	    <div class="form-floating">
-	      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-	      <label for="floatingPassword">Password</label>
-	    </div>
-	
-	    <div class="checkbox mb-3">
-	      <label>
-	        <input type="checkbox" value="remember-me"> Remember me
-	      </label>
-	    </div>
-	    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-	    <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
-	  </form>
-	</div>
-
-
+<body>
+<h3>Admin Login</h3>
+<div style="text-align:center;width:350px;" class="h-100 row align-items-center">
+<div class="login-form">
+    <form action="/admin/logon" method="post">
+        <h2 class="text-center">Log in</h2>       
+        <div class="form-group">
+            <input type="text" class="form-control" id="ad_userid" name="ad_userid" placeholder="Admin ID" required="required">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="ad_userpw" name="ad_userpw" placeholder="Admin PW" required="required">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </div>
+        <div class="clearfix">
+            <label class="float-left form-check-label"><input type="checkbox"> Remember me</label>
+            <a href="#" class="float-right">Forgot Password?</a>
+        </div>        
+    </form>
+    <p class="text-center"><a href="#">Create an Account</a></p>
+</div>
+</div>
 </body>
 </html>

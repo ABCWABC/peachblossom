@@ -52,6 +52,9 @@
 	    color: #353535;
 	    font-size: 13px;
 	}
+	#checkbox{
+			text-align: center;
+	}
 	select {
 	    display: inline-block;
 	    min-width: 100px;
@@ -101,7 +104,7 @@
   <div class="container">
   
   <div class="titleArea">
-    <h2>JOIN US</h2>
+    <h2>MODIFY PROFILE</h2>
   </div>
   
   <!-- 회원가입 폼 작업 -->
@@ -123,7 +126,6 @@
 					</th>
 					<td>
 						<input type="text" id="mb_id" name="mb_id" value='<c:out value="${memberVO.mb_id }" />' readonly> (영문소문자/숫자, 4~16자) &nbsp
-						<button type="button" class="btnNormal" id="btnUseIDChk">중복체크</button>
 					</td>
 				</tr>
 				<tr>
@@ -132,7 +134,7 @@
 					</th>
 					<td>
 						<div class="">
-							<input type="password" id="mb_password" name="mb_password">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)
+							<input type="password" id="mb_password" name="mb_password"> (영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)
 							<div class="">
 								<div class="">
 									<!-- 클릭시 나타나게 표시
@@ -153,7 +155,7 @@
 						<img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 					</th>
 					<td>
-						<input type="text" id="mbsp_repassword">
+						<input type="text" id="mb_repassword">
 					</td>
 				</tr>
 				<tr>
@@ -191,14 +193,7 @@
 						<img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 					</th>
 					<td>
-						<select id="mb_mobile1" name="mb_mobile1" onselect='<c:out value="${memberVO.mb_mobile1 }" />'>
-							<option value="010">010</option>
-							<option value="011">011</option>
-							<option value="016">016</option>
-							<option value="017">017</option>
-							<option value="018">018</option>
-							<option value="019">019</option>
-						</select>-
+						<input type="text" id="mb_mobile1" name="mb_mobile1" value='<c:out value="${memberVO.mb_mobile1 }" />'>-
 						<input type="text" id="mb_mobile2" name="mb_mobile2" value='<c:out value="${memberVO.mb_mobile2 }" />'>-
 						<input type="text" id="mb_mobile3" name="mb_mobile3" value='<c:out value="${memberVO.mb_mobile3 }" />'>
 					</td>
@@ -206,10 +201,15 @@
 				<tr class="displaynone">
 					<th scope="row">메일수신여부</th>
 					<td>
+					<!-- 
 						<input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y">
 						<label for="mb_accept_e_Y">동의함</label>
 						<input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N" checked="checked">
 						<label for="mb_accept_e_N">동의안함</label>
+					 -->
+					 	<div id="checkbox">
+							<input type="checkbox" class="form-check-input" id="mb_accept_e" name="mb_accept_e" value='<c:out value="${memberVO.mb_accept_e }" />' <c:out value="${memberVO.mb_accept_e == 'Y' ? 'checked': '' }" />>
+						</div>
 					</td>
 				</tr>
 			</tbody>
@@ -241,7 +241,7 @@ $(document).ready(function(){
         return;
       }
       
-      if(mbsp_password.val() != mbsp_repassword.val()){
+      if(mb_password.val() != mb_repassword.val()){
         alert("비밀번호가 일치하지 않습니다.");
         return;
       }

@@ -50,6 +50,9 @@
 		    color: #353535;
 		    font-size: 13px;
 		}
+		#checkbox{
+			text-align: center;
+		}
 		select {
 		    display: inline-block;
 		    min-width: 100px;
@@ -196,16 +199,21 @@
               <input type="text" id="mb_mobile2" name="mb_mobile2">-
               <input type="text" id="mb_mobile3" name="mb_mobile3">
             </td>
-          </tr>
+          </tr> 
           <tr class="displaynone">
             <th scope="row">메일수신여부
               <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
             </th>
             <td>
+			<!-- 
               <input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y">
               <label for="mb_accept_e_Y">동의함</label>
               <input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N" checked="checked">
               <label for="mb_accept_e_N">동의안함</label>
+            -->
+            	<div id="checkbox">
+            		<input type="checkbox" class="form-check-input" id="mb_accept_e" name="mb_accept_e" value="Y">
+            	</div>
             </td>
           </tr>
         </tbody>
@@ -303,7 +311,6 @@
         mb_email.focus();
         return;
       }
-      alert("인증번호 메일이 발송되었습니다.");
 
       $.ajax({
         url: '/member/sendMailAuth',

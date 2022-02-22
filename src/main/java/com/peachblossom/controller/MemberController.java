@@ -80,7 +80,7 @@ public class MemberController {
 	
 	//메일인증요청
 	@ResponseBody
-	@GetMapping("/sentMailAuth")
+	@GetMapping("/sendMailAuth")
 	public ResponseEntity<String> sendMailAuth(@RequestParam("mb_email") String mb_email, HttpSession session){
 		
 		ResponseEntity<String> entity = null;
@@ -158,9 +158,8 @@ public class MemberController {
 		
 		String redirectURL = "";
 		vo.setMb_accept_e(!StringUtils.isEmpty(vo.getMb_accept_e()) ? "Y" : "N");
-		
 		log.info("회원의 수정한 정보:" + vo);
-		
+				
 		MemberVO session_vo = (MemberVO)session.getAttribute("loginStatus");
 		
 		if(cryptPassEnc.matches(vo.getMb_password(), session_vo.getMb_password())) {
@@ -277,7 +276,7 @@ public class MemberController {
 	
 	//비밀번호 변경하기
 	@ResponseBody
-	@PostMapping("/chagePw")
+	@PostMapping("/changePw")
 	public ResponseEntity<String> changePw(@RequestParam("cur_mb_password") String cur_mb_password,
 											@RequestParam("change_mb_password") String change_mb_password, HttpSession session){
 		

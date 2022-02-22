@@ -52,6 +52,9 @@
 	    color: #353535;
 	    font-size: 13px;
 	}
+	#checkbox{
+			text-align: center;
+		}
 	select {
 	    display: inline-block;
 	    min-width: 100px;
@@ -101,7 +104,7 @@
   <div class="container">
   
   <div class="titleArea">
-    <h2>JOIN US</h2>
+    <h2>MYPAGE</h2>
   </div>
   
   <!-- 회원가입 폼 작업 -->
@@ -160,14 +163,7 @@
 						<img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 					</th>
 					<td>
-						<select id="mb_mobile1" name="mb_mobile1" onselect='<c:out value="${memberVO.mb_mobile1 }" />'>
-							<option value="010">010</option>
-							<option value="011">011</option>
-							<option value="016">016</option>
-							<option value="017">017</option>
-							<option value="018">018</option>
-							<option value="019">019</option>
-						</select>-
+						<input type="text" id="mb_mobile1" name="mb_mobile1" value='<c:out value="${memberVO.mb_mobile1 }" />'>-
 						<input type="text" id="mb_mobile2" name="mb_mobile2" value='<c:out value="${memberVO.mb_mobile2 }" />'>-
 						<input type="text" id="mb_mobile3" name="mb_mobile3" value='<c:out value="${memberVO.mb_mobile3 }" />'>
 					</td>
@@ -181,38 +177,32 @@
 				<tr class="displaynone">
 					<th scope="row">메일수신여부</th>
 					<td>
+					<!-- 
 						<input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y">
 						<label for="mb_accept_e_Y">동의함</label>
 						<input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N" checked="checked">
 						<label for="mb_accept_e_N">동의안함</label>
-					</td>
-				</tr>
-				<hr>
-				<tr>
-					<th scope="row">현재 비밀번호
-						<img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-					</th>
-					<td>
-						<input type="password" class="form-control" id="cur_mb_password" name="cur_mb_password">
+					 -->
+					 	<div id="checkbox">
+					 		<input type="checkbox" class="form-check-input" id="mb_accept_e" name="mb_accept_e" value="Y">
+					 	</div>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row">변경 비밀번호
-						<img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+					<th scope="row">비밀번호 변경하기
 					</th>
 					<td>
-						<input type="password" class="form-control" id="change_mb_password" name="change_mb_password">
-						<button type="button" class="form-control" id="btnChangePw">비밀번호 변경</button>
+						<input type="password" id="cur_mb_password" name="cur_mb_password" placeholder="현재비밀번호">
+						<input type="password" id="change_mb_password" name="change_mb_password" placeholder="변경비밀번호">
+						<button type="button" class="btnNormal" id="btnChangePw">비밀번호 변경</button>
 					</td>
 				</tr>
-				<hr>
 				<tr>
-					<th scope="row">현재 비밀번호
-						<img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+					<th scope="row">회원탈퇴
 					</th>
 					<td>
-						<input type="password" class="form-control" id="cur_mb_password" name="cur_mb_password">
-						<button type="button" class="form-control" id="btnRegDelete">회원 탈퇴</button>
+						<input type="password" id="cur_mb_del_password" name="cur_mb_del_password" placeholder="비밀번호">
+						<button type="button" id="btnRegDelete">회원 탈퇴</button>
 					</td>
 				</tr>
 			</tbody>
@@ -266,11 +256,11 @@
 	  //회원탈퇴
 	    $("#btnRegDelete").on("click", function(){
 	
-	      let mb_password = $("#mb_password");
+	      let cur_mb_del_password = $("#cur_mb_del_password");
 	      
-	      if(mb_password.val() == "" || mb_password.val() == null){
+	      if(cur_mb_del_password.val() == "" || cur_mb_del_password.val() == null){
 	        alert("현재비밀번호를 입력하세요.");
-	        mb_password.focus();
+	        cur_mb_del_password.focus();
 	        return;
 	      }
 	      
@@ -278,7 +268,7 @@
 	        url: '/member/regDelete',
 	        type: 'post',
 	        dataType: 'text',
-	        data: { mb_password : mb_password.val()},
+	        data: { mb_password : cur_mb_del_password.val()},
 	        success: function(data){
 	          
 	          if(data == "1"){
