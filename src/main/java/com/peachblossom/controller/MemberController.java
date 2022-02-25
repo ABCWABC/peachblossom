@@ -23,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.peachblossom.domain.EmailDTO;
 import com.peachblossom.domain.MemberVO;
 import com.peachblossom.sevice.MemberService;
-import com.peachblossom.sevice.TestService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;

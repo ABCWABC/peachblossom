@@ -1,4 +1,4 @@
-package com.peachblossom.mapper;
+package com.peachblossom.sevice;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import com.peachblossom.domain.CategoryVO;
 import com.peachblossom.domain.Criteria;
 import com.peachblossom.domain.ProductVO;
 
-public interface AdminProductMapper {
-
+public interface AdminProductService {
+	
 	public int product_insert(ProductVO vo);
 	
 	public List<CategoryVO> mainCategory();
@@ -21,5 +21,5 @@ public interface AdminProductMapper {
 	public ProductVO product_modify(Integer pro_num);
 	
 	public int product_modifyOk(ProductVO vo);
-	
+
 }
