@@ -77,7 +77,7 @@
 	 </bean>
 		
 	<!-- 상품이미지 업로드 폴더 -->
-	<bean id="" class="java.lang.String">
+	<bean id="uploadFolder" class="java.lang.String">
 		<constructor-arg value="d:\\dev\\upload" />
 	</bean>
 </beans>

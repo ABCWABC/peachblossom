@@ -22,4 +22,6 @@ public interface AdminProductMapper {
 	
 	public int product_modifyOk(ProductVO vo);
 	
+	public int product_delete(Integer pro_num);
+	
 }

@@ -21,5 +21,7 @@ public interface AdminProductService {
 	public ProductVO product_modify(Integer pro_num);
 	
 	public int product_modifyOk(ProductVO vo);
+	
+	public int product_delete(Integer pro_num);
 
 }

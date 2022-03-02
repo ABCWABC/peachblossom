@@ -3,6 +3,7 @@ package com.peachblossom.sevice;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.peachblossom.domain.CategoryVO;
 import com.peachblossom.domain.Criteria;
@@ -11,6 +12,7 @@ import com.peachblossom.mapper.AdminProductMapper;
 
 import lombok.Setter;
 
+@Service
 public class AdminProductServiceImpl implements AdminProductService {
 	
 	@Setter(onMethod_ = @Autowired)
@@ -49,6 +51,11 @@ public class AdminProductServiceImpl implements AdminProductService {
 	@Override
 	public int product_modifyOk(ProductVO vo) {
 		return mapper.product_modifyOk(vo);
+	}
+
+	@Override
+	public int product_delete(Integer pro_num) {
+		return mapper.product_delete(pro_num);
 	}
 
 }

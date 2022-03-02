@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peachblossom.mapper.UserProductMapper">
+
+	<select id="mainCategory" resultType="com.peachblossom.domain.CategoryVO">
+		
+		SELECT
+			cate_code, 
+			cate_prt_code, 
+			cate_name
+		FROM
+			category_tbl
+		WHERE
+			cate_prt_code IS NULL
+		
+	</select>
+	
+	<select id="subCategory" resultType="com.peachblossom.domain.CategoryVO">
+	
+		SELECT 
+			cate_code, 
+			cate_prt_code, 
+			cate_name 
+		FROM 
+			category_tbl 
+		WHERE 
+			cate_prt_code = #{cate_code}
+			
+	</select>
+
+</mapper>

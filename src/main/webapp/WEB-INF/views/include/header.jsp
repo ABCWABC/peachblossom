@@ -45,3 +45,25 @@
 	   </div>
     </div>
     <!-- //topArea -->
+    
+    <div class="container">
+    	<c:forEach items="${userCategory}" var="categoryVO">
+    		${categoryVO.cate_name }
+    	</c:forEach>
+    	
+    	<ul class="nav nav-tabs">
+		  <li class="nav-item">
+		    <a class="nav-link">Active</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link">Dropdown</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link">Link</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link">Disabled</a>
+		  </li>
+		</ul>
+    </div>
+    

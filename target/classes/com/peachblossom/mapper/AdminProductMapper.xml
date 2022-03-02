@@ -127,7 +127,7 @@
 					rownum <= (#{pageNum} * #{amount})
 			)
 		WHERE
-			rn > ((#{pageNum} - 1) * #{amont})
+			rn > ((#{pageNum} - 1) * #{amount})
 		]]>
 		
 	</select>
@@ -189,5 +189,14 @@
 			pro_num = #{pro_num}
 	
 	</update>
+	
+	<delete id="product_delete">
+	
+		DELETE FROM
+			product_tbl
+		WHERE
+			pro_num = #{pro_num}
+	
+	</delete>
 	
 </mapper>

@@ -110,12 +110,14 @@
 		</dependency>
 				
 		<!-- Servlet -->
+		<!-- 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
+		-->
 		 
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<!-- 서블릿 3.1에따른 web.xml문법을 구성해줘야 추가된 기능을 사용할수가 있다.  -->
