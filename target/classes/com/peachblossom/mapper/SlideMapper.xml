@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peachblossom.mapper.SlideMapper">
+
+	<insert id="slide_insert">
+	
+		INSERT INTO
+			slide_tbl
+			(
+				slide_num,
+				slide_turn,
+				slide_image,
+				slide_name,
+				slide_uploadpath
+			)
+		VALUES
+		(
+			seq_slide_num.nextval,
+			#{slide_turn},
+			#{slide_image},
+			#{slide_name},
+			#{slide_uploadpath}
+		)
+	
+	</insert>
+	
+	<sql id="criteria">
+		<trim prefix="()" suffix=") AND " prefixOverrides="OR">
+			<foreach item="type" collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'N'.toString()">
+							pro_name like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'P'.toString()">
+							pro_publicsher like '%' || #{keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<select id="SlideGetListWithPaging" resultType="com.peachblossom.domain.SlideVO">
+		
+		<![CDATA[
+		SELECT
+			slide_num,
+			slide_turn,
+			slide_image,
+			slide_name,
+			slide_updatedate,
+			slide_uploadpath
+		FROM (
+				SELECT
+					/*+ index_desc(slide_tbl pk_slide_tbl) */
+					rownum rn,
+					slide_num,
+					slide_turn,
+					slide_image,
+					slide_name,
+					slide_updatedate,
+					slide_uploadpath
+				FROM
+					slide_tbl
+				WHERE
+		]]>
+					<include refid="criteria"></include>
+					
+					<![CDATA[
+					rownum <= (#{pageNum} * {amount})
+					
+			)
+		WHERE
+			rn > ((#{pageNum} - 1) * #{amount})
+		]]>
+		
+	</select>
+	
+	<select id="SlideGetTotalCount" resultType="int">
+		
+		SELECT
+			count(*)
+		FROM
+			slide_tbl
+		WHERE
+			<include refid="criteria"></include>
+			slide_num > 0
+		
+	</select>
+	
+	<select id="slide_modify" resultType="com.peachblossom.domain.SlideVO">
+	
+		SELECT
+			slide_num,
+			slide_turn,
+			slide_image,
+			slide_name,
+			slide_updatedate,
+			slide_uploadpath
+		FROM
+			slide_tbl
+		WHERE
+			slide_num = #{slide_num}
+	
+	</select>
+	
+	<update id="slide_modifyOk">
+		
+		UPDATE
+			slide_tbl
+		SET
+			slide_image = #{slide_image},
+			slide_turn = #{slide_turn},
+			slide_name = #{slide_name},
+			slide_uploadpath = #{slide_uploadpath},
+			slide_updatedate = sysdate
+		WHERE
+			slide_num = #{slide_num}
+		
+	</update>
+	
+	<delete id="slide_delete">
+	
+		DELETE FROM
+			slide_tbl
+		WHERE
+			slide_num = #{slide_num}
+	
+	</delete>
+
+</mapper>

@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.peachblossom.domain.CategoryVO;
+import com.peachblossom.domain.Criteria;
+import com.peachblossom.domain.ProductVO;
 import com.peachblossom.mapper.UserProductMapper;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +25,16 @@ public class UserProductServiceImpl implements UserProductService {
 	@Override
 	public List<CategoryVO> subCategory(Integer cate_code) {
 		return mapper.subCategory(cate_code);
+	}
+
+	@Override
+	public List<ProductVO> getListWithPaging(Integer cate_code, Criteria cri) {
+		return mapper.getListWithPaging(cate_code, cri);
+	}
+
+	@Override
+	public int getTotalCount(Integer cate_code) {
+		return mapper.getTotalCount(cate_code);
 	}
 
 }

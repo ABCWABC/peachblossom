@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.peachblossom.sevice.UserProductService;
 
@@ -20,7 +21,7 @@ public class GlobalControllerAdvice {
 
 	
 	// 페이지에서 공통으로 보여주는 정보. 예)쇼핑몰 - 카테고리정보
-	
+	@ModelAttribute
 	public void commonCategoryData(Model model) {
 		log.info("공통모델 데이터 참조");
 		model.addAttribute("userCategory", service.mainCategory());

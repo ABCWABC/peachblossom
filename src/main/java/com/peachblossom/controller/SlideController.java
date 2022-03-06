@@ -7,17 +7,16 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,11 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.peachblossom.domain.CategoryVO;
 import com.peachblossom.domain.Criteria;
 import com.peachblossom.domain.PageDTO;
-import com.peachblossom.domain.ProductVO;
-import com.peachblossom.sevice.AdminProductService;
+import com.peachblossom.domain.SlideVO;
 import com.peachblossom.sevice.SlideService;
 import com.peachblossom.util.UploadFileUtils;
 
@@ -38,32 +35,33 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 @AllArgsConstructor
-@RequestMapping("/admin/product/*")
+@RequestMapping("/admin/slide/*")
 @Controller
-public class AdProductController {
-
+public class SlideController {
+	
 	@Resource(name = "uploadFolder")
-	String uploadFolder;              // d:\\dev\\upload *
+	String uploadFolder;
 	
-	private AdminProductService service;
+	private SlideService service;
 	
-	// 상품등록폼 - 1차카테고리 정보 출력
-	@GetMapping("/productInsert")
-	public void product_insert(Model model) {
-		model.addAttribute("mainCategory", service.mainCategory());
+	// 상품등록폼
+	@GetMapping("slideInsert")
+	public void slide_insert() {
 	}
 	
-	// 상품등록폼 - 2차카테고리 정보 출력
+	// 상품리스트의 이미지출력(썸네일)
 	@ResponseBody
-	@GetMapping(value = "/subCategory/{mainCategoryCode}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<CategoryVO>> subCategory(@PathVariable("mainCategoryCode") Integer cate_code){
+	@GetMapping("/displayFile")
+	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) {
 		
-		ResponseEntity<List<CategoryVO>> entity = null;
-		entity = new ResponseEntity<List<CategoryVO>>(service.subCategory(cate_code), HttpStatus.OK);
+		ResponseEntity<byte[]> entity = null;
+		
+		entity = UploadFileUtils.getFileByte(uploadFolder, uploadPath, fileName);
 		
 		return entity;
 	}
 	
+	/*
 	//CKEditor 상품설명 이미지.
 	@PostMapping("/editor/imageUpload")
 	public void imageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile upload) {
@@ -111,79 +109,73 @@ public class AdProductController {
 			}
 		}
 	}
+	*/
 	
 	//상품등록 저장
-	@PostMapping("/productInsert")
-	public String product_insert(ProductVO vo, RedirectAttributes rttr) {
+	@PostMapping("/slideInsert")
+	public String slide_insert(SlideVO svo, RedirectAttributes rttr) {
 		
-		log.info("상품정보" + vo);
+		log.info("상품정보" + svo);
 		
 		//1)파일업로드
-		vo.setPro_img(UploadFileUtils.uploadFile(uploadFolder, vo.getUpload()));
-		vo.setPro_uploadpath(UploadFileUtils.getFolder()); // 날짜폴더명
+		svo.setSlide_image(UploadFileUtils.uploadFile(uploadFolder, svo.getUpload()));
+		svo.setSlide_uploadpath(UploadFileUtils.getFolder());
 
 		//2)상품정보 저장
-		service.product_insert(vo);
+		service.slide_insert(svo);
 		
 		rttr.addFlashAttribute("msg", "insertOk");
 		
-		return "redirect:/admin/product/productList";
+		return "redirect:/admin/product/slideList";
 	}
 	
 	//상품리스트
-	@GetMapping("/productList")
-	public void product_list(Criteria cri, Model model) {
+	@GetMapping("/slideList")
+	public void slide_list(Criteria cri, Model model) {
 		
 		cri.setAmount(5);
-		List<ProductVO> list = service.getListWithPaging(cri);
+		List<SlideVO> list = service.SlideGetListWithPaging(cri);
 		
 		// 슬래시를 역슬래시로 바꾸는 구문.
 		for(int i=0; i<list.size(); i++) {
-			ProductVO vo = list.get(i);
-			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
+			SlideVO svo = list.get(i);
+			svo.setSlide_uploadpath(svo.getSlide_uploadpath().replace("\\", "/"));
 		}
 		
-		int total = service.getTotalCount(cri);
+		int total = service.SlideGetTotalCount(cri);
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
-		model.addAttribute("productList", list);
+		model.addAttribute("slideList", list);
 	}
 	
 	//상품수정 폼
-	@GetMapping("/productModify")
-	public void product_modify(@RequestParam("pro_num") Integer pro_num, @ModelAttribute("cri") Criteria cri, Model model) {
+	@GetMapping("/slideModify")
+	public void slide_modify(@RequestParam("slide_num") Integer slide_num, @ModelAttribute("cri") Criteria cri, Model model) {
 		
 		//1)상품정보
-		ProductVO vo = service.product_modify(pro_num);
-		vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
-		model.addAttribute("productVO", vo); //productVO 이름을 jsp에서 참조
-		
-		//2)1차카테고리 정보
-		model.addAttribute("mainCategory", service.mainCategory());
-		//3)1차카테고리를 참조하는 2차카테고리 정보.
-		model.addAttribute("subCategory", service.subCategory(vo.getCate_prt_code()));
-		//4)페이징,검색 파라미터 정보 : @ModelAttribute("cri") Criteria cri
-		
+		SlideVO svo = service.slide_modify(slide_num);
+		svo.setSlide_uploadpath(svo.getSlide_uploadpath().replace("\\", "/"));
+		model.addAttribute("slideVO", svo); //productVO 이름을 jsp에서 참조
 	}
 	
 	//상품수정 저장(폼에서 상품정보, 페이징정보(검색포함) 전송)
-	@PostMapping("/productModify")
-	public String product_modify(Criteria cri, ProductVO vo, RedirectAttributes rttr) {
+	@PostMapping("/slideModify")
+	public String slide_modify(Criteria cri, SlideVO svo, RedirectAttributes rttr) {
 		
 		//상품이미지 변경을 할 경우는 기존이미지는 삭제한다.
 		//상품이미지 변경을 하지 않은 경우는 기존이미지명을 그대로 수정처리한다.
 		
 		//1)이미지가 변경된 경우
-		if(vo.getUpload().getSize() > 0) {
+		if(svo.getUpload().getSize() > 0) {
 			
 			//1)기존이미지정보 파일삭제
-			UploadFileUtils.deleteFile(uploadFolder, vo.getPro_uploadpath(), vo.getPro_img());
+			UploadFileUtils.deleteFile(uploadFolder, svo.getSlide_uploadpath(), svo.getSlide_image());
 			//2)변경이미지 업로드작업
-			vo.setPro_img(UploadFileUtils.uploadFile(uploadFolder, vo.getUpload()));
-			vo.setPro_uploadpath(UploadFileUtils.getFolder()); // 날짜폴더명
+			svo.setSlide_image(UploadFileUtils.uploadFile(uploadFolder, svo.getUpload()));
+			svo.setSlide_uploadpath(UploadFileUtils.getFolder());
 		}
 		
-		service.product_modifyOk(vo);
+		service.slide_modifyOk(svo);
 		
 		rttr.addFlashAttribute("msg", "modifyOk"); // jsp에서 참조.
 		
@@ -192,42 +184,26 @@ public class AdProductController {
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 		
-		return "redirect:/admin/product/productList";
+		return "redirect:/admin/product/slideList";
 	}
-	
-	//상품리스트의 이미지출력(썸네일)
-	@ResponseBody
-	@GetMapping("/displayFile")  // 클라이언트에서 보내는 특수문자중에 역슬래시 데이타를 스프링에서 지원하지 않는다. 
-	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) {
-		
-		ResponseEntity<byte[]> entity = null;
-		
-		entity = UploadFileUtils.getFileByte(uploadFolder, uploadPath, fileName );
-		
-		return entity;
-	}
-	
-	
-	
-	//상품삭제
 	
 	//상품선택삭제(ajax호출).pro_uploadpathArr   400에러발생되면. 클라이언트에서 보낸 데이타를 스프링에서 받지 못하는 상태. (중요)ajax로 사용시 파라미터를 [] 로 사용해야 한다.
 	@ResponseBody  
 	@PostMapping("/checkDelete")
 	public ResponseEntity<String> checkDelete(
-				@RequestParam("pro_numArr[]") List<Integer> pro_numArr, 
-				@RequestParam("pro_imgArr[]") List<String> pro_imgArr,
-				@RequestParam("pro_uploadpathArr[]") List<String> pro_uploadpathArr){
+				@RequestParam("slide_numArr[]") List<Integer> slide_numArr, 
+				@RequestParam("slide_imageArr[]") List<String> slide_imageArr,
+				@RequestParam("slide_uploadpathArr[]") List<String> slide_uploadpathArr){
 		
 		ResponseEntity<String> entity = null;
 		
 		try {
-			for(int i=0; i<pro_numArr.size(); i++) {
+			for(int i=0; i<slide_numArr.size(); i++) {
 				//상품이미지 삭제
-				UploadFileUtils.deleteFile(uploadFolder, pro_uploadpathArr.get(i), pro_imgArr.get(i));
+				UploadFileUtils.deleteFile(uploadFolder, slide_uploadpathArr.get(i), slide_imageArr.get(i));
 				
 				//상품테이블 삭제작업
-				service.product_delete(pro_numArr.get(i));
+				service.slide_delete(slide_numArr.get(i));
 			}
 			entity = new ResponseEntity<String>("success", HttpStatus.OK);
 			
@@ -239,13 +215,13 @@ public class AdProductController {
 	}
 	
 	//상품개별삭제
-	@PostMapping("/productDelete")
-	public String productDelete(Criteria cri, @RequestParam("pro_num") Integer pro_num, RedirectAttributes rttr) {
+	@PostMapping("/slideDelete")
+	public String slideDelete(Criteria cri, @RequestParam("slide_num") Integer slide_num, RedirectAttributes rttr) {
 		
 		System.out.println("상품삭제: " + cri);
-		System.out.println("상품코드: " + pro_num);
+		System.out.println("상품코드: " + slide_num);
 		
-		service.product_delete(pro_num);
+		service.slide_delete(slide_num);
 		
 		rttr.addFlashAttribute("msg", "deleteOk"); // jsp에서 참조.
 		
@@ -254,6 +230,7 @@ public class AdProductController {
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 		
-		return "redirect:/admin/product/productList";
+		return "redirect:/admin/product/slideList";
 	}
+
 }
