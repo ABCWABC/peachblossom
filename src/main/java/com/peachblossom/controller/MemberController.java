@@ -33,17 +33,13 @@ import lombok.extern.log4j.Log4j;
 @Controller
 public class MemberController {
 	
-	@Inject
 	private PasswordEncoder cryptPassEnc;
 	
-	@Inject
 	private MemberService service;
 	
-	@Inject
 	private JavaMailSender mailSender;
 	
 	// 주요기능 : 회원기능
-	
 	
 	//회원가입 폼
 	@GetMapping("/join")
@@ -83,6 +79,7 @@ public class MemberController {
 	public ResponseEntity<String> sendMailAuth(@RequestParam("mb_email") String mb_email, HttpSession session){
 		
 		ResponseEntity<String> entity = null;
+		
 		String authCode = makeAuthCode();
 		
 		session.setAttribute("authCode", authCode); //인증코드를 세션에 임시저장
@@ -156,7 +153,9 @@ public class MemberController {
 	public String modify(MemberVO vo, HttpSession session, RedirectAttributes rttr) {
 		
 		String redirectURL = "";
+		
 		vo.setMb_accept_e(!StringUtils.isEmpty(vo.getMb_accept_e()) ? "Y" : "N");
+		
 		log.info("회원의 수정한 정보:" + vo);
 				
 		MemberVO session_vo = (MemberVO)session.getAttribute("loginStatus");
@@ -237,14 +236,16 @@ public class MemberController {
 	//비밀번호찾기 처리
 	@ResponseBody
 	@PostMapping("/searchPw")
-	public ResponseEntity<String> searchPwAction(@RequestParam("mb_email") String mb_email){
+	public ResponseEntity<String> searchPwAction(@RequestParam("mb_id") String mb_id
+													, @RequestParam("mb_name") String mb_name
+													, @RequestParam("mb_email") String mb_email){
 		
 		ResponseEntity<String> entity = null;
 		
-		if(!StringUtils.isEmpty(service.searchPwByEmail(mb_email))) {
+		if(!StringUtils.isEmpty(service.searchPwByEmail(mb_id, mb_name, mb_email))) {
 			
 			String tempPw = makeAuthCode();
-			EmailDTO dto = new EmailDTO("Peach Blossom", "leeyumi0713@gmail.com", mb_email, "가입인증메일", tempPw);
+			EmailDTO dto = new EmailDTO("Peach Blossom", "leeyumi0713@gmail.com", mb_email, "변경비밀번호", tempPw);
 			MimeMessage message = mailSender.createMimeMessage();
 			
 			try {
@@ -267,7 +268,7 @@ public class MemberController {
 			}
 			
 		}else {
-			entity = new ResponseEntity<String>("noMail", HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<String>("noMail", HttpStatus.OK);
 		}
 		
 		return entity;

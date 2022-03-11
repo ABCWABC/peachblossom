@@ -70,11 +70,6 @@ desired effect
 
     <!-- Main content -->
     <section class="content container-fluid">
-
-      <!--------------------------
-        | Your Page Content Here |
-        -------------------------->
-	
 	
 	<div class="row">
 					<div class="col-xs-12">
@@ -85,60 +80,44 @@ desired effect
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body">
-								<div id="example2_wrapper"
-									class="dataTables_wrapper form-inline dt-bootstrap">
+								<div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
 									<div class="row">
 										<div class="col-sm-6"></div>
 										<div class="col-sm-6"></div>
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<table id="example2"
-												class="table table-bordered table-hover dataTable"
-												role="grid" aria-describedby="example2_info">
+											<table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
 												<thead>
 													<tr role="row">
 														<th><input type="checkbox" id="checkAll" name="checkAll"></th>
 														<th>번호</th>
 														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">상품명</th>
 														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">등록일</th>
-														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">가격</th>
-														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">재고</th>
-														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">진열</th>
+														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">순번</th>
 														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">수정</th>
 														<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">삭제</th>
 													</tr>
 												</thead>
 												<tbody>
 
-													<c:forEach items="${productList }" var="productVO" varStatus="status">
-														<tr role="row"
-															class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
+													<c:forEach items="${slideList }" var="slideVO" varStatus="status">
+														<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
 															<td>
-																<input type="checkbox" class="check" value='<c:out value="${productVO.pro_num }"></c:out>'>
-																<input type="hidden" name="pro_img" value='<c:out value="${productVO.pro_img }"></c:out>'>
-																<input type="hidden" name="pro_uploadpath" value='<c:out value="${productVO.pro_uploadpath }"></c:out>'>
+																<input type="checkbox" class="check" value='<c:out value="${slideVO.slide_num }"></c:out>'>
+																<input type="hidden" name="slide_image" value='<c:out value="${slideVO.slide_image }"></c:out>'>
+																<input type="hidden" name="slide_uploadpath" value='<c:out value="${slideVO.slide_uploadpath }"></c:out>'>
 															</td>
-															<td class="sorting_1"><c:out value="${productVO.pro_num }"></c:out></td>
+															<td class="sorting_1"><c:out value="${slideVO.slide_num }"></c:out></td>
 															<td>
-															<a class="move"
-																	href="<c:out value="${productVO.pro_num }"></c:out>">
-																<img name="proudctImage" src="/admin/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
-															</a>
-																<input type="text" value='<c:out value="${productVO.pro_name }"></c:out>'>
+																<a class="move" href="<c:out value="${slideVO.slide_num }"></c:out>">
+																	<img name="proudctImage" src="/admin/slide/displayFile?fileName=s_<c:out value="${slideVO.slide_image }"></c:out>&uploadPath=<c:out value="${slideVO.slide_uploadpath }"></c:out>">
+																</a>
+																<input type="text" value='<c:out value="${slideVO.slide_name }"></c:out>'>
 															</td>
-															
-															<td><fmt:formatDate value="${productVO.pro_date }" pattern="yyyy-MM-dd" /></td>
-															<td><input type="text" value='<c:out value="${productVO.pro_price }"></c:out>'></td>
-															<td>
-																<input type="text" value='<c:out value="${productVO.pro_amount }"></c:out>'>
-															</td>
-															<td>
-																<input type="checkbox" value="<c:out value="${productVO.pro_buy }"></c:out>" 
-																	<c:out value="${productVO.pro_buy == 'Y' ? 'checked': '' }"></c:out>>
-															</td>
-															<td><input type="button" name="btnProductModify" value="수정" data-pro_num='<c:out value="${productVO.pro_num }"></c:out>'></td>
-															<td><input type="button" name="btnProductDelete" value="삭제" data-pro_num='<c:out value="${productVO.pro_num }"></c:out>'></td>
+															<td><fmt:formatDate value="${slideVO.slide_updatedate }" pattern="yyyy-MM-dd" /></td>
+															<td><input type="button" name="btnProductModify" value="수정" data-pro_num='<c:out value="${slideVO.slide_num }"></c:out>'></td>
+															<td><input type="button" name="btnProductDelete" value="삭제" data-pro_num='<c:out value="${slideVO.slide_num }"></c:out>'></td>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -157,16 +136,6 @@ desired effect
 														<c:out value="${pageMaker.cri.type eq 'N'? 'selected':'' }" />>상품명</option>
 													<option value="P"
 														<c:out value="${pageMaker.cri.type eq 'P'? 'selected':'' }" />>거래처</option>
-													<!-- 
-													<option value="W"
-														<c:out value="${pageMaker.cri.type eq 'W'? 'selected':'' }" />>작성자</option>
-													<option value="TC"
-														<c:out value="${pageMaker.cri.type eq 'TC'? 'selected':'' }" />>제목 or 내용</option>
-													<option value="TW"
-														<c:out value="${pageMaker.cri.type eq 'TW'? 'selected':'' }" />>제목 or 작성자</option>
-													<option value="TWC"
-														<c:out value="${pageMaker.cri.type eq 'TWC'? 'selected':'' }" />>제목 or 작성자 or 내용</option>
-													 -->
 												</select>
 												<input type="text" name="keyword" value="<c:out value="${ pageMaker.cri.keyword}" />">
 												<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
@@ -174,36 +143,32 @@ desired effect
 												<button class="btn btn-primary">Search</button>
 											</form>
 											
-											<!--
-											<div class="dataTables_info" id="example2_info" role="status"
-												aria-live="polite">Showing 1 to 10 of 57 entries</div>
-												-->
 										</div>
 										<div class="col-sm-7">
 											
-											<div class="dataTables_paginate paging_simple_numbers"
-												id="example2_paginate">
+											<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
 												<ul class="pagination">
-												<c:if test="${pageMaker.prev }">
-													<li class='paginate_button previous ${pageMaker.prev ? "": "disabled" }'
-														id="example2_previous"><a href="${pageMaker.startPage - 1}"
-														aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a></li>
-												</c:if>
-												<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">	
-													<li class='paginate_button ${pageMaker.cri.pageNum == num ? "active":"" }'><a href="${num}"
-														aria-controls="example2" data-dt-idx="1" tabindex="0">${num}</a></li>
-												</c:forEach>
-												<c:if test="${pageMaker.next }">	
-													<li class="paginate_button next" id="example2_next"><a
-														href="${pageMaker.endPage + 1}" aria-controls="example2" data-dt-idx="7"
-														tabindex="0">Next</a></li>
-												</c:if>
+													<c:if test="${pageMaker.prev }">
+														<li class='paginate_button previous ${pageMaker.prev ? "": "disabled" }' id="example2_previous">
+															<a href="${pageMaker.startPage - 1}" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a>
+														</li>
+													</c:if>
+													<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">	
+														<li class='paginate_button ${pageMaker.cri.pageNum == num ? "active":"" }'>
+															<a href="${num}" aria-controls="example2" data-dt-idx="1" tabindex="0">${num}</a>
+														</li>
+													</c:forEach>
+													<c:if test="${pageMaker.next }">	
+														<li class="paginate_button next" id="example2_next">
+															<a href="${pageMaker.endPage + 1}" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a>
+														</li>
+													</c:if>
 												</ul>
 											</div>
 											
 										</div>
 										<!--prev,page number, next 를 클릭하면 아래 form이 작동된다.-->
-										<form id="actionForm" action="/admin/product/productList" method="get">
+										<form id="actionForm" action="/admin/slide/slideList" method="get">
 											<!--list.jsp 가 처음 실행되었을 때 pageNum의 값을 사용자가 선택한 번호의 값으로 변경-->
 											<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 											<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
@@ -289,19 +254,19 @@ desired effect
 			// 데이터행에서 체크된 상품코드, 상품이미지
 
 			//자바스크립트 배열
-			let pro_numArr = []; //상품코드 배열
-			let pro_imgArr = []; //상품이미지 배열
-			let pro_uploadpathArr = []; //날짜폴더이름 
+			let slide_numArr = []; //상품코드 배열
+			let slide_imageArr = []; //상품이미지 배열
+			let slide_uploadpathArr = []; //날짜폴더이름 
 
 			//선택된 체크박스 일 경우
 			$(".check:checked").each(function(){
-				let pro_num = $(this).val();
-				let pro_img = $(this).next().val();
-				let pro_uploadpath = $(this).next().next().val();
+				let slide_num = $(this).val();
+				let slide_image = $(this).next().val();
+				let slide_uploadpath = $(this).next().next().val();
 
-				pro_numArr.push(pro_num);
-				pro_imgArr.push(pro_img);
-				pro_uploadpathArr.push(pro_uploadpath);
+				slide_numArr.push(slide_num);
+				slide_imageArr.push(slide_image);
+				slide_uploadpathArr.push(slide_uploadpath);
 			})
 
 			/*
@@ -314,13 +279,13 @@ desired effect
 			//console.log("상품이미지: " + pro_imgArr);
 
 			$.ajax({
-				url: '/admin/product/checkDelete',
+				url: '/admin/slide/checkDelete',
 				type:'post',
 				dataType: 'text',
 				data:  {
-					pro_numArr : pro_numArr,
-					pro_imgArr : pro_imgArr,
-					pro_uploadpathArr : pro_uploadpathArr
+					slide_numArr : slide_numArr,
+					slide_imageArr : slide_imageArr,
+					slide_uploadpathArr : slide_uploadpathArr
 				},
 				success: function(data){
 					if(data == "success") {
@@ -346,14 +311,14 @@ desired effect
 		//수정버튼 클릭시
 		$("input[name='btnProductModify']").on("click", function(){
 
-			let pro_num = $(this).data("pro_num");
+			let slide_num = $(this).data("slide_num");
 			
 			/*
 			let url = "/admin/product/productModify?pro_num=" + pro_num;
 			location.href = url;
 			*/
-			actionForm.attr("action", "/admin/product/productModify");
-			actionForm.append("<input type='hidden' name='pro_num' value='" + pro_num + "'>");
+			actionForm.attr("action", "/admin/slide/slideModify");
+			actionForm.append("<input type='hidden' name='slide_num' value='" + slide_num + "'>");
 			actionForm.submit();
 
 		});
@@ -364,15 +329,15 @@ desired effect
 			
 			if(!confirm("삭제하겠읍니까?")) return;
 
-			let pro_num = $(this).data("pro_num");
+			let slide_num = $(this).data("slide_num");
 
 			/*
-			let url = "/admin/product/productModify?pro_num=" + pro_num;
+			let url = "/admin/slide/slideModify?slide_num=" + slide_num;
 			location.href = url;
 			*/
-			actionForm.attr("action", "/admin/product/productDelete");
+			actionForm.attr("action", "/admin/slide/slideDelete");
 			actionForm.attr("method", "post");
-			actionForm.append("<input type='hidden' name='pro_num' value='" + pro_num + "'>");
+			actionForm.append("<input type='hidden' name='slide_num' value='" + slide_num + "'>");
 			actionForm.submit();
 
 });

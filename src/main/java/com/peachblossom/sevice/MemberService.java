@@ -14,7 +14,7 @@ public interface MemberService {
 	
 	public int modify(MemberVO vo);
 	
-	public String searchPwByEmail(String mb_email);
+	public String searchPwByEmail(String mb_id, String mb_name, String mb_email);
 	
 	public int changePw(String mb_email, String mb_password);
 	

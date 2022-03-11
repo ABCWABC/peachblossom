@@ -66,7 +66,7 @@ public class AdProductController {
 	
 	//CKEditor 상품설명 이미지.
 	@PostMapping("/editor/imageUpload")
-	public void imageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile upload) {
+	public void imageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam("upload") MultipartFile upload) {
 		
 		OutputStream out = null;
 		PrintWriter printWriter = null;
@@ -137,7 +137,6 @@ public class AdProductController {
 		cri.setAmount(5);
 		List<ProductVO> list = service.getListWithPaging(cri);
 		
-		// 슬래시를 역슬래시로 바꾸는 구문.
 		for(int i=0; i<list.size(); i++) {
 			ProductVO vo = list.get(i);
 			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
@@ -153,41 +152,30 @@ public class AdProductController {
 	@GetMapping("/productModify")
 	public void product_modify(@RequestParam("pro_num") Integer pro_num, @ModelAttribute("cri") Criteria cri, Model model) {
 		
-		//1)상품정보
 		ProductVO vo = service.product_modify(pro_num);
 		vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
-		model.addAttribute("productVO", vo); //productVO 이름을 jsp에서 참조
-		
-		//2)1차카테고리 정보
+		model.addAttribute("productVO", vo);
 		model.addAttribute("mainCategory", service.mainCategory());
-		//3)1차카테고리를 참조하는 2차카테고리 정보.
 		model.addAttribute("subCategory", service.subCategory(vo.getCate_prt_code()));
-		//4)페이징,검색 파라미터 정보 : @ModelAttribute("cri") Criteria cri
-		
 	}
 	
-	//상품수정 저장(폼에서 상품정보, 페이징정보(검색포함) 전송)
+	//상품수정 저장
 	@PostMapping("/productModify")
 	public String product_modify(Criteria cri, ProductVO vo, RedirectAttributes rttr) {
-		
-		//상품이미지 변경을 할 경우는 기존이미지는 삭제한다.
-		//상품이미지 변경을 하지 않은 경우는 기존이미지명을 그대로 수정처리한다.
 		
 		//1)이미지가 변경된 경우
 		if(vo.getUpload().getSize() > 0) {
 			
-			//1)기존이미지정보 파일삭제
 			UploadFileUtils.deleteFile(uploadFolder, vo.getPro_uploadpath(), vo.getPro_img());
-			//2)변경이미지 업로드작업
 			vo.setPro_img(UploadFileUtils.uploadFile(uploadFolder, vo.getUpload()));
 			vo.setPro_uploadpath(UploadFileUtils.getFolder()); // 날짜폴더명
 		}
 		
 		service.product_modifyOk(vo);
 		
-		rttr.addFlashAttribute("msg", "modifyOk"); // jsp에서 참조.
+		rttr.addFlashAttribute("msg", "modifyOk");
 		
-		rttr.addAttribute("pageNum", cri.getPageNum()); // 주소에서 호출되는 메서드 파라미터 참조.
+		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
@@ -197,17 +185,15 @@ public class AdProductController {
 	
 	//상품리스트의 이미지출력(썸네일)
 	@ResponseBody
-	@GetMapping("/displayFile")  // 클라이언트에서 보내는 특수문자중에 역슬래시 데이타를 스프링에서 지원하지 않는다. 
+	@GetMapping("/displayFile")  // (클라이언트에서 보내는 특수문자중에 \ 데이타를 스프링에서 지원하지 않음)
 	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) {
 		
 		ResponseEntity<byte[]> entity = null;
 		
-		entity = UploadFileUtils.getFileByte(uploadFolder, uploadPath, fileName );
+		entity = UploadFileUtils.getFileByte(uploadFolder, uploadPath, fileName);
 		
 		return entity;
 	}
-	
-	
 	
 	//상품삭제
 	

@@ -14,7 +14,7 @@ public interface MemberMapper {
 	
 	public int modify(MemberVO vo);
 	
-	public String searchPwByEmail(String mb_email);
+	public String searchPwByEmail(@Param("mb_id") String mb_id, @Param("mb_name") String mb_name, @Param("mb_email") String mb_email);
 	
 	public int changePw(@Param("mb_email") String mb_email, @Param("mb_password") String mb_password);
 	

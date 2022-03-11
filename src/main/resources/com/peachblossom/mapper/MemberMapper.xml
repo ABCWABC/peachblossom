@@ -65,6 +65,10 @@
 		FROM 
 			mb_tbl
 		WHERE 
+			mb_id = #{mb_id}
+		AND
+			mb_name = #{mb_name}
+		AND
 			mb_email = #{mb_email}
 	
 	</select>

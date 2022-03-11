@@ -38,8 +38,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String searchPwByEmail(String mb_email) {
-		return mapper.searchPwByEmail(mb_email);
+	public String searchPwByEmail(String mb_id, String mb_name, String mb_email) {
+		return mapper.searchPwByEmail(mb_id, mb_name, mb_email);
 	}
 
 	@Override
@@ -71,7 +71,6 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		log.info("count" + count);
-		System.out.println("count" + count);
 		
 		return count;
 	}

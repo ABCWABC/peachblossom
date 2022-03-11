@@ -280,11 +280,11 @@
             }else if(data == "idFail"){
               alert("아이디가 일치하지 않습니다.");
               mb_id.focus();
-              
             }else if(data == "pwFail"){
               alert("비밀번호가 일치하지 않습니다.");
               mb_password.focus();
             }
+            
           } 
         });
       });

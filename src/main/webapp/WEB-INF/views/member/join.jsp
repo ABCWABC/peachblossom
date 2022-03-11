@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
- <head>
+<head>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <meta name="description" content="">
@@ -12,232 +12,158 @@
    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/pricing/">
 
    <%@include file="/WEB-INF/views/include/plugin_js.jsp" %>
-   <style>
-    .titleArea {
-      margin: 5% 0 30px;
-      text-align: center;
-		}
-		.titleArea h2 {
-		    position: relative;
-		    font-size: 20px;
-		    color: #111;
-		    text-transform: uppercase;
-		}
-		h3 {
-		    display: block;
-		    font-size: 1.17em;
-		    margin-block-start: 0px;
-		    margin-block-end: 0.5em;
-		    margin-inline-start: 0px;
-		    margin-inline-end: 0px;
-		    font-weight: bold;
-		}
-		tr, th {
-			font-size: 13px;
-			color: #353535;
-		}
-		.required {
-		    margin: -30px 0 20px;
-		    color: #353535;
-		    text-align: right;
-		    font-size: 13px;
-		}
-		input[type=text], input[type=password] {
-		    height: 25px;
-		    line-height: 25px;
-		    padding: 2px 4px;
-		    border: 1px solid #d5d5d5;
-		    color: #353535;
-		    font-size: 13px;
-		}
-		#checkbox{
-			text-align: center;
-		}
-		select {
-		    display: inline-block;
-		    min-width: 100px;
-		    height: 25px;
-		    line-height: 25px;
-		    padding: 0 0 0 5px;
-		    color: #353535;
-		    border: 1px #d5d5d5 solid;
-		    -webkit-appearance: none;
-		    background: #fff url(/resources/img/arrow-down.jpg) 96% 47%/8px no-repeat;
-		}
-		[class^='btnNormal'] {
-		    display: inline-block;
-		    box-sizing: border-box;
-		    padding: 2px 8px;
-		    border: 1px solid #d5d5d5;
-		    border-radius: 0;
-		    font-size: 12px;
-		    line-height: 20px;
-		    font-weight: normal;
-		    text-decoration: none;
-		    vertical-align: middle;
-		    word-spacing: -0.5px;
-		    letter-spacing: 0;
-		    text-align: center;
-		    white-space: nowrap;
-		    color: beige;
-		    background-color: gray;
-		}
-		.joinButton {
-			text-align: center;
-		}
-   </style>
- </head>
- <body>
+   <%@include file="/WEB-INF/views/include/join_css.jsp" %>
+   
+</head>
+<body>
     
-   <%@include file="/WEB-INF/views/include/header.jsp" %>
+    <%@include file="/WEB-INF/views/include/header.jsp" %>
 
-<div class="container">
-  
-  <div class="titleArea">
-    <h2>JOIN US</h2>
-  </div>
-  
-  <!-- 회원가입 폼 작업 -->
-  <h3>기본정보</h3>
-  <p class="required">
-  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
-  </p>
-  <form action="/member/join" method="post" id="joinForm">
-  	<div>
-  		<table class="table table-bordered">
-        <colgroup>
-          <col style="width:150px;">
-          <col style="width:auto;">
-        </colgroup>
-        <tbody>
-          <tr>
-            <th scope="row">아이디 
-              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-            </th>
-            <td>
-              <input type="text" id="mb_id" name="mb_id"> (영문소문자/숫자, 4~16자) &nbsp
-              <button type="button" class="btnNormal" id="btnUseIDChk">중복체크</button>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">비밀번호 
-              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-            </th>
-            <td>
-              <div class="">
-                <input type="password" id="mb_password" name="mb_password">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)
-                <div class="">
-                  <div class="">
-                    <!-- 클릭시 나타나게 표시
-                    <strong class="">※ 비밀번호 입력 조건</strong>
-                    <ul class="">
-                      - 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
-                      <br> - 입력 가능 특수문자
-                      <br> &nbsp;&nbsp;&nbsp; ~ ` ! @ # $ % ^ ( ) _ - = { } [ ] | ; : &lt; &gt; , . ? /
-                      <br> - 공백 입력 불가능
-                    </ul> -->
-                  </div>
-                </div>
-              </div> 
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">비밀번호 확인 
-              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-            </th>
-            <td>
-              <input type="text" id="exampleInputEmail1">
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">이름 
-              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-            </th>
-            <td>
-              <input type="text" name="mb_name" id="mb_name">
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">이메일 
-              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-            </th>
-            <td>
-              <input type="text" id="mb_email" name="mb_email">
-              <button type="button" class="btnNormal" id="btnMailAuthReq">메일인증요청</button> &nbsp;&nbsp;&nbsp;         
-              <input type="text" id="auth_mail" name="auth_mail" value="메일인증코드입력">
-              <button type="button" class="btnNormal" id="btnMailAuthConfirm">메일인증확인</button>
-              <br>메일인증요청 클릭 후, 메일을 확인하시고 인증코드를 입력 및 확인버튼을 눌러주세요.         
-            </td>
-          </tr>
-          <tr class="">
-            <th scope="row">주소 
-              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-            </th>
-            <td>
-              <input type="text" id="mb_zipcode" name="mb_zipcode" style="margin-bottom:5px">
-              <input type="button" class="btnNormal" id="btnPostCode" name="btnPostCode" value="우편번호찾기" onclick="sample2_execDaumPostcode()">
-              <br>
-              <input type="text" id="mb_addr" name="mb_addr" style="margin-bottom:5px"> 기본주소
-              <br>
-              <input type="text" id="mb_addr_d" name="mb_addr_d"> 나머지주소
-              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
-            </td>
-          </tr>
-          <tr class="">
-            <th scope="row">휴대전화 
-              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-            </th>
-            <td>
-              <select id="mb_mobile1" name="mb_mobile1">
-                <option value="010">010</option>
-                <option value="011">011</option>
-                <option value="016">016</option>
-                <option value="017">017</option>
-                <option value="018">018</option>
-                <option value="019">019</option>
-              </select>-
-              <input type="text" id="mb_mobile2" name="mb_mobile2">-
-              <input type="text" id="mb_mobile3" name="mb_mobile3">
-            </td>
-          </tr> 
-          <tr class="displaynone">
-            <th scope="row">메일수신여부
-              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-            </th>
-            <td>
-			<!-- 
-              <input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y">
-              <label for="mb_accept_e_Y">동의함</label>
-              <input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N" checked="checked">
-              <label for="mb_accept_e_N">동의안함</label>
-            -->
-            	<div id="checkbox">
-            		<input type="checkbox" class="form-check-input" id="mb_accept_e" name="mb_accept_e" value="Y">
-            	</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="joinButton">
-      <button type="submit" id="btnJoin" class="btn btn-dark btn-sm">회원가입</button>
-    </div>
-  </form>
-  
-  
-
-  <%@include file="/WEB-INF/views/include/footer.jsp" %>
-</div>
+	<div class="container">
+	  
+	  <div class="titleArea">
+	    <h2>JOIN US</h2>
+	  </div>
+	  
+	  <!-- 회원가입 폼 작업 -->
+	  <h3>기본정보</h3>
+	  <p class="required">
+	  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
+	  </p>
+	  <form action="/member/join" method="post" id="joinForm">
+	  	<div>
+	  		<table class="table table-bordered">
+	        <colgroup>
+	          <col style="width:150px;">
+	          <col style="width:auto;">
+	        </colgroup>
+	        <tbody>
+	          <tr>
+	            <th scope="row">아이디 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <input type="text" id="mb_id" name="mb_id"> (영문소문자/숫자, 4~16자) &nbsp
+	              <button type="button" class="btnNormal" id="btnUseIDChk">중복체크</button>
+	            </td>
+	          </tr>
+	          <tr>
+	            <th scope="row">비밀번호 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <div class="">
+	                <input type="password" id="mb_password" name="mb_password">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)
+	                <div class="">
+	                  <div class="">
+	                    <!-- 클릭시 나타나게 표시
+	                    <strong class="">※ 비밀번호 입력 조건</strong>
+	                    <ul class="">
+	                      - 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
+	                      <br> - 입력 가능 특수문자
+	                      <br> &nbsp;&nbsp;&nbsp; ~ ` ! @ # $ % ^ ( ) _ - = { } [ ] | ; : &lt; &gt; , . ? /
+	                      <br> - 공백 입력 불가능
+	                    </ul> -->
+	                  </div>
+	                </div>
+	              </div> 
+	            </td>
+	          </tr>
+	          <tr>
+	            <th scope="row">비밀번호 확인 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <input type="text" id="exampleInputEmail1">
+	            </td>
+	          </tr>
+	          <tr>
+	            <th scope="row">이름 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <input type="text" name="mb_name" id="mb_name">
+	            </td>
+	          </tr>
+	          <tr>
+	            <th scope="row">이메일 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <input type="text" id="mb_email" name="mb_email">
+	              <button type="button" class="btnNormal" id="btnMailAuthReq">메일인증요청</button> &nbsp;&nbsp;&nbsp;         
+	              <input type="text" id="auth_mail" name="auth_mail" value="메일인증코드입력">
+	              <button type="button" class="btnNormal" id="btnMailAuthConfirm">메일인증확인</button>
+	              <br>메일인증요청 클릭 후, 메일을 확인하시고 인증코드를 입력 및 확인버튼을 눌러주세요.         
+	            </td>
+	          </tr>
+	          <tr class="">
+	            <th scope="row">주소 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <input type="text" id="mb_zipcode" name="mb_zipcode" style="margin-bottom:5px">
+	              <input type="button" class="btnNormal" id="btnPostCode" name="btnPostCode" value="우편번호찾기" onclick="sample2_execDaumPostcode()">
+	              <br>
+	              <input type="text" id="mb_addr" name="mb_addr" style="margin-bottom:5px"> 기본주소
+	              <br>
+	              <input type="text" id="mb_addr_d" name="mb_addr_d"> 나머지주소
+	              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
+	            </td>
+	          </tr>
+	          <tr class="">
+	            <th scope="row">휴대전화 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <select id="mb_mobile1" name="mb_mobile1">
+	                <option value="010">010</option>
+	                <option value="011">011</option>
+	                <option value="016">016</option>
+	                <option value="017">017</option>
+	                <option value="018">018</option>
+	                <option value="019">019</option>
+	              </select>-
+	              <input type="text" id="mb_mobile2" name="mb_mobile2">-
+	              <input type="text" id="mb_mobile3" name="mb_mobile3">
+	            </td>
+	          </tr> 
+	          <tr class="displaynone">
+	            <th scope="row">메일수신여부
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+				<!-- 
+	              <input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y">
+	              <label for="mb_accept_e_Y">동의함</label>
+	              <input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N" checked="checked">
+	              <label for="mb_accept_e_N">동의안함</label>
+	            -->
+	            	<div id="checkbox">
+	            		<input type="checkbox" class="form-check-input" id="mb_accept_e" name="mb_accept_e" value="Y">
+	            	</div>
+	            </td>
+	          </tr>
+	        </tbody>
+	      </table>
+	    </div>
+	    <div class="joinButton">
+	      <button type="submit" id="btnJoin" class="btn btn-dark btn-sm">회원가입</button>
+	    </div>
+	  </form>
+	  
+	  
+	
+	  <%@include file="/WEB-INF/views/include/footer.jsp" %>
+	</div>
 
 <script>
 
   $(document).ready(function(){
 
-    //아이디중복체크 
-    let isCheckID = false;
+    let isCheckID = false;                   //아이디중복체크 
 
-    //메일인증확인체크
-    let isMailAuthConfirm = false;
+    let isMailAuthConfirm = false;           //메일인증확인체크
     
     //폼에서 전송버튼<input type="submit">을 클릭하면 호출되는 이벤트설정
     $("#joinForm").on("submit", function(){
@@ -258,22 +184,9 @@
  
     });
 
-    //폼에서 일반버튼<input type="button">을 클릭하면 호출되는 이벤트설정
-    /*
-    $("#btnJoin").on("click", function(){
-      alert("버튼 클릭됨");
-      return;
-
-      //로직이 틀리면 nothing
-      
-      //로직이 맞으면 전송가능
-      $("#joinForm").submit();
-
-    });
-    */
-
     //아이디중복체크
     $("#btnUseIDChk").on("click", function(){
+    	
       isCheckID = false;
       let mb_id = $("#mb_id");
 
@@ -292,7 +205,7 @@
           
           if(data == "Y"){
             isCheckID = true;
-        	  alert("아이디 사용가능");
+        	alert("아이디 사용가능");
           }else if(data == "N"){
             mb_id.val("");
             alert("아이디 사용불가능");
@@ -363,7 +276,7 @@
 
 </script>
 
-<!--우폅번호 DAUM API-->
+<!--우연번호 DAUM API-->
 <!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
   <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">

@@ -11,6 +11,6 @@ public interface CartMapper {
 	
 	public List<CartListVO> cartList(String mb_id);
 	
-	
+	public void cartDel(Integer cart_code);
 
 }

@@ -89,13 +89,6 @@
 	}
    </style>
    
-   <script>
-  	let msg = '${msg}'; // EL구문.  'modifyFail'
-  	if(msg == 'modifyFail'){
-  		alert("비밀번호를 확인바랍니다.");
-  	}
-   </script>
-   
  </head>
  <body>
     

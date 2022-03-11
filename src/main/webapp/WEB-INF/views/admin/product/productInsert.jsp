@@ -20,10 +20,7 @@
 	  <div class="content-wrapper">
 	    <!-- Content Header (Page header) -->
 	    <section class="content-header">
-	      <h1>
-	        Page Header
-	        <small>Optional description</small>
-	      </h1>
+	      <h1>Page Header<small>Optional description</small></h1>
 	      <ol class="breadcrumb">
 	        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
 	        <li class="active">Here</li>
@@ -148,49 +145,12 @@
 
 <!-- 상품이미지 미리보기 -->
 <script>
-  /*
-	$(document).ready(function() {
 
-    
-    
-    $("#upload").on("change", function() {
-      let countFiles = $(this)[0].files.length;
-      let imgPath = $(this)[0].value;
-      let ext = imgPath.substring(imgPath.lastIndexOf(".")+1).toLowerCase();
-      let preview_image = $("#preview_image");
-      preview_image.empty();      
-
-      if(ext == "gif" || ext == "png" || ext == "jpg" || "jpeg" ) {
-        if(typeof(FileReader) != "undefined") {
-          for(let i=0; i<countFiles; i++) {
-            let reader = new FileReader();
-            reader.onload = function(e) {
-              $("<img />"), {
-                "src": e.target.resut,
-                "class": "thumb-image"
-              }.appendTo(preview_image);
-            }
-
-            preview_image.show();
-            reader.readAsDataURL($(this)[0].files[i]);
-              }
-          }else {
-            alert("브라우저가 FileReader객체를 지원하지 않음");
-          }
-        } else {
-            alert("이미지 파일을 선택하세요");
-        }
-      });
-      
-    });
-    */
     function readImage(input) {
       if (input.files && input.files[0]) {
           
-        //let imgPath = input.files[0].value;
         let imgPath = $("#upload").val();
         alert(imgPath);
-        //return;
         let ext = imgPath.substring(imgPath.lastIndexOf(".")+1).toLowerCase();
         alert(ext);
         if(typeof(FileReader) == "undefined") {
@@ -198,20 +158,18 @@
           return;
         }
 
-        if(ext == "gif" || ext == "png" || ext == "jpg" || ext == "jpeg" ) {
+        if(ext=="gif" || ext=="png" || ext=="jpg" || ext=="jpeg") {
           
           const reader = new FileReader();
           
-
           //이벤트 설정. reader객체가 이미지파일을 성공적으로 읽어들였을 때 발생하는 이벤트
           reader.onload = (e) => {
-              //alert("onload");
               const previewImage = document.getElementById('previewImage');
               previewImage.src = e.target.result;
           }
-
           // reader객체가 파일을 읽어들이는 작업
           reader.readAsDataURL(input.files[0]);
+          
         }else{
           $("#upload").val("");
           alert("이미지 파일을 선택하세요.");
@@ -229,6 +187,7 @@
 	$(document).ready(function(){
 		
 		let ckeditor_config = {
+				
 			resize_enabled : false,
 			enterMode : CKEDITOR.ENTER_BR,
 			shiftEnterMode : CKEDITOR.ENTER_P,
@@ -241,15 +200,11 @@
 		
 		CKEDITOR.replace('pro_content', ckeditor_config);
 		
-		// 4.8.0 (Standard)
-		// alert(CKEDITOR.version);  
-		
 	});
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <script id="subCategoryTemplate" type="text/x-handlebars-template">
-  
   <option>2차카테고리 선택</option>
   {{#each .}}
   
@@ -272,29 +227,25 @@
         subCategoryBindingView(data, $("#subCategory"), $("#subCategoryTemplate"));
 
       });
-
     });
-
   });
-
-
 </script>
+
 <script>
-  // subCategory: 2차카테고리 데이타
-  // target : 2차카테고리 바인딩 결과가 출력될 위치
-  // template : 2차카테고리 핸들바템플릿
+  // subCategory   : 2차카테고리 데이타
+  // target        : 2차카테고리 바인딩 결과가 출력될 위치
+  // template      : 2차카테고리 핸들바템플릿
   let subCategoryBindingView = function(subCategory, target, template) {
 
     let templateObj = Handlebars.compile(template.html());
     let subCateOptionsResult = templateObj(subCategory);
-
 
     //누적되는 증상발생. 처리..
     $("#subCategory option").remove();
     target.append(subCateOptionsResult);
 
   }
-
 </script>
+
 </body>
 </html>

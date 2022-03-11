@@ -26,4 +26,9 @@ public class CartServiceImpl implements CartService {
 		return mapper.cartList(mb_id);
 	}
 
+	@Override
+	public void cartDel(Integer cart_code) {
+		mapper.cartDel(cart_code);
+	}
+
 }

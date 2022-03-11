@@ -90,10 +90,12 @@
    </style>
    
    <script>
+   
   	let msg = '${msg}'; // EL구문.  'modifyFail'
   	if(msg == 'modifyFail'){
   		alert("비밀번호를 확인바랍니다.");
   	}
+  	
    </script>
    
  </head>
@@ -229,8 +231,6 @@
 
 $(document).ready(function(){
 
-
-    //폼에서 일반버튼<input type="button">을 클릭하면 호출되는 이벤트설정
     $("#btnModify").on("click", function(){
       
       let mb_password = $("#mb_password");
@@ -254,7 +254,7 @@ $(document).ready(function(){
 
 </script>
 
-<!--우폅번호 DAUM API-->
+<!--우편번호 DAUM API-->
 <!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
   <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">

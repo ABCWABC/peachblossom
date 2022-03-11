@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.peachblossom.domain.CartListVO;
@@ -49,11 +50,10 @@ public class CartController {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
-		
 		return entity;
 	}
 	
-	@GetMapping("/cartlist")
+	@GetMapping("/cartList")
 	public void cart_list(HttpSession session, Model model) {
 		
 		String mb_id = ((MemberVO)session.getAttribute("loginStatus")).getMb_id();
@@ -73,6 +73,27 @@ public class CartController {
 		
 		ResponseEntity<byte[]> entity = null;
 		entity = UploadFileUtils.getFileByte(uploadFolder, uploadPath, fileName);
+		return entity;
+	}
+	
+	@ResponseBody  
+	@PostMapping("/checkDelete")
+	public ResponseEntity<String> checkDelete(@RequestParam("cart_codeArr[]") List<Integer> cart_codeArr){
+		
+		ResponseEntity<String> entity = null;
+		
+		try {
+			for(int i=0; i<cart_codeArr.size(); i++) {
+				
+				// 장바구니 테이블 삭제작업
+				service.cartDel(cart_codeArr.get(i));
+			}
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
 		return entity;
 	}
 }

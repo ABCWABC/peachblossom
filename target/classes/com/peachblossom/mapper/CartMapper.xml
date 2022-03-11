@@ -9,7 +9,7 @@
 		USING
 			dual <!-- 테이블이 없을때 dual 사용 -->
 		ON
-			(c.mb_id = #(mb_id) and c.pro_num = #{pro_num))
+			(c.mb_id = #{mb_id} and c.pro_num = #{pro_num})
 		WHEN MATCHED THEN
 			UPDATE
 			SET
@@ -37,7 +37,7 @@
 		SELECT
 			c.cart_code, 
     		c.pro_num, 
-    		c.mbsp_id, 
+    		c.mb_id, 
     		c.cart_amount, 
     		p.pro_name, 
     		p.pro_price, 
@@ -53,5 +53,14 @@
 		
 		
 	</select>
+	
+	<delete id="cartDel">
+		
+		DELETE FROM
+			cart_tbl
+		WHERE
+			cart_code = #{cart_code}
+		
+	</delete>
 
 </mapper>

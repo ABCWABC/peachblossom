@@ -35,8 +35,8 @@ public class AdminController {
 	@PostMapping("/logon")
 	public String adLoginOk(String ad_userid, String ad_userpw, HttpSession session, RedirectAttributes rttr) {
 		
-		log.info("관리자아이디: "+ad_userid);
-		log.info("관리자비번 :"+ad_userpw);
+		log.info("관리자아이디: " + ad_userid);
+		log.info("관리자비번 :" + ad_userpw);
 		
 		String redirectUrl = "";
 		AdminVO vo = service.adminLogin(ad_userid);
@@ -44,6 +44,7 @@ public class AdminController {
 		if(!StringUtils.isEmpty(vo)) {
 			if(cryptPassEnc.matches(ad_userpw, vo.getAd_userpw())) {
 				session.setAttribute("adminStatus", vo);
+				rttr.addAttribute("msg","logonSuccess");
 				redirectUrl = "/admin/main";
 			}else {
 				redirectUrl = "/admin/logon";
@@ -81,6 +82,6 @@ public class AdminController {
 			rttr.addFlashAttribute("msg", "fail");
 		}
 		
-		return "redirect:/admin/adminRegister";
+		return "redirect:/admin/logon";
 	}
 }
