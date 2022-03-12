@@ -62,5 +62,14 @@
 			cart_code = #{cart_code}
 		
 	</delete>
+	
+	<delete id="cartAllDel">
+	
+		DELETE FROM
+			cart_tbl
+		WHERE
+			mb_id = #{mb_id}
+	
+	</delete>
 
 </mapper>

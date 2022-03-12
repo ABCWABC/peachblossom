@@ -32,15 +32,16 @@ public class CartController {
 	@Inject
 	private CartService service;
 	
+	//장바구니 추가 (로그인 인증된 경우만)
 	@ResponseBody
 	@PostMapping("/cartAdd")
 	public ResponseEntity<String> cart_add(Integer pro_num, int cart_amount, HttpSession session) { // 키로 넘어오는것은 Integer , 아닌것은 int
 		
 		ResponseEntity<String> entity = null;
+		
 		CartVO vo = new CartVO();
 		vo.setPro_num(pro_num);
 		vo.setCart_amount(cart_amount);
-		
 		vo.setMb_id(((MemberVO)session.getAttribute("loginStatus")).getMb_id());
 		
 		try {
@@ -53,6 +54,7 @@ public class CartController {
 		return entity;
 	}
 	
+	//장바구니 리스트 출력 (로그인 인증된 경우만)
 	@GetMapping("/cartList")
 	public void cart_list(HttpSession session, Model model) {
 		
@@ -63,10 +65,10 @@ public class CartController {
 			CartListVO vo = list.get(i);
 			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
 		}
-			
 		model.addAttribute("cartList", list);
 	}
 	
+	//장바구니 리스트의 썸네일 이미지 출력
 	@ResponseBody
 	@GetMapping("/displayFile")
 	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName){
@@ -76,6 +78,7 @@ public class CartController {
 		return entity;
 	}
 	
+	//장바구니 선택 삭제
 	@ResponseBody  
 	@PostMapping("/checkDelete")
 	public ResponseEntity<String> checkDelete(@RequestParam("cart_codeArr[]") List<Integer> cart_codeArr){
@@ -84,8 +87,6 @@ public class CartController {
 		
 		try {
 			for(int i=0; i<cart_codeArr.size(); i++) {
-				
-				// 장바구니 테이블 삭제작업
 				service.cartDel(cart_codeArr.get(i));
 			}
 			entity = new ResponseEntity<String>("success", HttpStatus.OK);
@@ -95,5 +96,15 @@ public class CartController {
 			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
 		return entity;
+	}
+	
+	//장바구니 전체 삭제
+	@GetMapping("/cartAllDelete")
+	public String cartAllDelete(HttpSession session) {
+		
+		String mb_id = ((MemberVO)session.getAttribute("loginStatus")).getMb_id();
+		service.cartAllDel(mb_id);
+		
+		return "redirect:/cart/cartList";
 	}
 }

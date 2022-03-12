@@ -174,7 +174,6 @@ public class AdProductController {
 		service.product_modifyOk(vo);
 		
 		rttr.addFlashAttribute("msg", "modifyOk");
-		
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		rttr.addAttribute("type", cri.getType());

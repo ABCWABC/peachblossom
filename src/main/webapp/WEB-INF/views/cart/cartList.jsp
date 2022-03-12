@@ -66,15 +66,13 @@
 			<tbody>
 				<c:if test="${empty cartList}">
 					<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
-						<td colspan="6">장바구니가 비워있읍니다.</td>
+						<td colspan="6">장바구니가 비워져있습니다.</td>
 					</tr>
 				</c:if>
 				
-				
 				<c:if test="${not empty cartList}">
 				<c:forEach items="${cartList }" var="cartListVO" varStatus="status">
-					<tr role="row"
-						class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
+					<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
 						<td>
 							<a class="move" href="<c:out value="${cartListVO.pro_num }"></c:out>">
 								<img name="proudctImage" src="/cart/displayFile?fileName=s_<c:out value="${cartListVO.pro_img }"></c:out>&uploadPath=<c:out value="${cartListVO.pro_uploadpath }"></c:out>">
@@ -92,9 +90,9 @@
 							<input type="button" value="수정">
 						</td>
 						<td>
-								<span class="sum_price"><c:out value="${cartListVO.pro_price * cartListVO.cart_amount }"></c:out></span>
+							<span class="sum_price"><c:out value="${cartListVO.pro_price * cartListVO.cart_amount }"></c:out></span>
 						</td>
-						<td><input type="checkbox" value="<c:out value="${cartListVO.cart_code }" />"></td>
+						<td><input type="checkbox" class="check" value="<c:out value="${cartListVO.cart_code }" />"></td>
 					</tr>
 				</c:forEach>
 					<tr>
@@ -102,9 +100,9 @@
 					</tr>
 					<tr>
 						<td colspan="6">
-							<input type="button" value="주문하기">
-							<input type="button" value="장바구니비우기">
-							<input type="btnCheckDelete" value="선택삭제">
+							<input type="button" id="btnOrderAdd" value="주문하기">
+							<input type="button" id="btnCartAllDelete" value="장바구니비우기">
+							<input type="button" id="btnCheckDelete" value="선택삭제">
 						</td>
 					</tr>
 				</c:if>
@@ -122,14 +120,13 @@
 		$(function(){
 			
 			let isCheck = true;
-			/*전체선택 체크박스 클릭*/
+			
 			$("#checkAll").on("click", function(){
 				$(".check").prop("checked", this.checked);
 
 				isCheck = this.checked;
 			});
 
-			// 데이터행 체크박스 클릭
 			$(".check").on("click", function(){
 				
 				$("#checkAll").prop("checked", this.checked);
@@ -141,9 +138,6 @@
 
 				});
 			});
-			
-			
-			
 
 			cartTotalPrice();
 
@@ -159,75 +153,61 @@
 				cartTotalPrice();
 
 			});
-		});
-
 		
-		// 장바구니 선택삭제
-		$("#btnCheckDelete").on("click", function(){
-			if($(".check:checked").length == 0){
-				alert("삭제할 상품을 선택하세요.");
-				return;
-			}
-
-			let isDel = confirm("선택한 상품을 삭제하겠습까?");
-
-			if(!isDel) return;
-
-			// 데이터행에서 체크된 상품코드, 상품이미지
-
-			//자바스크립트 배열
-			let pro_numArr = []; //상품코드 배열
-			let pro_imgArr = []; //상품이미지 배열
-			let pro_uploadpathArr = []; //날짜폴더이름 
-
-			//선택된 체크박스 일 경우
-			$(".check:checked").each(function(){
-				let pro_num = $(this).val();
-				let pro_img = $(this).next().val();
-				let pro_uploadpath = $(this).next().next().val();
-
-				pro_numArr.push(pro_num);
-				pro_imgArr.push(pro_img);
-				pro_uploadpathArr.push(pro_uploadpath);
-			})
-
-			/*
-			$("table tbody").find("동적").each(function() {
-
-			});
-			*/
-
-			//console.log("상품코드: " + pro_numArr);
-			//console.log("상품이미지: " + pro_imgArr);
-
-			$.ajax({
-				url: '/admin/product/checkDelete',
-				type:'post',
-				dataType: 'text',
-				data:  {
-					pro_numArr : pro_numArr,
-					pro_imgArr : pro_imgArr,
-					pro_uploadpathArr : pro_uploadpathArr
-				},
-				success: function(data){
-					if(data == "success") {
-						alert("선택된 상품이 삭제됨");
-
-						// 리스트주소 이동 또는 선택된 행을 동적삭제.
-						//location.href= "주소";
-						
-						console.log($(".check:checked").length);
-						//테이블의 행을 의미하는 <tr>태그 제거.
-						$(".check:checked").each(function(){
-							$(this).parent().parent().remove();
-						});
-					}
+			// 장바구니 선택삭제
+			$("#btnCheckDelete").on("click", function(){
+				if($(".check:checked").length == 0){
+					alert("삭제할 상품을 선택하세요.");
+					return;
 				}
+	
+				let isDel = confirm("선택한 상품을 삭제하겠습까?");
+	
+				if(!isDel) return;
+	
+				let cart_codeArr = [];
+	
+				//선택된 체크박스 일 경우
+				$(".check:checked").each(function(){
+					let cart_code = $(this).val();
+					cart_codeArr.push(cart_code);
+				})
+	
+				$.ajax({
+					url: '/cart/checkDelete',
+					type:'post',
+					dataType: 'text',
+					data:  { cart_codeArr : cart_codeArr },
+					success: function(data){
+						if(data == "success") {
+							alert("선택된 장바구니 상품이 삭제됨");
+							
+							console.log($(".check:checked").length);
+							//테이블의 행을 의미하는 <tr>태그 제거.
+							$(".check:checked").each(function(){
+								$(this).parent().parent().remove();
+							});
+							
+							cartTotalPrice();
+						}
+					}
+				});
+			});		
+			
+			//장바구니 비우기
+			$("#btnCartAllDelete").on("click", function(){
+				
+				if(${fn:length(cartList) } == 0){
+					alert("장바구니가 비워있네요.");
+					return;
+				}
+					
+				if(!confirm("장바구니를 비우겠읍니까?")) return;
+
+				location.href = "/cart/cartAllDelete";
 			});
-
-
 		
-		
+		});
 
 		// 장바구니 전체금액
 		let cartTotalPrice = function() {

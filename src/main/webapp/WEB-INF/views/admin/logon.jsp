@@ -18,7 +18,6 @@
 			alert("로그인에 실패하였습니다.\n아이디를 다시 확인해주세요.");
 		} else if("${msg}"=="failPw"){
 			alert("로그인에 실패하였습니다.\n비밀번호를 다시 확인해주세요.");
-			
 		} else if("${msg}"=="LOGOUT_SUCCESS"){
 			alert("로그아웃 되었습니다.");
 		} 

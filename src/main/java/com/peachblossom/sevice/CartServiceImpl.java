@@ -31,4 +31,9 @@ public class CartServiceImpl implements CartService {
 		mapper.cartDel(cart_code);
 	}
 
+	@Override
+	public void cartAllDel(String mb_id) {
+		mapper.cartAllDel(mb_id);
+	}
+
 }

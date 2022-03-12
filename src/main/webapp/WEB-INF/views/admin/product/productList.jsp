@@ -82,7 +82,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										</thead>
 										<tbody>
 											<c:forEach items="${productList }" var="productVO" varStatus="status">
-												<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
+												<tr role="row">
 													<td>
 														<input type="checkbox" class="check" value='<c:out value="${productVO.pro_num }"></c:out>'>
 														<input type="hidden" name="pro_img" value='<c:out value="${productVO.pro_img }"></c:out>'>
@@ -93,13 +93,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 													<a class="move" href="<c:out value="${productVO.pro_num }"></c:out>">
 														<img name="proudctImage" src="/admin/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 													</a>
-														<input type="text" value='<c:out value="${productVO.pro_name }"></c:out>'>
+														<input type="text" value='<c:out value="${productVO.pro_name }"></c:out>' readonly>
 													</td>
 													
 													<td><fmt:formatDate value="${productVO.pro_date }" pattern="yyyy-MM-dd" /></td>
-													<td><input type="text" value='<c:out value="${productVO.pro_price }"></c:out>'></td>
+													<td><input type="text" value='<c:out value="${productVO.pro_price }"></c:out>' readonly></td>
 													<td>
-														<input type="text" value='<c:out value="${productVO.pro_amount }"></c:out>'>
+														<input type="text" value='<c:out value="${productVO.pro_amount }"></c:out>' readonly>
 													</td>
 													<td>
 														<input type="checkbox" value="<c:out value="${productVO.pro_buy }"></c:out>" 
@@ -127,7 +127,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 											<option value="P"
 												<c:out value="${pageMaker.cri.type eq 'P'? 'selected':'' }" />>거래처</option>
 										</select>
-										<input type="text" name="keyword" value="<c:out value="${ pageMaker.cri.keyword}" />">
+										<input type="text" name="keyword" value="<c:out value="${pageMaker.cri.keyword}" />">
 										<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 										<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
 										<button class="btn btn-primary">Search</button>
@@ -193,41 +193,32 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 	$(document).ready(function(){
 
-
 		let isCheck = true;
-		/*전체선택 체크박스 클릭*/
+		
 		$("#checkAll").on("click", function(){
 			$(".check").prop("checked", this.checked);
 
 			isCheck = this.checked;
 		});
 
-		// 데이터행 체크박스 클릭
 		$(".check").on("click", function(){
-			
 			$("#checkAll").prop("checked", this.checked);
 
 				$(".check").each(function(){
 				if(!$(this).is(":checked")) {		// 체크박스중 하나라도 해제된 상태라면  false
 					$("#checkAll").prop("checked", false);
 				}
-
 			});
 		});
 
-
-
 		let actionForm = $("#actionForm");
-		//페이지번호 클릭시 : 선택한 페이지번호, 페이징정보, 검색정보
-		$(".paginate_button a").on("click", function(e){
-			e.preventDefault(); // <a href="">기능취소
-			//기존 페이지번호를 사용자가 선택한 페이지번호로 변경
-			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		
+		$(".paginate_button a").on("click", function(e){  //페이지번호 클릭시 : 선택한 페이지번호, 페이징정보, 검색정보
+			e.preventDefault();
+			
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));  //기존 페이지번호를 사용자가 선택한 페이지번호로 변경
 			actionForm.submit();
-
-
 		});
-
 
 		$("#btnCheckDelete").on("click", function(){
 			if($(".check:checked").length == 0){
@@ -235,11 +226,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				return;
 			}
 
-			let isDel = confirm("선택한 상품을 삭제하겠습까?");
+			let isDel = confirm("선택한 상품을 삭제하시겠습니까?");
 
 			if(!isDel) return;
-
-			// 데이터행에서 체크된 상품코드, 상품이미지
 
 			//자바스크립트 배열
 			let pro_numArr = []; //상품코드 배열
@@ -257,15 +246,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				pro_uploadpathArr.push(pro_uploadpath);
 			})
 
-			/*
-			$("table tbody").find("동적").each(function() {
-
-			});
-			*/
-
-			//console.log("상품코드: " + pro_numArr);
-			//console.log("상품이미지: " + pro_imgArr);
-
 			$.ajax({
 				url: '/admin/product/checkDelete',
 				type:'post',
@@ -278,22 +258,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				success: function(data){
 					if(data == "success") {
 						alert("선택된 상품이 삭제됨");
-
-						// 리스트주소 이동 또는 선택된 행을 동적삭제.
-						//location.href= "주소";
-						
 						console.log($(".check:checked").length);
-						//테이블의 행을 의미하는 <tr>태그 제거.
-						$(".check:checked").each(function(){
+						
+						$(".check:checked").each(function(){      //테이블의 행을 의미하는 <tr>태그 제거.
 							$(this).parent().parent().remove();
 						});
 					}
 				}
 			});
-
-
-
-
 		});
 		
 		//수정버튼 클릭시
@@ -301,10 +273,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 			let pro_num = $(this).data("pro_num");
 			
-			/*
-			let url = "/admin/product/productModify?pro_num=" + pro_num;
-			location.href = url;
-			*/
 			actionForm.attr("action", "/admin/product/productModify");
 			actionForm.append("<input type='hidden' name='pro_num' value='" + pro_num + "'>");
 			actionForm.submit();
@@ -314,21 +282,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		//삭제버튼 클릭시
 		$("input[name='btnProductDelete']").on("click", function(){
 
-			
-			if(!confirm("삭제하겠읍니까?")) return;
+			if(!confirm("삭제하시겠습니까?")) return;
 
 			let pro_num = $(this).data("pro_num");
 
-			/*
-			let url = "/admin/product/productModify?pro_num=" + pro_num;
-			location.href = url;
-			*/
 			actionForm.attr("action", "/admin/product/productDelete");
 			actionForm.attr("method", "post");
 			actionForm.append("<input type='hidden' name='pro_num' value='" + pro_num + "'>");
 			actionForm.submit();
 
-});
+		});
 
 	});
 

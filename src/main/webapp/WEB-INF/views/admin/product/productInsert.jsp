@@ -162,7 +162,6 @@
           
           const reader = new FileReader();
           
-          //이벤트 설정. reader객체가 이미지파일을 성공적으로 읽어들였을 때 발생하는 이벤트
           reader.onload = (e) => {
               const previewImage = document.getElementById('previewImage');
               previewImage.src = e.target.result;
@@ -194,10 +193,8 @@
 			toolbarCanCollapse : true,
 			removePlugins : "elementspath",
 			
-			filebrowserUploadUrl : "editor/imageUpload"  // /editor/imageUpload. 이미지 업로드시 업로드탭 보기
-				
+			filebrowserUploadUrl : "editor/imageUpload"
 		};
-		
 		CKEDITOR.replace('pro_content', ckeditor_config);
 		
 	});
