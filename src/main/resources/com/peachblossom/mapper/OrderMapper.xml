@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peachblossom.mapper.OrderMapper">
+
+	<select id="orderInfo" resultType="com.peachblossom.domain.OrderInfoVO">
+	
+		SELECT
+			p.pro_num,
+			p.pro_name,
+			p.pro_img,
+			p.pro_uploadpath,
+			c.cart_amount,
+			p.pro_price * c.cart_amount as orderprice
+		FROM
+			cart_tbl c inner join product_tbl p
+		ON
+			c.pro_num = p.pro_num
+		AND
+			c.mb_id = #{mb_id}
+	
+	</select>
+
+</mapper>

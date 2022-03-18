@@ -32,9 +32,6 @@
       }
     </style>
 
-    
-    <!-- Custom styles for this template -->
-    <link href="pricing.css" rel="stylesheet">
   </head>
 
 <body>
@@ -50,9 +47,7 @@
   </div>
   <div class="row">
 	<div class="col-sm-12">
-		<table id="example2"
-			class="table table-bordered table-hover dataTable"
-			role="grid" aria-describedby="example2_info">
+		<table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
 			<thead>
 				<tr role="row">
 					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">상품이미지</th>
@@ -121,19 +116,21 @@
 			
 			let isCheck = true;
 			
+			//전체선택 체크박스 클릭
 			$("#checkAll").on("click", function(){
 				$(".check").prop("checked", this.checked);
 
 				isCheck = this.checked;
 			});
 
+			//개별 체크박스 클릭
 			$(".check").on("click", function(){
 				
 				$("#checkAll").prop("checked", this.checked);
 
 					$(".check").each(function(){
-					if(!$(this).is(":checked")) {		// 체크박스중 하나라도 해제된 상태라면  false
-						$("#checkAll").prop("checked", false);
+						if(!$(this).is(":checked")) {		// 체크박스중 하나라도 해제된 상태라면  false
+							$("#checkAll").prop("checked", false);
 					}
 
 				});
@@ -141,9 +138,8 @@
 
 			cartTotalPrice();
 
-			// 장바구니 수량변경을 클릭
+			// 장바구니 수량변경 클릭
 			$("input[name='cart_amount']").on("change", function(){
-
 				
 				let pro_price = $(this).parent().parent().find("td span.pro_price").text();
 				let sum_price = pro_price * $(this).val();
@@ -220,6 +216,11 @@
 			$("#cart_total_price").text(totalPrice);
 
 		}
+		
+		//주문하기
+		$("#btnOrderAdd").on("click", function(){
+			location.href = "/order/orderInfo";
+		});
 
 	</script>
   </body>

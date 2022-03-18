@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.peachblossom.domain.CategoryVO;
@@ -45,10 +46,42 @@ public class UserProductController {
 		entity = new ResponseEntity<List<CategoryVO>>(service.subCategory(cate_code), HttpStatus.OK);
 		return entity;
 	}
+	
+	// 메인에서 카테고리별 상품리스트
+	@GetMapping("/productMain")
+	public void productMain(Model model) {
+		
+		//top:1, pants:2 shirts:3
+		
+		List<ProductVO> topList = service.productListByCategory(1);
+		for(int i=0; i<topList.size(); i++) {
+			ProductVO vo = topList.get(i);
+			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
+		}
+		
+		List<ProductVO> pantsList = service.productListByCategory(2);
+		for(int i=0; i<pantsList.size(); i++) {
+			ProductVO vo = pantsList.get(i);
+			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
+		}
+		
+		List<ProductVO> shirtsList = service.productListByCategory(3);
+		for(int i=0; i<shirtsList.size(); i++) {
+			ProductVO vo = shirtsList.get(i);
+			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
+		}
+		
+		model.addAttribute("topProductList", topList);
+		model.addAttribute("pantsProductList", pantsList);
+		model.addAttribute("shirtsProductList", shirtsList);
+		
+	}
 
 	// 2차카테고리 - 각 상품리스트
 	@GetMapping("/productList")
-	public void productList(@ModelAttribute("cri") Criteria cri, Integer cate_code, Model model) {
+	public void productList(@ModelAttribute("cri") Criteria cri, @ModelAttribute("cate_code") Integer cate_code, Model model) {
+		
+		cri.setAmount(8);
 		
 		List<ProductVO> list = service.getListWithPaging(cate_code, cri);
 		
@@ -63,10 +96,22 @@ public class UserProductController {
 		model.addAttribute("productList", list);
 	}
 	
+	// 상품상세설명
+	@GetMapping("/productDetail")
+	public void productDetail(@RequestParam(value = "type", defaultValue = "Y") String type, @ModelAttribute("cri") Criteria cri
+								, @ModelAttribute("cate_code") Integer cate_code, @RequestParam("pro_num") Integer pro_num, Model model) {
+		
+		ProductVO vo = service.productDetail(pro_num);
+		vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
+		
+		model.addAttribute("productVO", vo);
+		model.addAttribute("type", type);
+	}
+	
 	// 상품리스트의 이미지출력(썸네일)
 	@ResponseBody
 	@GetMapping("/displayFile")
-	public ResponseEntity<byte[]>  displayFile(String uploadPath, String fileName) {
+	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) {
 		
 		ResponseEntity<byte[]> entity = null;
 		

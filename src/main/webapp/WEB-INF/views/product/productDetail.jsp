@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -13,13 +12,8 @@
     <title>Pricing example · Bootstrap v4.6</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/pricing/">
-
     
-
     <!-- Bootstrap core CSS -->
-    
-    <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"> -->
-    <!-- <link rel="stylesheet" href="https://getbootstrap.com/docs/4.6/dist/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
     
     <style>
@@ -37,11 +31,18 @@
           font-size: 3.5rem;
         }
       }
+      
+      #star_grade a {
+      	font-size: 22px;
+      	text-decoration: none;
+      	color: lightgray;
+      }
+      
+      #star_grade a.on {
+      	color: black;
+      }
     </style>
 
-    
-    <!-- Custom styles for this template -->
-    <link href="pricing.css" rel="stylesheet">
   </head>
 
   <body>
@@ -100,14 +101,23 @@
    	 </form>
    	 
    	 <!-- 상품후기 -->
-   	 <div class="row" id="product_review">
+   	 <div id="product_review" class="row">
    	 </div>
+   	 
    	 
       <%@include file="/WEB-INF/views/include/footer.jsp" %>
 </div>
 
+
     <script>
 
+      //상품후기
+      let getProductReview = function() {
+          $("#product_review").load("/review/productReview?pro_num=" + ${productVO.pro_num });
+      }
+      getProductReview();
+
+      // jquery ready()이벤트 구문.
       $(function(){
 
         let actionForm = $("#actionForm");
@@ -139,14 +149,179 @@
           actionForm.attr("action", "/product/productList");
           actionForm.submit();
         });
+
         
-        //상품후기
-        $("#product_review").load("/review/productReview"){
-        	
+        
+
+        //상품 별점 클릭
+        $("#product_review").on("click", "#star_grade a", function(e){
+          e.preventDefault();
+          console.log("별")
+          $(this).parent().children("a").removeClass("on") // 기존선택되어 추가된 on선택자를 제거. 변경
+          $(this).addClass("on").prevAll("a").addClass("on");
+          
+          scoreCount();
+        });
+
+
+        let scoreCount = function() {
+          	let point = 0;
+
+	        $("#star_grade a").each(function(){
+	            if($(this).attr("class") == "on") {
+	              point += 1
+	            }
+	          });  
+	          
+	          $("#reviewScore").val(point);
+	        }
+
+
+        //상품후기 클릭
+        $("#product_review").on("click", "#btnReviewAdd", function() {
+          console.log("상품후기 클릭");
+
+            $.ajax({
+            url: '/review/productReviewWrite',
+            type:'post',
+            dataType: 'text',
+            data:  {
+              pro_num : ${productVO.pro_num }, 
+              rew_content : $("#reviewContent").val(), 
+              rew_score : $("#reviewScore").val()
+            },
+            success: function(data){
+              if(data == "success") {
+                alert("상품후기가 등록됨");
+                getProductReview();
+              }
+            }
+          });
+        });
+
+        //상품후기 수정
+        $("#product_review").on("click", "#btnReviewEdit", function() {
+          //console.log("상품후기 클릭");
+
+          $("#btnReviewAdd").show(); // 상품후기등록버튼 보이기
+          $("#btnReviewEdit").hide(); // 상품후기수정버튼 숨기기
+
+          console.log($("#reviewContent").val());
+          
+            $.ajax({
+            url: '/review/productReviewEdit',
+            type:'post',
+            dataType: 'text',
+            data:  {
+              rew_num : $("#reviewNum").val(),
+              pro_num : ${productVO.pro_num }, 
+              rew_content : $("#reviewContent").val(), 
+              rew_score : $("#reviewScore").val()
+            },
+            success: function(data){
+              if(data == "success") {
+                alert("상품후기가 수정됨");
+                //getProductReview();
+                reviewLoad();
+              }
+            }
+          });
+        });
+
+        // 리뷰목록수정버튼 "btnReviewModal"
+        $("#product_review").on("click", "button[name='btnReviewEditModal']", function(){
+          
+          //$("#reviewModal").modal("show");
+
+          $("#btnReviewAdd").hide(); // 상품후기등록버튼 숨기기
+          $("#btnReviewEdit").show(); // 상품후기수정버튼 보이기
+
+          //리뷰 번호
+          let rew_num = $(this).parent().parent().find("[name='rew_num']").val();
+          $("#reviewNum").val(rew_num);
+          //리뷰 별점
+          let rew_score = $(this).parent().parent().find("[name='rew_score']").val();
+          $("#reviewScore").val(rew_score);
+
+
+
+          console.log("스코어" + rew_score);
+          //리뷰 내용
+          let rew_content = $(this).parent().parent().find("[name='rew_content']").val();
+          $("#reviewContent").val(rew_content);
+          $("#btnReview").text("상품후기 수정");
+
+          // a태그가 5개
+          $("#star_grade a").each(function(index, item) {
+            if(index<rew_score) {
+              $(item).addClass("on");
+            }else {
+              $(item).removeClass("on");
+            }
+          });
+
+
+        });
+
+        //상품후기 삭제클릭   btnReviewDelModal
+        $("#product_review").on("click", "button[name='btnReviewDelModal']", function(){
+          
+          //$("#reviewModal").modal("show");
+
+          if(!confirm("상품후기를 삭제하겠습니까?")) return;
+         
+          //리뷰 번호
+          let rew_num = $(this).parent().parent().find("[name='rew_num']").val();
+          $("#reviewNum").val(rew_num);
+
+
+          $.ajax({
+            url: '/review/productReviewDel',
+            type:'post',
+            dataType: 'text',
+            data:  {
+              rew_num : $("#reviewNum").val()  
+            },
+            success: function(data){
+              if(data == "success") {
+                alert("상품후기가 삭제됨");
+                //getProductReview();
+                pageNum = 1;
+                reviewLoad();
+              }
+            }
+          });
+
+        });
+
+        //상품후기목록 페이지번호 클릭
+        let pageNum, pro_num;
+        $("#product_review").on("click", "ul.pagination a.page-link", function(e){
+          e.preventDefault();
+          pro_num = $("#pro_num").val();
+          pageNum = $(this).attr("href");
+          
+          reviewLoad();
+          
+        });
+
+
+        let reviewLoad = function() {
+          let reviewForm = $("#reviewForm");
+          let amount = reviewForm.find("input[name=amount]").val();
+          
+          // 상품코드, 페이징정보
+          $("#product_review").load("/review/productReview?pro_num="+pro_num+"&pageNum="+pageNum+"&amount="+ amount);
         }
-                		
+     		
       });
+
+		
+      
     </script>
-    
+
+<div id="reviewModal">
+  test
+</div>
   </body>
 </html>

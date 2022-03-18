@@ -32,8 +32,6 @@
       }
     </style>
     
-    <!-- Custom styles for this template -->
-    <link href="pricing.css" rel="stylesheet">
   </head>
 
   <body>
@@ -53,7 +51,10 @@
 					<img name="proudctImage" width="100%" height="300" src="/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 						<div class="card-body">
 							<p class="card-text">
-								<c:out value="${productVO.pro_name }"></c:out><br>
+								<a href="${productVO.pro_num }" class="proDetail">
+									<c:out value="${productVO.pro_name }"></c:out>
+								</a>
+								<br>
 								<fmt:formatNumber type="currency" value="${productVO.pro_price }" /> 
 								<input type="hidden" name="pro_num" value="${productVO.pro_num }">
 							</p>
@@ -69,6 +70,45 @@
 				</div>
 			</c:forEach> 
 		</div>
+		
+		<!-- 페이징 출력 -->
+      <div class="row">
+      	<div class="col-sm-5"></div>
+      	
+      	<div class="col-sm-2">								
+			<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+				<ul class="pagination">
+				<c:if test="${pageMaker.prev }">
+					<li class='paginate_button previous ${pageMaker.prev ? "": "disabled" }' id="example2_previous">
+						<a href="${pageMaker.startPage - 1}" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a>
+					</li>
+				</c:if>
+				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">	
+					<li class='paginate_button ${pageMaker.cri.pageNum == num ? "active":"" }'>
+						<a href="${num}" aria-controls="example2" data-dt-idx="1" tabindex="0">${num}</a>
+					</li>
+				</c:forEach>
+				<c:if test="${pageMaker.next }">	
+					<li class="paginate_button next" id="example2_next">
+						<a href="${pageMaker.endPage + 1}" aria-controls="example2" data-dt-idx="7" tabindex="0">Next</a>
+					</li>
+				</c:if>
+				</ul>
+			</div>
+			
+		</div>
+		<!--prev,page number, next 를 클릭하면 아래 form이 작동된다.-->
+		<form id="actionForm" action="/product/productList" method="get">
+			<!--list.jsp 가 처음 실행되었을 때 pageNum의 값을 사용자가 선택한 번호의 값으로 변경-->
+			<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+			<input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+			<input type="hidden" name="cate_code" value="${cate_code }">
+			
+			<!--글번호추가-->
+		</form>
+		<div class="col-sm-5"></div>
+      </div>
+		
 		<%@include file="/WEB-INF/views/include/footer.jsp" %>
 	</div>
 
@@ -95,7 +135,28 @@
               }
            });
         });
+        
+        let actionForm = $("#actionForm");
+        
+		//페이지번호 클릭시 : 선택한 페이지번호, 페이징정보, 검색정보
+		$(".paginate_button a").on("click", function(e){
+			e.preventDefault();
+			
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+    	});
+        
+		//상세페이지 이동
+	    $("a.proDetail").on("click", function(e){
+	      e.preventDefault();
+	      let pro_num = $(this).attr("href");
+	      actionForm.append("<input type='hidden' name='pro_num' value='" + pro_num + "'>");
+	      actionForm.attr("action", "/product/productDetail");
+	      actionForm.submit();
+	    });
+        
       });
+      
     </script>
     
   </body>

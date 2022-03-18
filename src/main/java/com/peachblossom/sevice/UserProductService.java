@@ -16,4 +16,8 @@ public interface UserProductService {
 	
 	public int getTotalCount(Integer cate_code);
 	
+	public ProductVO productDetail(Integer pro_num);
+	
+	public List<ProductVO> productListByCategory(Integer cate_code);
+	
 }

@@ -37,4 +37,14 @@ public class UserProductServiceImpl implements UserProductService {
 		return mapper.getTotalCount(cate_code);
 	}
 
+	@Override
+	public ProductVO productDetail(Integer pro_num) {
+		return mapper.productDetail(pro_num);
+	}
+
+	@Override
+	public List<ProductVO> productListByCategory(Integer cate_code) {
+		return mapper.productListByCategory(cate_code);
+	}
+
 }
