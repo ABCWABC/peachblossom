@@ -15,6 +15,27 @@
 
     <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
     
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      
+      .card {
+      	border-style: hidden;
+      }
+    </style>
+    
   </head>
 
   <body>
@@ -31,7 +52,7 @@
 				<div class="col-md-3">
 					<div class="card mb-4 shadow-sm">
 					    
-					<img name="proudctImage" width="130" height="300" src="/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
+					<img name="proudctImage" width="100%" height="300" src="/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 						<div class="card-body">
 							<p class="card-text">
 								<a href="${productVO.pro_num }" class="proDetail">

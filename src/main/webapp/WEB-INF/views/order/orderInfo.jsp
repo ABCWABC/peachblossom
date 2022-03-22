@@ -12,7 +12,18 @@
    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/pricing/">
 
    <%@include file="/WEB-INF/views/include/plugin_js.jsp" %>
-   <%@include file="/WEB-INF/views/include/join_css.jsp" %>
+
+	<style>
+		
+		.orderInfoTitle{
+			margin-bottom: 30px;
+		}
+		
+		table, tr, th, td {
+      	font-size: 12px;
+      }
+		
+	</style>
    
 </head>
 <body>
@@ -20,63 +31,71 @@
     <%@include file="/WEB-INF/views/include/header.jsp" %>
 
 	<div class="container">
-	  
-	  <div class="row">
+
+		<div class="row">
+			<div class="col-sm-12 orderInfoTitle">
+				<h5 style="text-align: center;">ORDER FORM</h5>
+			</div>
+		</div>
+
+	<div class="row">
 	<div class="col-sm-12">
 		<table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
 			<thead>
 				<tr role="row">
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">상품이미지</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">상품명</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">판매가</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">수량</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">합계</th>
 					<th><input type="checkbox" id="checkAll" name="checkAll"></th>
+					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">상품이미지</th>
+					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">상품명</th>
+					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">판매가</th>
+					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">수량</th>
+					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">합계</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${empty orderInfo}">
-					<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
-						<td colspan="6">장바구니가 비워져있습니다.</td>
-					</tr>
-				</c:if>
-				
 				<c:if test="${not empty orderInfo}">
-					<c:forEach items="${orderInfo }" var="orderInfoVO" varStatus="status">
-						<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
-							<td>
-								<a class="move" href="<c:out value="${orderInfoVO.pro_num }"></c:out>">
-									<img name="proudctImage" src="/cart/displayFile?fileName=s_<c:out value="${orderInfoVO.pro_img }"></c:out>&uploadPath=<c:out value="${orderInfoVO.pro_uploadpath }"></c:out>">
-								</a>
-							</td>
-							<td>
-								<input type="text" value='<c:out value="${orderInfoVO.pro_name }"></c:out>' readonly>
-							</td>
-							<td>
-								<input type="number" name="cart_amount" value='<c:out value="${orderInfoVO.cart_amount }"></c:out>' readonly>
-							</td>
-							<td>
-								&nbsp;
-							</td>
-							<td>
-								<span class="sum_price"><c:out value="${orderInfoVO.orderprice }"></c:out></span>
-							</td>
-						</tr>
-					</c:forEach>
-					<tr>
-						<td colspan="6">합계 : <span id="cart_total_price"></span></td>
+				<c:forEach items="${orderInfo }" var="orderInfoVO" varStatus="status">
+					<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
+						<td><input type="checkbox" class="check" value="<c:out value="${cartListVO.cart_code }" />"></td>
+						<td>
+							<a class="move" href="<c:out value="${orderInfoVO.pro_num }"></c:out>">
+								<img name="proudctImage" src="/order/displayFile?fileName=s_<c:out value="${orderInfoVO.pro_img }"></c:out>&uploadPath=<c:out value="${orderInfoVO.pro_uploadpath }"></c:out>">
+							</a>
+						</td>
+						<td>
+							<span class="pro_name"><c:out value="${orderInfoVO.pro_name }"></c:out></span>
+							<input type="hidden" name="orderDetailList[${status.index }].pro_num" value='<c:out value="${orderInfoVO.pro_name }"></c:out>'>
+						</td>
+						<td>
+							<span class="pro_price"><c:out value="${orderInfoVO.pro_price }"></c:out></span>
+							<input type="hidden" name="orderDetailList[${status.index }].pro_price" value='<c:out value="${orderInfoVO.pro_price }"></c:out>'>
+						</td>
+						<td>
+							<input type="number" id="order_amount" name="orderDetailList[${status.index }].dt_amount" value='<c:out value="${orderInfoVO.cart_amount }"></c:out>'>
+							<input type="button" value="변경">
+						</td>
+						<td>
+							<span class="orderprice"><c:out value="${orderInfoVO.orderprice }"></c:out></span>
+							<input type="hidden" name="orderDetailList[${status.index }].dt_price" value='<c:out value="${orderInfoVO.orderprice }"></c:out>'>
+						</td>
+						
 					</tr>
+				</c:forEach>
+					<tr>
+						<td colspan="6">합계 : <span id="cart_total_price"> 원</span></td>
+					</tr>
+					
 				</c:if>
 				
 			</tbody>
 		</table>
 	</div>
 	</div>
-	  
-	  <h3>주문자정보</h3>
+	  <br><br><br>
+	  <h6>주문자정보</h6>
 	  <p class="required">
 	  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
 	  </p>
+	  
 	  <form action="/member/join" method="post" id="joinForm">
 	  	<div>
 	  		<table class="table table-bordered">
@@ -86,64 +105,14 @@
 	        </colgroup>
 	        <tbody>
 	          <tr>
-	            <th scope="row">아이디 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <input type="text" id="mb_id" name="mb_id"> (영문소문자/숫자, 4~16자) &nbsp
-	              <button type="button" class="btnNormal" id="btnUseIDChk">중복체크</button>
-	            </td>
-	          </tr>
-	          <tr>
-	            <th scope="row">비밀번호 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <div class="">
-	                <input type="password" id="mb_password" name="mb_password">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)
-	                <div class="">
-	                  <div class="">
-	                    <!-- 클릭시 나타나게 표시
-	                    <strong class="">※ 비밀번호 입력 조건</strong>
-	                    <ul class="">
-	                      - 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
-	                      <br> - 입력 가능 특수문자
-	                      <br> &nbsp;&nbsp;&nbsp; ~ ` ! @ # $ % ^ ( ) _ - = { } [ ] | ; : &lt; &gt; , . ? /
-	                      <br> - 공백 입력 불가능
-	                    </ul> -->
-	                  </div>
-	                </div>
-	              </div> 
-	            </td>
-	          </tr>
-	          <tr>
-	            <th scope="row">비밀번호 확인 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <input type="text" id="exampleInputEmail1">
-	            </td>
-	          </tr>
-	          <tr>
-	            <th scope="row">이름 
+	            <th scope="row">주문하시는 분 
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
 	              <input type="text" name="mb_name" id="mb_name">
 	            </td>
 	          </tr>
-	          <tr>
-	            <th scope="row">이메일 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <input type="text" id="mb_email" name="mb_email">
-	              <button type="button" class="btnNormal" id="btnMailAuthReq">메일인증요청</button> &nbsp;&nbsp;&nbsp;         
-	              <input type="text" id="auth_mail" name="auth_mail" value="메일인증코드입력">
-	              <button type="button" class="btnNormal" id="btnMailAuthConfirm">메일인증확인</button>
-	              <br>메일인증요청 클릭 후, 메일을 확인하시고 인증코드를 입력 및 확인버튼을 눌러주세요.         
-	            </td>
-	          </tr>
+	          
 	          <tr class="">
 	            <th scope="row">주소 
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
@@ -152,9 +121,9 @@
 	              <input type="text" id="mb_zipcode" name="mb_zipcode" style="margin-bottom:5px">
 	              <input type="button" class="btnNormal" id="btnPostCode" name="btnPostCode" value="우편번호찾기" onclick="sample2_execDaumPostcode()">
 	              <br>
-	              <input type="text" id="mb_addr" name="mb_addr" style="margin-bottom:5px"> 기본주소
+	              <input type="text" id="mb_addr" name="mb_addr" style="margin-bottom:5px; width: 430px"> 기본주소
 	              <br>
-	              <input type="text" id="mb_addr_d" name="mb_addr_d"> 나머지주소
+	              <input type="text" id="mb_addr_d" name="mb_addr_d" style="width: 430px"> 나머지주소
 	              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
 	            </td>
 	          </tr>
@@ -174,21 +143,15 @@
 	              <input type="text" id="mb_mobile2" name="mb_mobile2">-
 	              <input type="text" id="mb_mobile3" name="mb_mobile3">
 	            </td>
-	          </tr> 
-	          <tr class="displaynone">
-	            <th scope="row">메일수신여부
+	          </tr>
+	          <tr>
+	            <th scope="row">이메일 
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
-				<!-- 
-	              <input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y">
-	              <label for="mb_accept_e_Y">동의함</label>
-	              <input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N" checked="checked">
-	              <label for="mb_accept_e_N">동의안함</label>
-	            -->
-	            	<div id="checkbox">
-	            		<input type="checkbox" class="form-check-input" id="mb_accept_e" name="mb_accept_e" value="Y">
-	            	</div>
+	              <input type="text" id="mb_email" name="mb_email">
+	              <br>-이메일을 통해 주문처리과정을 보내드립니다.
+	              <br>-이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해주세요.         
 	            </td>
 	          </tr>
 	        </tbody>
@@ -208,116 +171,18 @@
 
   $(document).ready(function(){
 
-    let isCheckID = false;                   //아이디중복체크 
-
-    let isMailAuthConfirm = false;           //메일인증확인체크
-    
-    //폼에서 전송버튼<input type="submit">을 클릭하면 호출되는 이벤트설정
-    $("#joinForm").on("submit", function(){
-      
-      console.log("아이디중복체크? " + isCheckID)
-
-      if(isCheckID == false){
-        alert("아이디 중복체크 확인바람");
-        $("#mb_id").focus();
-        return false;
-      }
-
-      if(isMailAuthConfirm == false){
-        alert("메일인증요청 확인바람");
-        $("#btnMailAuthReq").focus();
-        return false;
-      }
- 
-    });
-
-    //아이디중복체크
-    $("#btnUseIDChk").on("click", function(){
-    	
-      isCheckID = false;
-      let mb_id = $("#mb_id");
-
-      if(mb_id.val() == "" || mb_id.val() == null){
-        alert("아이디를 입력하세요");
-        mb_id.focus();
-        return;
-      }
-
-      $.ajax({
-        url: '/member/checkID',
-        type: 'get',
-        dataType: 'text',
-        data: { mb_id : mb_id.val() },
-        success: function(data){
-          
-          if(data == "Y"){
-            isCheckID = true;
-        	alert("아이디 사용가능");
-          }else if(data == "N"){
-            mb_id.val("");
-            alert("아이디 사용불가능");
-          }
-        }
-      });
-      
-    });
-
-    //메일인증요청
-    $("#btnMailAuthReq").on("click", function(){
-      isMailAuthConfirm = false;
-      let mb_email = $("#mb_email");
-
-      if(mb_email.val() == "" || mb_email.val() == null){
-        alert("메일주소를 입력하세요.");
-        mb_email.focus();
-        return;
-      }
-
-      $.ajax({
-        url: '/member/sendMailAuth',
-        type: 'get',
-        dataType: 'text',
-        data: { mb_email : mb_email.val() },
-        success: function(data){
-          
-          if(data == "success"){
-            isMailAuthConfirm = true;
-            alert("인증요청 메일발송됨.");
-          }else if(data == "fail"){
-        	  alert("인증요청 메일발송 에러.");
-          }
-        }
-      });
-    });
-
-    //메일인증확인
-    $("#btnMailAuthConfirm").on("click", function(){
-
-      let auth_mail = $("#auth_mail");
-
-      if(auth_mail.val() == "" || auth_mail.val() == null){
-        alert("인증코드를 입력하세요.");
-        auth_mail.focus();
-        return;
-      }
-
-      $.ajax({
-        url: '/member/mailAuthConfirm',
-        type: 'get',
-        dataType: 'text',
-        data: { uAuthCode : auth_mail.val() },
-        success: function(data){
-          
-          if(data == "success"){
-            alert("인증요청 성공.");
-          }else if(data == "fail"){
-            alert("인증요청 실패\n 인증코드를 다시 입력하세요. 또는 인증요청을 다시 하기바랍니다.");
-            auth_mail.val("");
-          }
-        } 
-      });
-    });
-
+		// 장바구니 수량변경 클릭
+		$("#order_amount").on("change", function(){
+			
+			let pro_price = $(this).parent().parent().find("td span.pro_price").text();
+			let sum_price = pro_price * $(this).val();
+	
+			$(this).parent().parent().find("td span.sum_price").text(sum_price);
+	
+			cartTotalPrice();
+	
+		});
+	  
   });
 
 

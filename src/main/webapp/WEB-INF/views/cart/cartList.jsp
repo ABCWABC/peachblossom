@@ -30,6 +30,14 @@
           font-size: 3.5rem;
         }
       }
+      
+      .cartTitle {
+      	margin-bottom: 30px;
+      }
+      
+      table, tr, th, td {
+      	font-size: 12px;
+      }
     </style>
 
   </head>
@@ -38,11 +46,11 @@
     
 <%@include file="/WEB-INF/views/include/header.jsp" %>
 
-<div class="container">
+<div class="cartListBody container">
 
-  <div class="row">
+  <div class="row cartTitle">
   	<div class="col-sm-12">
-  	<h4>장바구니</h4>
+  		<h5 style="text-align:center;">CART</h5>
   	</div>
   </div>
   <div class="row">
@@ -50,12 +58,12 @@
 		<table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
 			<thead>
 				<tr role="row">
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">상품이미지</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">상품명</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">판매가</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">수량</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">합계</th>
 					<th><input type="checkbox" id="checkAll" name="checkAll"></th>
+					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">상품이미지</th>
+					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">상품명</th>
+					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">판매가</th>
+					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">수량</th>
+					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">합계</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -68,30 +76,31 @@
 				<c:if test="${not empty cartList}">
 				<c:forEach items="${cartList }" var="cartListVO" varStatus="status">
 					<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
+						<td><input type="checkbox" class="check" value="<c:out value="${cartListVO.cart_code }" />"></td>
 						<td>
 							<a class="move" href="<c:out value="${cartListVO.pro_num }"></c:out>">
 								<img name="proudctImage" src="/cart/displayFile?fileName=s_<c:out value="${cartListVO.pro_img }"></c:out>&uploadPath=<c:out value="${cartListVO.pro_uploadpath }"></c:out>">
 							</a>
 						</td>
 						<td>
-							<input type="text" value='<c:out value="${cartListVO.pro_name }"></c:out>' readonly>
+							<span class="pro_name"><c:out value="${cartListVO.pro_name }"></c:out></span>
+							<input type="hidden" value='<c:out value="${cartListVO.pro_name }"></c:out>' readonly>
 						</td>
 						<td>
 							<span class="pro_price"><c:out value="${cartListVO.pro_price }"></c:out></span>
-							<input type=""hidden name="" value="<c:out value="${cartListVO.pro_price }"></c:out>">
+							<input type="hidden" name="" value="<c:out value="${cartListVO.pro_price }"></c:out>">
 						</td>
 						<td>
 							<input type="number" name="cart_amount" value='<c:out value="${cartListVO.cart_amount }"></c:out>'>
-							<input type="button" value="수정">
+							<input type="button" value="변경">
 						</td>
 						<td>
 							<span class="sum_price"><c:out value="${cartListVO.pro_price * cartListVO.cart_amount }"></c:out></span>
 						</td>
-						<td><input type="checkbox" class="check" value="<c:out value="${cartListVO.cart_code }" />"></td>
 					</tr>
 				</c:forEach>
 					<tr>
-						<td colspan="6">합계 : <span id="cart_total_price"></span></td>
+						<td colspan="6">합계 : <span id="cart_total_price"></span> 원</td>
 					</tr>
 					<tr>
 						<td colspan="6">

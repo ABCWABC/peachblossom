@@ -7,24 +7,33 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
-<!-- css, js 파일포함 -->
-<%@include file="/WEB-INF/views/admin/include/header_info.jsp" %>
-
-<script>
-
-	let msg = '${msg}';
+<head>
+	<!-- css, js 파일포함 -->
+	<%@include file="/WEB-INF/views/admin/include/header_info.jsp" %>
 	
-	if(msg == "insertOk") {
-		alert("상품등록 성공");
-	}else if(msg == "modifyOk") {
-		alert("상품수정 성공");
-	}else if(msg == "deleteOk") {
-		alert("상품삭제성공");
-	}
+	<style>
+		.productListBody {
+			font-size: 13px;
+			color: black;
+		}
+	</style>
+	
+	<script>
+	
+		let msg = '${msg}';
+		
+		if(msg == "insertOk") {
+			alert("상품등록 성공");
+		}else if(msg == "modifyOk") {
+			alert("상품수정 성공");
+		}else if(msg == "deleteOk") {
+			alert("상품삭제성공");
+		}
+	
+	</script>
+</head>
 
-</script>
-
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini productListBody">
 
 <div class="wrapper">
 
@@ -37,9 +46,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Product List
-        <small>게시 상품 데이터</small>
-      </h1>
+      <h5 style="font-weight:bold;">상품등록 관리<small style="margin-left:10px;">상품리스트</small></h5>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
         <li class="active">Here</li>
@@ -52,11 +59,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="box">
-					<div class="box-header">
-						<h3 class="box-title">상품리스트</h3>
-						<input type="button" id="btnCheckDelete" value="선택삭제">
-					</div>
-					<!-- /.box-header -->
 					<div class="box-body">
 						<div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
 							<div class="row">
@@ -71,13 +73,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 											<tr role="row">
 												<th><input type="checkbox" id="checkAll" name="checkAll"></th>
 												<th>번호</th>
-												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">상품명</th>
-												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">등록일</th>
-												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">가격</th>
-												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">재고</th>
-												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">진열</th>
-												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">수정</th>
-												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">삭제</th>
+												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">상품명</th>
+												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">등록일</th>
+												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">가격</th>
+												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">재고</th>
+												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">진열</th>
+												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">수정</th>
+												<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">삭제</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -96,7 +98,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 														<input type="text" value='<c:out value="${productVO.pro_name }"></c:out>' readonly>
 													</td>
 													
-													<td><fmt:formatDate value="${productVO.pro_date }" pattern="yyyy-MM-dd" /></td>
+													<td><fmt:formatDate value="${productVO.pro_date }" pattern="yyyy-MM-dd" /><br><fmt:formatDate value="${productVO.pro_date }" pattern="hh:mm:ss" /></td>
 													<td><input type="text" value='<c:out value="${productVO.pro_price }"></c:out>' readonly></td>
 													<td>
 														<input type="text" value='<c:out value="${productVO.pro_amount }"></c:out>' readonly>
@@ -116,7 +118,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							</div>
 							
 							<div class="row">
-								<div class="col-sm-5 dataTables_info">
+								<div class="col-sm-4 dataTables_info">
 							
 									<form id="searchForm" action="/admin/product/productList" method="get">
 										<select name="type">
@@ -134,7 +136,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									</form>
 								</div>
 								
-								<div class="col-sm-7">
+								<div class="col-sm-6">
 									<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
 										<ul class="pagination">
 										<c:if test="${pageMaker.prev }">
@@ -153,8 +155,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										</c:if>
 										</ul>
 									</div>
-									
 								</div>
+								
+								<div class="col-sm-2">
+									<div>
+										<input type="button" id="btnCheckDelete" value="선택삭제">
+									</div>
+								</div>
+								
 								<!--prev,page number, next 를 클릭하면 아래 form이 작동된다.-->
 								<form id="actionForm" action="/admin/product/productList" method="get">
 									<!--list.jsp 가 처음 실행되었을 때 pageNum의 값을 사용자가 선택한 번호의 값으로 변경-->

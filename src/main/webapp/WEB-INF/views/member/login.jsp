@@ -9,16 +9,17 @@
    <meta name="generator" content="Hugo 0.88.1">
    <title>Insert title here</title>
    <%@include file="/WEB-INF/views/include/plugin_js.jsp" %>
+   
    <style>
-	body {
+	.loginBody {
 	    width: 100%;
 	    min-width: 1000px;
 	    -webkit-font-smoothing: antialiased;
 	    -webkit-text-size-adjust: none;
 	    text-rendering: optimizelegibility;
 	}
-	body, code {
-	    font: 12px 'Roboto',sans-serif;
+	.loginBody, code {
+	    /* font: 12px 'Roboto',sans-serif; */
 	    color: #353535;
 	    background: #fff;
 	}
@@ -66,6 +67,7 @@
 	    vertical-align: middle;
 	    outline: none;
 	}
+	/*
 	.inputTypeText {
 		-webkit-writing-mode: horizontal-tb !important;
 		text-rendering: auto;
@@ -82,8 +84,8 @@
 	    width: 100%;
 	    height: 45px;
 	    line-height: 45px;
-	    padding: 2px 2px 2px 7px;
-	    border: 0 none;
+	    padding: 2px 2px 2px 7px;*/
+	    /* border: 0 none; *//*
 	    color: #353535;
 	    font-size: 13px;
 	    letter-spacing: 1px;
@@ -92,6 +94,7 @@
 	    outline: none;
 	    margin: 0;
 	}
+	*/
 	label {
 	    cursor: default;
 	}
@@ -182,7 +185,7 @@
 	    overflow: hidden;
 	    text-align: left;
 	}
-	ul {
+	.loginBody ul {
 		font-size: 13px;
 		color: #2e2e2e;
 	    display: block;
@@ -193,7 +196,7 @@
 	    margin-inline-end: 0px;
 	    padding-inline-start: 40px;
 	}
-	li {
+	.loginBody li {
 		color: #2e2e2e;
 	    display: inline-block;
 	    padding: 0 9px 0 13px;
@@ -204,7 +207,7 @@
  </head>
  <body>
    <%@include file="/WEB-INF/views/include/header.jsp" %>
-   <main class="login-form">
+   <main class="loginBody login-form">
 		<div id="container">
 			<div id="contents">
 				<div class="titleArea">

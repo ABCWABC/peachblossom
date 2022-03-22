@@ -1,34 +1,31 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
+
+	<!-- REQUIRED JS SCRIPTS -->
+	<%@include file="/WEB-INF/views/admin/include/plugin_js.jsp" %>
 
 	<!-- css, js 파일포함 -->
 	<%@include file="/WEB-INF/views/admin/include/header_info.jsp" %>
 
-	<script type="text/javascript" src="/resources/js/admin/logon.js"></script>
 	
 	<script>
-		let msg = '${msg}'
 		
-		if("${msg}"=="logonSuccess"){
-			alert("로그인 되었습니다.\n환영합니다!");
-			
-		} else if("${msg}"=="failId"){
+		if("${msg}" == "failId"){
 			alert("로그인에 실패하였습니다.\n아이디를 다시 확인해주세요.");
-		} else if("${msg}"=="failPw"){
+		}else if("${msg}" == "failPw"){
 			alert("로그인에 실패하였습니다.\n비밀번호를 다시 확인해주세요.");
-		} else if("${msg}"=="LOGOUT_SUCCESS"){
-			alert("로그아웃 되었습니다.");
-		} 
+		}
+	
 	</script>
 
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body>
 
 	<!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
+	<div class="wrapper">
 		<!-- Content Header (Page header) -->
 		<section class="content-header">
 			<h1>ADMIN PAGE <small>peach blossom</small></h1>
@@ -63,83 +60,61 @@
 		<!-- /.content -->
 		
 	</div>
-	<!-- /.content-wrapper -->
 
-	<!-- Main Footer -->
-	<%@include file="/WEB-INF/views/include/footer.jsp"%>
-
-	<!-- Control Sidebar -->
-	<aside class="control-sidebar control-sidebar-dark">
-		<!-- Create the tabs -->
-		<ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-			<li class="active"><a href="#control-sidebar-home-tab"
-				data-toggle="tab"><i class="fa fa-home"></i></a></li>
-			<li>
-				<a href="#control-sidebar-settings-tab" data-toggle="tab">
-					<i class="fa fa-gears"></i>
-				</a>
-			</li>
-		</ul>
-		<!-- Tab panes -->
-		<div class="tab-content">
-			<!-- Home tab content -->
-			<div class="tab-pane active" id="control-sidebar-home-tab">
-				<h3 class="control-sidebar-heading">Recent Activity</h3>
-				<ul class="control-sidebar-menu">
-					<li><a href="javascript:;">
-						<i class="menu-icon fa fa-birthday-cake bg-red"></i>
-							<div class="menu-info">
-								<h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-								<p>Will be 23 on April 24th</p>
-							</div>
-					</a></li>
-				</ul>
-				<!-- /.control-sidebar-menu -->
-
-				<h3 class="control-sidebar-heading">Tasks Progress</h3>
-				<ul class="control-sidebar-menu">
-					<li>
-						<a href="javascript:;">
-							<h4 class="control-sidebar-subheading">Custom Template Design <span class="pull-right-container">
-									<span class="label label-danger pull-right">70%</span>
-								</span>
-							</h4>
-
-							<div class="progress progress-xxs">
-								<div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-							</div>
-						</a>
-					</li>
-				</ul>
-				<!-- /.control-sidebar-menu -->
-
-			</div>
-			<!-- /.tab-pane -->
-			<!-- Stats tab content -->
-			<div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-			<!-- /.tab-pane -->
-			<!-- Settings tab content -->
-			<div class="tab-pane" id="control-sidebar-settings-tab">
-				<form method="post">
-					<h3 class="control-sidebar-heading">General Settings</h3>
-
-					<div class="form-group">
-						<label class="control-sidebar-subheading"> Report panel usage <input type="checkbox" class="pull-right" checked>
-						</label>
-						<p>Some information about this general settings option</p>
-					</div>
-					<!-- /.form-group -->
-				</form>
-			</div>
-			<!-- /.tab-pane -->
-		</div>
-	</aside>
-	<!-- /.control-sidebar -->
-	<!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
-	<div class="control-sidebar-bg"></div>
 	<!-- ./wrapper -->
 
-
+	<script>
+	
+		$(document).ready(function() {
+			
+			var form = $("#loginForm");
+			
+			// 로그인 버튼 클릭 시 
+			$("#btn_login").on("click", function(){
+				
+				var ad_userid = $("#ad_userid");
+				var ad_userpw = $("#ad_userpw");
+		
+				if(ad_userid.val()==null || ad_userid.val()==""){
+					alert("아이디를 입력해주세요.");
+					ad_userid.focus();
+					return;
+				} else if(ad_userpw.val()==null || ad_userpw.val()==""){
+					alert("비밀번호를 입력해주세요.");
+					ad_userpw.focus();
+					return;
+				} else {
+					form.submit();
+				}
+				
+				/*
+				$.ajax({
+					url: '/admin/login',
+					type: 'post',
+					dataType: 'text',
+					data: { ad_userid : ad_userid.val(), ad_userpw : ad_userpw.val() },
+					success: function(data){
+						
+						if(data == "logonSuccess"){
+							alert("로그인 되었습니다.\n환영합니다!");
+							location.href = "/admin/main";
+						}else if(data == "failId"){
+							alert("로그인에 실패하였습니다.\n아이디를 다시 확인해주세요.");
+							ad_userid.focus();
+						}else if(data == "failPw"){
+							alert("로그인에 실패하였습니다.\n비밀번호를 다시 확인해주세요.");
+							ad_userpw.focus();
+						}
+						
+					}
+				});
+				*/
+				
+			});
+			
+		});
+		
+	</script>
+	
 </body>
 </html>

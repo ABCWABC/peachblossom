@@ -105,9 +105,9 @@
 	              <input type="text" id="mb_zipcode" name="mb_zipcode" style="margin-bottom:5px">
 	              <input type="button" class="btnNormal" id="btnPostCode" name="btnPostCode" value="우편번호찾기" onclick="sample2_execDaumPostcode()">
 	              <br>
-	              <input type="text" id="mb_addr" name="mb_addr" style="margin-bottom:5px"> 기본주소
+	              <input type="text" id="mb_addr" name="mb_addr" style="margin-bottom:5px; width: 430px"> 기본주소
 	              <br>
-	              <input type="text" id="mb_addr_d" name="mb_addr_d"> 나머지주소
+	              <input type="text" id="mb_addr_d" name="mb_addr_d" style="width: 430px"> 나머지주소
 	              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
 	            </td>
 	          </tr>

@@ -44,15 +44,15 @@ public class AdminController {
 		if(!StringUtils.isEmpty(vo)) {
 			if(cryptPassEnc.matches(ad_userpw, vo.getAd_userpw())) {
 				session.setAttribute("adminStatus", vo);
-				rttr.addAttribute("msg","logonSuccess");
+				rttr.addFlashAttribute("msg","logonSuccess");
 				redirectUrl = "/admin/main";
 			}else {
+				rttr.addFlashAttribute("msg","failPw");
 				redirectUrl = "/admin/logon";
-				rttr.addAttribute("msg","failPw");
 			}
 		}else {
+			rttr.addFlashAttribute("msg", "failId");
 			redirectUrl = "/admin/logon";
-			rttr.addAttribute("msg", "failId");
 		}
 		
 		return "redirect:"+redirectUrl;

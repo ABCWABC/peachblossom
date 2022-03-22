@@ -2,6 +2,41 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="/WEB-INF/views/include/plugin_js.jsp" %>
 
+<!-- header style -->
+<style>
+	.firstArea {
+		padding: 30px 0px 20px 0px; 
+	}
+
+	.firstArea a {
+	    position: relative;
+	    float: left;
+	    display: block;
+	    color: #858585;
+	    font-size: 13px;
+	    font-weight: 10px;
+	}
+	
+	.secondArea {
+		padding: 0px 0px 70px 100px;
+	}
+	
+	#logoText{
+		margin: 0px 0px 0px 50px;
+		font-size: 30px;
+		font-weight: 100px;
+	}
+	
+	input[name=keyword] {
+		height: 25px;
+		margin: 7px 0 0 0;
+		padding: 2px 2px 2px 7px;
+		width: 100%;
+		font-size: 12px;
+	}
+	
+</style>
+
 	<!-- topArea -->
 	<div class="firstArea">
        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white">
@@ -14,16 +49,17 @@
 		    <c:if test="${sessionScope.loginStatus == null }">
 			    <a class="p-2 text-dark" href="/member/login">LOGIN</a>
 			    <a class="p-2 text-dark" href="/member/join">JOIN</a>
+			    <a class="p-2 text-dark" href="/member/login">CART</a>
 			</c:if>
 			
 			<!-- 로그인 이전상태 표시 -->
 		    <c:if test="${sessionScope.loginStatus != null }">
 			    <a class="p-2 text-dark" href="/member/logout">LOGOUT</a>
 			    <a class="p-2 text-dark" href="/member/modify">MODIFY</a>
+			    <a class="p-2 text-dark" href="/cart/cartList">CART(숫자)</a>
 			</c:if>
 			
 			<!-- 로그인여부 상관없이 표시 -->
-		    <a class="p-2 text-dark" href="/cart/cartList">CART(숫자)</a>
 		    <a class="p-2 text-dark" href="#">ORDER</a>
 		    <a class="p-2 text-dark" href="/member/mypage">MYPAGE</a>
 		    <a class="p-2 text-dark" href="#">NOTICE✨</a>
@@ -34,8 +70,8 @@
 	   </div>
     </div>
     
-    <div class="secondArea">
-       <div class="category_search">
+    <div class="row secondArea">
+       	<div class="col-xs-9">
 		  <ul class="nav nav-tabs">
 			  <c:forEach items="${userCategory }" var="categoryVO">
 				  <li class="nav-item dropdown">
@@ -44,20 +80,14 @@
 				  </li>
 			  </c:forEach>
 		  </ul>
-		  
-	    <!-- 검색창 -->
-	    <form id="searchBarForm" name="" action="" method="get" target="_self" enctype="multipart/form-data">
-			<input id="banner_action" name="banner_action" value="" type="hidden">
-			<div class="xans-element- xans-layout xans-layout-searchheader topsear ">
-				<fieldset>
-					<legend>검색</legend>
-		            <input id="keyword" name="keyword" fw-filter="" fw-label="검색어" fw-msg="" class="inputTypeText" placeholder="" onmousedown="SEARCH_BANNER.clickSearchForm(this)" value="" type="text">
-		            <i class="xi-search" onclick="SEARCH_BANNER.submitSearchBanner(this); return false;"></i>
-				</fieldset>
-			</div>
-		</form>
-		  
-	   </div>
+		</div>
+		
+		<div class="col-xs-3" style="position: right;"> 
+		    <!-- 검색창 -->
+		    <form id="searchBarForm" name="" action="" method="get" target="_self" enctype="multipart/form-data">
+		        <input id="keyword" name="keyword" fw-filter="" fw-label="검색어" fw-msg="" class="inputTypeText" placeholder="검색" value="" type="text">
+			</form>
+		</div>
     </div>
     <!-- //topArea -->
 

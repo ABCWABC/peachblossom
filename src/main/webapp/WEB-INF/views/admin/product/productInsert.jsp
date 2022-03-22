@@ -1,13 +1,31 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 
 <html>
+
+<head>
+
 <!-- css, js 파일포함 -->
 <%@include file="/WEB-INF/views/admin/include/header_info.jsp" %>
-<script src="/bower_components/ckeditor/ckeditor.js"></script>
+<script src="/resources/bower_components/ckeditor/ckeditor.js"></script>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<style>
+
+	.productInsertBody {
+		font-size: 13px;
+		color: black;
+	}
+	
+	label {
+		margin-top: 10px;
+	}
+
+</style>
+
+</head>
+
+<body class="productInsertBody hold-transition skin-blue sidebar-mini">
 
 	<div class="wrapper">
 	
@@ -19,8 +37,8 @@
 	  <!-- Content Wrapper. Contains page content -->
 	  <div class="content-wrapper">
 	    <!-- Content Header (Page header) -->
-	    <section class="content-header">
-	      <h1>Page Header<small>Optional description</small></h1>
+	    <section class="productInsertTitle content-header">
+	      <h5 style="font-weight:bold;">상품등록 관리<small style="margin-left:10px;">상품등록</small></h5>
 	      <ol class="breadcrumb">
 	        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
 	        <li class="active">Here</li>
@@ -28,9 +46,8 @@
 	    </section>
 	
 	    <!-- Main content -->
-	    <section class="content container-fluid">
+	    <section class="content container-fluid" style="margin-top: -38px;">
 	
-		<h3>상품등록</h3>
 		  <form action="productInsert" method="post" id="joinForm" enctype="multipart/form-data">
 			 <div class="form-row">
 			    <div class="col-md-6">
