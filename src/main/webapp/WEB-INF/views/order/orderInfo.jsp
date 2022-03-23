@@ -18,10 +18,60 @@
 		.orderInfoTitle{
 			margin-bottom: 30px;
 		}
-		
+		.required {
+		    margin: -30px 0 20px;
+		    color: #353535;
+		    text-align: right;
+		    font-size: 13px;
+		}
 		table, tr, th, td {
-      	font-size: 12px;
-      }
+      		font-size: 12px;
+      	}
+      	input[type=text], input[type=password] {
+		    height: 25px;
+		    line-height: 25px;
+		    padding: 2px 4px;
+		    border: 1px solid #d5d5d5;
+		    color: #353535;
+		    font-size: 13px;
+		}
+		#ord_message {
+			width: 650px;
+		    line-height: 25px;
+		    padding: 2px 4px;
+		    border: 1px solid #d5d5d5;
+		    color: #353535;
+		    font-size: 13px;
+		}
+		select {
+		    display: inline-block;
+		    min-width: 100px;
+		    height: 25px;
+		    line-height: 25px;
+		    padding: 0 0 0 5px;
+		    color: #353535;
+		    border: 1px #d5d5d5 solid;
+		    -webkit-appearance: none;
+		    background: #fff url(/resources/img/arrow-down.jpg) 96% 47%/8px no-repeat;
+		}
+		[class^='btnNormal'] {
+		    display: inline-block;
+		    box-sizing: border-box;
+		    padding: 2px 8px;
+		    border: 1px solid #d5d5d5;
+		    border-radius: 0;
+		    font-size: 12px;
+		    line-height: 20px;
+		    font-weight: normal;
+		    text-decoration: none;
+		    vertical-align: middle;
+		    word-spacing: -0.5px;
+		    letter-spacing: 0;
+		    text-align: center;
+		    white-space: nowrap;
+		    color: beige;
+		    background-color: gray;
+		}
 		
 	</style>
    
@@ -59,6 +109,8 @@
 						<td>
 							<a class="move" href="<c:out value="${orderInfoVO.pro_num }"></c:out>">
 								<img name="proudctImage" src="/order/displayFile?fileName=s_<c:out value="${orderInfoVO.pro_img }"></c:out>&uploadPath=<c:out value="${orderInfoVO.pro_uploadpath }"></c:out>">
+								<input type="text" value="<c:out value="${orderInfoVO.pro_img }"></c:out>" style="width:500px;"><br>
+								<input type="text" value="<c:out value="${orderInfoVO.pro_uploadpath }"></c:out>">
 							</a>
 						</td>
 						<td>
@@ -70,28 +122,93 @@
 							<input type="hidden" name="orderDetailList[${status.index }].pro_price" value='<c:out value="${orderInfoVO.pro_price }"></c:out>'>
 						</td>
 						<td>
-							<input type="number" id="order_amount" name="orderDetailList[${status.index }].dt_amount" value='<c:out value="${orderInfoVO.cart_amount }"></c:out>'>
-							<input type="button" value="변경">
+							<span class="dt_amount"><c:out value="${orderInfoVO.cart_amount }"></c:out></span>
 						</td>
 						<td>
 							<span class="orderprice"><c:out value="${orderInfoVO.orderprice }"></c:out></span>
 							<input type="hidden" name="orderDetailList[${status.index }].dt_price" value='<c:out value="${orderInfoVO.orderprice }"></c:out>'>
 						</td>
-						
 					</tr>
 				</c:forEach>
 					<tr>
 						<td colspan="6">합계 : <span id="cart_total_price"> 원</span></td>
 					</tr>
-					
 				</c:if>
 				
 			</tbody>
 		</table>
+		<div style="font-size:11px; color:gray;">상품의 옵션 및 수량 변경은 상품상세 또는 장바구니에서 가능합니다.</div>
+		
 	</div>
 	</div>
-	  <br><br><br>
-	  <h6>주문자정보</h6>
+	  <br><br>
+	  <h6>주문 정보</h6>
+	  <p class="required">
+	  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
+	  </p>
+	  
+	  	<div>
+	  		<table class="table table-bordered">
+	        <colgroup>
+	          <col style="width:150px;">
+	          <col style="width:auto;">
+	        </colgroup>
+	        <tbody>
+	          <tr>
+	            <th scope="row">주문하시는 분 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <input type="text" name="mb_name" id="mb_name" value="${sessionScope.loginStatus.mb_name}">
+	            </td>
+	          </tr>
+	          
+	          <tr class="">
+	            <th scope="row">주소 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <input type="text" id="mb_zipcode" name="mb_zipcode" value="${sessionScope.loginStatus.mb_zipcode}" style="margin-bottom:5px"> 우편번호
+	              <br>
+	              <input type="text" id="mb_addr" name="mb_addr" value="${sessionScope.loginStatus.mb_addr}" style="margin-bottom:5px; width: 430px"> 기본주소
+	              <br>
+	              <input type="text" id="mb_addr_d" name="mb_addr_d" value="${sessionScope.loginStatus.mb_addr_d}" style="width: 430px"> 나머지주소
+	              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
+	            </td>
+	          </tr>
+	          <tr class="">
+	            <th scope="row">휴대전화 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <select id="mb_mobile1" name="mb_mobile1">
+	                <option value="010">010</option>
+	                <option value="011">011</option>
+	                <option value="016">016</option>
+	                <option value="017">017</option>
+	                <option value="018">018</option>
+	                <option value="019">019</option>
+	              </select>-
+	              <input type="text" id="mb_mobile2" name="mb_mobile2" value="${sessionScope.loginStatus.mb_mobile2}">-
+	              <input type="text" id="mb_mobile3" name="mb_mobile3" value="${sessionScope.loginStatus.mb_mobile3}">
+	            </td>
+	          </tr>
+	          <tr>
+	            <th scope="row">이메일 
+	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+	            </th>
+	            <td>
+	              <input type="text" id="mb_email" name="mb_email" value="${sessionScope.loginStatus.mb_email}">
+	              <br>-이메일을 통해 주문처리과정을 보내드립니다.
+	              <br>-이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해주세요.         
+	            </td>
+	          </tr>
+	        </tbody>
+	      </table>
+	    </div>
+	  
+	  <br><br>
+	  <h6>배송 정보</h6>
 	  <p class="required">
 	  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
 	  </p>
@@ -105,7 +222,7 @@
 	        </colgroup>
 	        <tbody>
 	          <tr>
-	            <th scope="row">주문하시는 분 
+	            <th scope="row">받으시는 분 
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
@@ -145,20 +262,15 @@
 	            </td>
 	          </tr>
 	          <tr>
-	            <th scope="row">이메일 
+	            <th scope="row">배송메시지 
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
-	              <input type="text" id="mb_email" name="mb_email">
-	              <br>-이메일을 통해 주문처리과정을 보내드립니다.
-	              <br>-이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해주세요.         
+	              <textarea rows="3" name="ord_message" id="ord_message"></textarea>
 	            </td>
 	          </tr>
 	        </tbody>
 	      </table>
-	    </div>
-	    <div class="joinButton">
-	      <button type="submit" id="btnJoin" class="btn btn-dark btn-sm">회원가입</button>
 	    </div>
 	  </form>
 	  
@@ -169,21 +281,6 @@
 
 <script>
 
-  $(document).ready(function(){
-
-		// 장바구니 수량변경 클릭
-		$("#order_amount").on("change", function(){
-			
-			let pro_price = $(this).parent().parent().find("td span.pro_price").text();
-			let sum_price = pro_price * $(this).val();
-	
-			$(this).parent().parent().find("td span.sum_price").text(sum_price);
-	
-			cartTotalPrice();
-	
-		});
-	  
-  });
 
 
 </script>

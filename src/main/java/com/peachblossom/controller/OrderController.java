@@ -65,8 +65,12 @@ public class OrderController {
 	@PostMapping("/orderAction")
 	public String orderAction(OrderVO order, OrderDetailList orderDetail, HttpSession session) {
 		
+		order.setMb_id( ( (MemberVO)session.getAttribute("loginStatus") ).getMb_id() );
+		
 		log.info("주문정보: " + order);
 		log.info("주문상세정보: " + orderDetail);
+		
+		oService.orderInsert(order, orderDetail);
 		
 		return "redirect:/";
 	}

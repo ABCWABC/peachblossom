@@ -18,7 +18,8 @@
 	}
 	
 	.secondArea {
-		padding: 0px 0px 70px 100px;
+		margin: 0px 100px 70px 100px;
+	    border-bottom: 1px solid #dee2e6;
 	}
 	
 	#logoText{
@@ -27,11 +28,15 @@
 		font-weight: 100px;
 	}
 	
+	.nav-tabs {
+    	border-bottom: none;
+	}
+	
 	input[name=keyword] {
 		height: 25px;
 		margin: 7px 0 0 0;
 		padding: 2px 2px 2px 7px;
-		width: 100%;
+		width: 140px;
 		font-size: 12px;
 	}
 	
@@ -60,7 +65,7 @@
 			</c:if>
 			
 			<!-- 로그인여부 상관없이 표시 -->
-		    <a class="p-2 text-dark" href="#">ORDER</a>
+		    <a class="p-2 text-dark" href="/order/orderInfo">ORDER</a>
 		    <a class="p-2 text-dark" href="/member/mypage">MYPAGE</a>
 		    <a class="p-2 text-dark" href="#">NOTICE✨</a>
 		    <a class="p-2 text-dark" href="#">Q&A</a>
@@ -71,7 +76,7 @@
     </div>
     
     <div class="row secondArea">
-       	<div class="col-xs-9">
+       	<div class="col-sm-9">
 		  <ul class="nav nav-tabs">
 			  <c:forEach items="${userCategory }" var="categoryVO">
 				  <li class="nav-item dropdown">
@@ -82,7 +87,7 @@
 		  </ul>
 		</div>
 		
-		<div class="col-xs-3" style="position: right;"> 
+		<div class="col-sm-2"> 
 		    <!-- 검색창 -->
 		    <form id="searchBarForm" name="" action="" method="get" target="_self" enctype="multipart/form-data">
 		        <input id="keyword" name="keyword" fw-filter="" fw-label="검색어" fw-msg="" class="inputTypeText" placeholder="검색" value="" type="text">

@@ -278,7 +278,6 @@
           success: function(data){
             
             if(data == "success"){
-              alert("로그인 성공.");
               location.href = "/";
             }else if(data == "idFail"){
               alert("아이디가 일치하지 않습니다.");

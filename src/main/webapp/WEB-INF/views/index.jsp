@@ -25,28 +25,14 @@
   
   <body>
   	<%@include file="/WEB-INF/views/include/header.jsp" %>
-
-	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-		<ol class="carousel-indicators">
-			<li id="slide_bar1" data-target="#carouselExampleIndicators" data-slide-to="1" class=""></li>
-			<li id="slide_bar2" data-target="#carouselExampleIndicators" data-slide-to="2" class=""></li>
-			<li id="slide_bar3" data-target="#carouselExampleIndicators" data-slide-to="3" class=""></li>
-		</ol>
-		<div class="carousel-inner">
-			<div class="carousel-item active" id="slide_bar4">
-				<img src="/resources/img/main_image_1.jpg" class="d-block w-100">
-			</div>
-			<div class="carousel-item" id="slide_bar5">
-				<img src="/resources/img/main_image_2.jpg" class="d-block w-100">
-			</div>
-			<div class="carousel-item" id="slide_bar6">
-				<img src="/resources/img/main_image_3.jpg" class="d-block w-100">
-			</div>
-		</div>
-	</div>
-
-
-
+  	
+  	<div class="inner">
+  		<div class="slideshow">
+  			<a href=""><img alt="" src="/resources/img/main_image_1.jpg" width="1600" height="465"></a>
+  			<a href=""><img alt="" src="/resources/img/main_image_2.jpg" width="1600" height="465"></a>
+  			<a href=""><img alt="" src="/resources/img/main_image_3.jpg" width="1600" height="465"></a>
+  		</div>
+  	</div>
 
 	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 	  <h4>BEST</h4>
@@ -129,44 +115,29 @@
 	</div>
 	  <%@include file="/WEB-INF/views/include/footer.jsp" %>
     </div>
-
+    
 <script>
 
-      $(function(){
-
-        // 하단바 active 처리
-        $("#slide_bar1").on("click", function(){
-           	$("#slide_bar1").attr("class","active");
-           	$("#slide_bar2").attr("class","");
-           	$("#slide_bar3").attr("class","");
-           	
-           	$("#slide_bar4").attr("class","carousel-item active");
-           	$("#slide_bar5").attr("class","carousel-item");
-           	$("#slide_bar6").attr("class","carousel-item");
-        });
-        
-		$("#slide_bar2").on("click", function(){
-           	$("#slide_bar1").attr("class","");
-           	$("#slide_bar2").attr("class","active");
-           	$("#slide_bar3").attr("class","");
-           	
-           	$("#slide_bar4").attr("class","carousel-item");
-           	$("#slide_bar5").attr("class","carousel-item active");
-           	$("#slide_bar6").attr("class","carousel-item");
-        });
+	//메인 슬라이드
+	$(function(){
+		var slides = $(".slideshow img");
+		var slideCount = slides.length;
+		var currentIndex = 0;
+		var timer = setInterval(showNextSlide, 3500);
 		
-		$("#slide_bar3").on("click", function(){
-		   	$("#slide_bar1").attr("class","");
-		   	$("#slide_bar2").attr("class","");
-		   	$("#slide_bar3").attr("class","active");
-		   	
-		   	$("#slide_bar4").attr("class","carousel-item");
-           	$("#slide_bar5").attr("class","carousel-item");
-           	$("#slide_bar6").attr("class","carousel-item active");
-		});
-        
-      });
-    </script>
+		slides.eq(currentIndex+1).hide();
+		slides.eq(currentIndex+2).hide();
+		
+		function showNextSlide() {
+			var nextIndex = (currentIndex+1) % slideCount;
+			
+			slides.eq(currentIndex).hide();
+			slides.eq(nextIndex).show();
+			currentIndex = nextIndex;
+		}
+	});
+
+</script>
 
   </body>
 </html>
