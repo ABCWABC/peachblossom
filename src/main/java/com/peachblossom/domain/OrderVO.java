@@ -8,7 +8,7 @@ import lombok.Data;
 public class OrderVO {
 	
 	// ord_code, mb_id, ord_name, ord_zipcode, ord_addr_basic, ord_addr_detail, 
-	// ord_tel, ord_price, ord_message, ord_state, ord_regdate
+	// ord_tel1, ord_tel2, ord_tel3, ord_price, ord_message, ord_state, ord_dipositor, ord_regdate
 	
 	private Integer ord_code;
 	private String mb_id;
@@ -16,7 +16,9 @@ public class OrderVO {
 	private String ord_zipcode;
 	private String ord_addr_basic;
 	private String ord_addr_detail;
-	private String ord_tel;
+	private String ord_tel1;
+	private String ord_tel2;
+	private String ord_tel3;
 	private int ord_price;
 	private String ord_message;
 	private String ord_state;

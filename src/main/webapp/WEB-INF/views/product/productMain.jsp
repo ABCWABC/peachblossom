@@ -152,12 +152,10 @@
 
       $(function(){
 
-        //장바구니 담기
+        //장바구니 담기  --- 수정필요
         $("button[name='btnCartAdd']").on("click", function(){
             
             let pro_num = $(this).parents("div.card-body").find("input[name='pro_num']").val();
-            
-           // console.log("상품코드" + pro_num);
 
            $.ajax({
               url: '/cart/cartAdd',
@@ -174,24 +172,21 @@
            });
         });
         
-        
+		$("button[name='btnBuyAdd']").on("click", function(){
+            
+            let pro_num = $(this).parents("div.card-body").find("input[name='pro_num']").val();
+            let pro_amount = 1;
+            location.href = "/order/orderInfo?type=direct&pro_num="+pro_num+"&pro_amount="+ pro_amount;
+        });
     
-    //상세페이지 이동
-    $("a.proDetail").on("click", function(e){
-      e.preventDefault();
-      /*
-      let pro_num = $(this).attr("href");
-      actionForm.append("<input type='hidden' name='pro_num' value='" + pro_num + "'>");
-      actionForm.attr("action", "/product/productDetail");
-      actionForm.submit();
-      */
-      let cate_code = $(this).parents(".parentDetail").find("input[name='cate_code']").val();
-      console.log("카테고리: " + cate_code);
-      //return;
-      location.href = "/product/productDetail?pro_num=" + $(this).attr("href") + "&cate_code=" + cate_code + "&type=N";
-
-    });
-  });
+	    //상세페이지 이동
+	    $("a.proDetail").on("click", function(e){
+			e.preventDefault();
+			let cate_code = $(this).parents(".parentDetail").find("input[name='cate_code']").val();
+			console.log("카테고리: " + cate_code);
+			location.href = "/product/productDetail?pro_num=" + $(this).attr("href") + "&cate_code=" + cate_code + "&type=N";
+		});
+	});
     </script>    
   </body>
 </html>

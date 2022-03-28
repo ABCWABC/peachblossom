@@ -35,8 +35,7 @@ public class AdminController {
 	@PostMapping("/logon")
 	public String adLoginOk(String ad_userid, String ad_userpw, HttpSession session, RedirectAttributes rttr) {
 		
-		log.info("관리자아이디: " + ad_userid);
-		log.info("관리자비번 :" + ad_userpw);
+		log.info("관리자아이디: " + ad_userid + ", 관리자비번 :" + ad_userpw);
 		
 		String redirectUrl = "";
 		AdminVO vo = service.adminLogin(ad_userid);
@@ -58,10 +57,25 @@ public class AdminController {
 		return "redirect:"+redirectUrl;
 	}
 	
-	//관리자메인페이지 폼
 	@GetMapping("/main")
 	public void main() {
 	}
+	
+	//관리자메인페이지 폼  -- 로그인 한 경우만 들어갈수 있게 해줌
+//	@GetMapping("/main")
+//	public String main(String ad_userid) {
+//		
+//		String redirectUrl = "";
+//		AdminVO vo = service.adminLogin(ad_userid);
+//		
+//		if(!StringUtils.isEmpty(vo)) {
+//			redirectUrl = "/admin/main";
+//		}else {
+//			redirectUrl = "/admin/logon";
+//		}
+//		
+//		return "redirect:"+redirectUrl;
+//	}
 	
 	//관리자계정 추가 폼
 	@GetMapping("/adminRegister")

@@ -11,4 +11,6 @@ public interface OrderService {
 	public List<OrderInfoVO> orderInfo(String mb_id);
 	
 	public void orderInsert(OrderVO vo, OrderDetailList vo2);
+	
+	public List<OrderInfoVO> directOrderInfo(Integer pro_num, Integer ord_amount);
 }

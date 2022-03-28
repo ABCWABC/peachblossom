@@ -9,57 +9,80 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Pricing example · Bootstrap v4.6</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/pricing/">
+    <title>peach blossom</title>
 
     <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
+    
+    <%@include file="/WEB-INF/views/include/productArrange_css.jsp" %>
     
   </head>
 
   <body>
 	<%@include file="/WEB-INF/views/include/header.jsp" %>
 
-	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-		
-	</div>
-
-	<div class="container">
-
-		<div class="row">
-			<c:forEach items="${productList }" var="productVO" varStatus="status">
-				<div class="col-md-3">
-					<div class="card mb-4 shadow-sm">
-					    
-					<img name="proudctImage" width="130" height="300" src="/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
-						<div class="card-body">
-							<p class="card-text">
+	<div class="ec-base-product">
+	<ul class="prdList grid4">
+		<c:forEach items="${productList }" var="productVO" varStatus="status">
+			<li id="anchorBoxId_15159" class="xans-record-">
+				<div class="box card-body">
+					<div class="thumbnail">
+						<div class="prdImg">
+							<a href="${productVO.pro_num }" class="proDetail">
+								<!-- 썸네일로 용량줄이고 싶을경우 사용 (대신 gif파일 사용불가, 화질흐림)
+									<img class="thumb" src="/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
+								 -->
+								<img class="thumb" src="/product/displayFile?fileName=<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
+							</a>
+						</div>
+					</div>
+					<div class="description">  <!-- http://localhost:8888/product/productDetail?pageNum=1&amount=8&cate_code=7&pro_num=42 -->
+						<div class="txt">
+							<p class="name">
 								<a href="${productVO.pro_num }" class="proDetail">
-									<c:out value="${productVO.pro_name }"></c:out>
+									<span style="font-size: 12px; color: #333333; font-weight: bold;"><c:out value="${productVO.pro_name }"></c:out></span>
 								</a>
-								<br>
-								<fmt:formatNumber type="currency" value="${productVO.pro_price }" /> 
-								<input type="hidden" name="pro_num" value="${productVO.pro_num }">
 							</p>
-							<div class="d-flex justify-content-between align-items-center">
-								<div class="btn-group">
-									<button type="button" name="btnBuyAdd" class="btn btn-sm btn-outline-secondary">Buy</button>
-									<button type="button" name="btnCartAdd" class="btn btn-sm btn-outline-secondary">Cart</button>
-								</div>
-								<small class="text-muted">9 mins</small>
-							</div>
+							<input type="hidden" name="pro_num" value="${productVO.pro_num }">
+							<ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
+								<li rel="판매가" class=" xans-record-">
+									<span style="font-size: 12px; color: #555555; font-weight: bold; text-decoration: line-through;"><fmt:formatNumber type="number" pattern="#,###" value="${productVO.pro_price }" />원</span>
+									<span id="span_product_tax_type_text" style="text-decoration: line-through;"> </span>
+								</li>
+								<li rel="할인판매가" class=" xans-record-" style="margin-bottom:10px;">
+									<strong class="title ">
+										<span style="font-size: 12px; color: #555555;">할인판매가</span> :
+									</strong>
+									<span style="font-size: 12px; color: #555555;">
+										<fmt:parseNumber var="pro_disPrice" value="${productVO.pro_price - productVO.pro_price * (productVO.pro_discount*0.01) }" integerOnly="true" />
+										<fmt:formatNumber type="number" pattern="#,###" value="${pro_disPrice }" />원
+										<span style="font-size: 11px; color: #c19361;">(
+											<fmt:parseNumber var="disPrice" value="${productVO.pro_price * (productVO.pro_discount*0.01) }" integerOnly="true" />
+											<fmt:formatNumber type="number" pattern="#,###" value="${disPrice }" />원 할인)
+										</span>
+									</span>
+								</li>
+								<li class="btn-group">
+				                	<button type="button" name="btnBuyAdd" class="">Buy</button>
+				                	<button type="button" name="btnCartAdd" class="">Cart</button>
+				                </li>
+							</ul>
 						</div>
 					</div>
 				</div>
-			</c:forEach> 
-		</div>
-		
+			</li>
+		</c:forEach>
+	</ul>
+	</div>
+	
+
+	<div class="container">
+
 		<!-- 페이징 출력 -->
       <div class="row">
-      	<div class="col-sm-5"></div>
+      	<div class="col-sm-3"></div>
       	
-      	<div class="col-sm-2">								
-			<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+      	<div class="col-sm-6">								
+			<div class="ec-base-paginate" id="example2_paginate">
 				<ul class="pagination">
 				<c:if test="${pageMaker.prev }">
 					<li class='paginate_button previous ${pageMaker.prev ? "": "disabled" }' id="example2_previous">
@@ -89,7 +112,8 @@
 			
 			<!--글번호추가-->
 		</form>
-		<div class="col-sm-5"></div>
+		
+		<div class="col-sm-3"></div>
       </div>
 		
 		<%@include file="/WEB-INF/views/include/footer.jsp" %>
@@ -137,7 +161,7 @@
 	      actionForm.attr("action", "/product/productDetail");
 	      actionForm.submit();
 	    });
-        
+		
       });
       
     </script>

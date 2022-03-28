@@ -16,6 +16,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			font-size: 13px;
 			color: black;
 		}
+		img[name="proudctImage"] {
+			width: 50px;
+			height: auto;
+		}
 	</style>
 	
 	<script>
@@ -93,7 +97,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 													<td class="sorting_1"><c:out value="${productVO.pro_num }"></c:out></td>
 													<td>
 													<a class="move" href="<c:out value="${productVO.pro_num }"></c:out>">
+														<!-- 
 														<img name="proudctImage" src="/admin/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
+														 -->
+														<img name="proudctImage" src="/admin/product/displayFile?fileName=<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 													</a>
 														<input type="text" value='<c:out value="${productVO.pro_name }"></c:out>' readonly>
 													</td>

@@ -38,6 +38,10 @@
       table, tr, th, td {
       	font-size: 12px;
       }
+      img[name="proudctImage"] {
+      	width: 80px;
+      	height: auto;
+      }
     </style>
 
   </head>
@@ -79,7 +83,8 @@
 						<td><input type="checkbox" class="check" value="<c:out value="${cartListVO.cart_code }" />"></td>
 						<td>
 							<a class="move" href="<c:out value="${cartListVO.pro_num }"></c:out>">
-								<img name="proudctImage" src="/cart/displayFile?fileName=s_<c:out value="${cartListVO.pro_img }"></c:out>&uploadPath=<c:out value="${cartListVO.pro_uploadpath }"></c:out>">
+								<!-- <img name="proudctImage" src="/cart/displayFile?fileName=s_<c:out value="${cartListVO.pro_img }"></c:out>&uploadPath=<c:out value="${cartListVO.pro_uploadpath }"></c:out>"> -->
+								<img name="proudctImage" src="/cart/displayFile?fileName=<c:out value="${cartListVO.pro_img }"></c:out>&uploadPath=<c:out value="${cartListVO.pro_uploadpath }"></c:out>">
 							</a>
 						</td>
 						<td>
@@ -228,7 +233,7 @@
 		
 		//주문하기
 		$("#btnOrderAdd").on("click", function(){
-			location.href = "/order/orderInfo";
+			location.href = "/order/orderInfo?type=cart_order";
 		});
 
 	</script>

@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.peachblossom.mapper.OrderMapper">
 
+	<select id="directOrderInfo" resultType="com.peachblossom.domain.OrderInfoVO">
+	
+		SELECT 
+			pro_num,
+			pro_name, 
+			pro_price, 
+			pro_img, 
+			pro_uploadpath,
+			pro_price * #{ord_amount} as orderprice
+		FROM 
+			product_tbl
+		WHERE 
+			pro_num = #{pro_num}
+	
+	</select>
+
 	<select id="orderInfo" resultType="com.peachblossom.domain.OrderInfoVO">
 	
 		SELECT
@@ -38,11 +54,13 @@
 				ord_zipcode, 
 				ord_addr_basic, 
 				ord_addr_detail, 
-				ord_tel, 
+				ord_tel1, 
+				ord_tel2, 
+				ord_tel3, 
 				ord_price, 
 				ord_message, 
 				ord_depositor
-			)
+			) 
 		VALUES
 			(
 				#{ord_code},
@@ -51,7 +69,9 @@
 				#{ord_zipcode},
 				#{ord_addr_basic},
 				#{ord_addr_detail},
-				#{ord_tel},
+				#{ord_tel1},
+				#{ord_tel2},
+				#{ord_tel3},
 				#{ord_price},
 				#{ord_message},
 				#{ord_depositor}

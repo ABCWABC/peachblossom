@@ -52,7 +52,6 @@
 		    color: #353535;
 		    border: 1px #d5d5d5 solid;
 		    -webkit-appearance: none;
-		    background: #fff url(/resources/img/arrow-down.jpg) 96% 47%/8px no-repeat;
 		}
 		[class^='btnNormal'] {
 		    display: inline-block;
@@ -72,7 +71,50 @@
 		    color: beige;
 		    background-color: gray;
 		}
-		
+		img[name="proudctImage"] {
+	      	width: 80px;
+	      	height: auto;
+	    }
+	    input[name="order"] {
+		    display: inline-block;
+		    box-sizing: border-box;
+		    padding: 12px 38px;
+		    border: 1px solid transparent;
+		    border-radius: 0;
+		    font-size: 12px;
+		    line-height: 18px;
+		    font-weight: normal;
+		    text-decoration: none;
+		    vertical-align: middle;
+		    word-spacing: -0.5px;
+		    letter-spacing: 0;
+		    text-align: center;
+		    white-space: nowrap;
+		    color: #fff;
+		    background-color: #222;
+	    }
+	    input[name="cancel"] {
+		    display: inline-block;
+		    box-sizing: border-box;
+		    padding: 12px 38px;
+		    border: 1px solid #d5d5d5;
+		    border-radius: 0;
+		    font-size: 12px;
+		    line-height: 18px;
+		    font-weight: normal;
+		    text-decoration: none;
+		    vertical-align: middle;
+		    word-spacing: -0.5px;
+		    letter-spacing: 0;
+		    text-align: center;
+		    white-space: nowrap;
+		    color: #353535;
+		    background-color: #eee;
+	    }
+	    .ec-base-button {
+		    padding: 10px 0;
+		    text-align: center;
+		}
 	</style>
    
 </head>
@@ -87,7 +129,7 @@
 				<h5 style="text-align: center;">ORDER FORM</h5>
 			</div>
 		</div>
-
+	<form action="/order/orderAction" method="post" id="orderForm">
 	<div class="row">
 	<div class="col-sm-12">
 		<table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
@@ -108,32 +150,33 @@
 						<td><input type="checkbox" class="check" value="<c:out value="${cartListVO.cart_code }" />"></td>
 						<td>
 							<a class="move" href="<c:out value="${orderInfoVO.pro_num }"></c:out>">
-								<img name="proudctImage" src="/order/displayFile?fileName=s_<c:out value="${orderInfoVO.pro_img }"></c:out>&uploadPath=<c:out value="${orderInfoVO.pro_uploadpath }"></c:out>">
-								<input type="text" value="<c:out value="${orderInfoVO.pro_img }"></c:out>" style="width:500px;"><br>
-								<input type="text" value="<c:out value="${orderInfoVO.pro_uploadpath }"></c:out>">
+								<img name="proudctImage" src="/order/displayFile?fileName=<c:out value="${orderInfoVO.pro_img }"></c:out>&uploadPath=<c:out value="${orderInfoVO.pro_uploadpath }"></c:out>">
 							</a>
 						</td>
 						<td>
-							<span class="pro_name"><c:out value="${orderInfoVO.pro_name }"></c:out></span>
-							<input type="hidden" name="orderDetailList[${status.index }].pro_num" value='<c:out value="${orderInfoVO.pro_name }"></c:out>'>
+							<span><c:out value="${orderInfoVO.pro_name }"></c:out></span>
+							<input type="hidden" name="orderDetailList[${status.index }].pro_num" value='<c:out value="${orderInfoVO.pro_num }"></c:out>'>
 						</td>
 						<td>
-							<span class="pro_price"><c:out value="${orderInfoVO.pro_price }"></c:out></span>
-							<input type="hidden" name="orderDetailList[${status.index }].pro_price" value='<c:out value="${orderInfoVO.pro_price }"></c:out>'>
+							<span><c:out value="${orderInfoVO.pro_price }"></c:out></span> 원
+							<input type="hidden" value='<c:out value="${orderInfoVO.pro_price }"></c:out>'>
 						</td>
 						<td>
-							<span class="dt_amount"><c:out value="${orderInfoVO.cart_amount }"></c:out></span>
+							<span><c:out value="${orderInfoVO.cart_amount }"></c:out></span>
+							<input type="hidden" name="orderDetailList[${status.index }].dt_amount" value='<c:out value="${orderInfoVO.cart_amount }"></c:out>'>
 						</td>
 						<td>
-							<span class="orderprice"><c:out value="${orderInfoVO.orderprice }"></c:out></span>
-							<input type="hidden" name="orderDetailList[${status.index }].dt_price" value='<c:out value="${orderInfoVO.orderprice }"></c:out>'>
+							<span><c:out value="${orderInfoVO.orderprice }"></c:out></span>
+							<input type="hidden" class="order_price" name="orderDetailList[${status.index }].dt_price" value='<c:out value="${orderInfoVO.orderprice }"></c:out>'>원
 						</td>
 					</tr>
 				</c:forEach>
 					<tr>
-						<td colspan="6">합계 : <span id="cart_total_price"> 원</span></td>
+						<td colspan="6">합계 : <span id="ord_price"></span> 원
+						<input type="hidden" name="ord_price"></td>
 					</tr>
 				</c:if>
+							 
 				
 			</tbody>
 		</table>
@@ -173,7 +216,6 @@
 	              <input type="text" id="mb_addr" name="mb_addr" value="${sessionScope.loginStatus.mb_addr}" style="margin-bottom:5px; width: 430px"> 기본주소
 	              <br>
 	              <input type="text" id="mb_addr_d" name="mb_addr_d" value="${sessionScope.loginStatus.mb_addr_d}" style="width: 430px"> 나머지주소
-	              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
 	            </td>
 	          </tr>
 	          <tr class="">
@@ -181,14 +223,7 @@
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
-	              <select id="mb_mobile1" name="mb_mobile1">
-	                <option value="010">010</option>
-	                <option value="011">011</option>
-	                <option value="016">016</option>
-	                <option value="017">017</option>
-	                <option value="018">018</option>
-	                <option value="019">019</option>
-	              </select>-
+	              <input type="text" id="mb_mobile1" name="mb_mobile1" value="${sessionScope.loginStatus.mb_mobile1}">-
 	              <input type="text" id="mb_mobile2" name="mb_mobile2" value="${sessionScope.loginStatus.mb_mobile2}">-
 	              <input type="text" id="mb_mobile3" name="mb_mobile3" value="${sessionScope.loginStatus.mb_mobile3}">
 	            </td>
@@ -206,6 +241,7 @@
 	        </tbody>
 	      </table>
 	    </div>
+	      <div style="font-size:11px; color:gray;">주문자정보 변경은 상단 MODIFY에서 가능합니다.</div>
 	  
 	  <br><br>
 	  <h6>배송 정보</h6>
@@ -213,7 +249,7 @@
 	  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
 	  </p>
 	  
-	  <form action="/member/join" method="post" id="joinForm">
+	  
 	  	<div>
 	  		<table class="table table-bordered">
 	        <colgroup>
@@ -222,11 +258,18 @@
 	        </colgroup>
 	        <tbody>
 	          <tr>
+	            <th scope="row">배송지선택 
+	            </th>
+	            <td>
+	              <input type="checkbox" id="orderInfoCopy"> 주문자 정보와 동일
+	            </td>
+	          </tr>
+	          <tr>
 	            <th scope="row">받으시는 분 
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
-	              <input type="text" name="mb_name" id="mb_name">
+	              <input type="text" name="ord_name" id="ord_name">
 	            </td>
 	          </tr>
 	          
@@ -235,12 +278,12 @@
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
-	              <input type="text" id="mb_zipcode" name="mb_zipcode" style="margin-bottom:5px">
+	              <input type="text" id="ord_zipcode" name="ord_zipcode" style="margin-bottom:5px">
 	              <input type="button" class="btnNormal" id="btnPostCode" name="btnPostCode" value="우편번호찾기" onclick="sample2_execDaumPostcode()">
 	              <br>
-	              <input type="text" id="mb_addr" name="mb_addr" style="margin-bottom:5px; width: 430px"> 기본주소
+	              <input type="text" id="ord_addr_basic" name="ord_addr_basic" style="margin-bottom:5px; width: 430px"> 기본주소
 	              <br>
-	              <input type="text" id="mb_addr_d" name="mb_addr_d" style="width: 430px"> 나머지주소
+	              <input type="text" id="ord_addr_detail" name="ord_addr_detail" style="width: 430px"> 나머지주소
 	              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
 	            </td>
 	          </tr>
@@ -249,16 +292,9 @@
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
-	              <select id="mb_mobile1" name="mb_mobile1">
-	                <option value="010">010</option>
-	                <option value="011">011</option>
-	                <option value="016">016</option>
-	                <option value="017">017</option>
-	                <option value="018">018</option>
-	                <option value="019">019</option>
-	              </select>-
-	              <input type="text" id="mb_mobile2" name="mb_mobile2">-
-	              <input type="text" id="mb_mobile3" name="mb_mobile3">
+	              <input type="text" id="ord_tel1" name="ord_tel1">-
+	              <input type="text" id="ord_tel2" name="ord_tel2">-
+	              <input type="text" id="ord_tel3" name="ord_tel3">
 	            </td>
 	          </tr>
 	          <tr>
@@ -269,11 +305,22 @@
 	              <textarea rows="3" name="ord_message" id="ord_message"></textarea>
 	            </td>
 	          </tr>
+	          <tr>
+	            <th scope="row">입금자명
+	            </th>
+	            <td>
+	              <input type="text" id="ord_depositor" name="ord_depositor"> (주문자와 같을경우 생략가능)
+	            </td>
+	          </tr>
 	        </tbody>
 	      </table>
+	      <div class="ec-base-button">
+	      	  <!-- <input type="hidden" name="type" value="cart_order"> -->
+			  <input type="submit" value="주문하기" name="order">
+			  <input type="button" value="주문취소" name="cancel">
+		  </div>
 	    </div>
 	  </form>
-	  
 	  
 	
 	  <%@include file="/WEB-INF/views/include/footer.jsp" %>
@@ -281,7 +328,34 @@
 
 <script>
 
+	$(document).ready(function(){
 
+      // 주문 전체금액
+	  let orderTotalPrice = function() {
+
+	      let totalPrice = 0;
+	      $(".order_price").each(function(){
+	        totalPrice += parseInt($(this).val());
+	      });
+	
+	      $("#ord_price").text(totalPrice);
+	      $("input[name=ord_price]").val(totalPrice);
+      }
+
+      orderTotalPrice();
+
+      // 주문자정보 복사
+      $("#orderInfoCopy").on("click", function(){
+          $("#ord_name").val($("#mb_name").val());
+          $("#ord_zipcode").val($("#mb_zipcode").val());
+          $("#ord_addr_basic").val($("#mb_addr").val());
+          $("#ord_addr_detail").val($("#mb_addr_d").val());
+          $("#ord_tel1").val($("#mb_mobile1").val());
+          $("#ord_tel2").val($("#mb_mobile2").val());
+          $("#ord_tel3").val($("#mb_mobile3").val());
+     });
+    
+    });
 
 </script>
 
@@ -341,10 +415,10 @@
                   }
   
                   // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                  document.getElementById('mb_zipcode').value = data.zonecode;
-                  document.getElementById("mb_addr").value = addr;
+                  document.getElementById('ord_zipcode').value = data.zonecode;
+                  document.getElementById("ord_addr_basic").value = addr;
                   // 커서를 상세주소 필드로 이동한다.
-                  document.getElementById("mb_addr_d").focus();
+                  document.getElementById("ord_addr_detail").focus();
   
                   // iframe을 넣은 element를 안보이게 한다.
                   // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
