@@ -134,7 +134,7 @@ public class AdProductController {
 	@GetMapping("/productList")
 	public void product_list(Criteria cri, Model model) {
 		
-		cri.setAmount(5);
+		cri.setAmount(4);
 		List<ProductVO> list = service.getListWithPaging(cri);
 		
 		for(int i=0; i<list.size(); i++) {

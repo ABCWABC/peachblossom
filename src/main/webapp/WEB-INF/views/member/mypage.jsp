@@ -13,81 +13,7 @@
    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/pricing/">
 
    <%@include file="/WEB-INF/views/include/plugin_js.jsp" %>
-   
-   <style>
-   	.titleArea {
-	    margin: 5% 0 30px;
-	    text-align: center;
-	}
-	.titleArea h2 {
-	    position: relative;
-	    font-size: 20px;
-	    color: #111;
-	    text-transform: uppercase;
-	}
-	h3 {
-	    display: block;
-	    font-size: 1.17em;
-	    margin-block-start: 0px;
-	    margin-block-end: 0.5em;
-	    margin-inline-start: 0px;
-	    margin-inline-end: 0px;
-	    font-weight: bold;
-	}
-	tr, th {
-		font-size: 13px;
-		color: #353535;
-	}
-	.required {
-	    margin: -30px 0 20px;
-	    color: #353535;
-	    text-align: right;
-	    font-size: 13px;
-	}
-	input[type=text], input[type=password] {
-	    height: 25px;
-	    line-height: 25px;
-	    padding: 2px 4px;
-	    border: 1px solid #d5d5d5;
-	    color: #353535;
-	    font-size: 13px;
-	}
-	#checkbox{
-			text-align: center;
-		}
-	select {
-	    display: inline-block;
-	    min-width: 100px;
-	    height: 25px;
-	    line-height: 25px;
-	    padding: 0 0 0 5px;
-	    color: #353535;
-	    border: 1px #d5d5d5 solid;
-	    -webkit-appearance: none;
-	    background: #fff url(/resources/img/arrow-down.jpg) 96% 47%/8px no-repeat;
-	}
-	[class^='btnNormal'] {
-	    display: inline-block;
-	    box-sizing: border-box;
-	    padding: 2px 8px;
-	    border: 1px solid #d5d5d5;
-	    border-radius: 0;
-	    font-size: 12px;
-	    line-height: 20px;
-	    font-weight: normal;
-	    text-decoration: none;
-	    vertical-align: middle;
-	    word-spacing: -0.5px;
-	    letter-spacing: 0;
-	    text-align: center;
-	    white-space: nowrap;
-	    color: beige;
-	    background-color: gray;
-	}
-	.joinButton {
-		text-align: center;
-	}
-   </style>
+   <%@include file="/WEB-INF/views/include/mypage_css.jsp" %>
    
  </head>
  <body>
@@ -101,7 +27,7 @@
   </div>
   
   <!-- 회원가입 폼 작업 -->
-  <h3>기본정보</h3>
+  <h6>기본정보</h6>
   <p class="required">
   	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
   </p>
@@ -145,9 +71,9 @@
 						<input type="text" id="mb_zipcode" name="mb_zipcode" style="margin-bottom:5px" value='<c:out value="${memberVO.mb_zipcode }" />'>
 						<input type="button" class="btnNormal" id="btnPostCode" name="btnPostCode" value="우편번호찾기" onclick="sample2_execDaumPostcode()">
 						<br>
-						<input type="text" id="mb_addr" name="mb_addr" value='<c:out value="${memberVO.mb_addr }" />' style="margin-bottom:5px"> 기본주소
+						<input type="text" id="mb_addr" name="mb_addr" value='<c:out value="${memberVO.mb_addr }" />' style="margin-bottom:5px; width: 430px"> 기본주소
 						<br>
-						<input type="text" id="mb_addr_d" name="mb_addr_d" value='<c:out value="${memberVO.mb_addr_d }" />'> 나머지주소
+						<input type="text" id="mb_addr_d" name="mb_addr_d" value='<c:out value="${memberVO.mb_addr_d }" />' style="margin-bottom:5px; width: 430px"> 나머지주소
 						<input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
 					</td>
 				</tr>
@@ -170,15 +96,15 @@
 				<tr class="displaynone">
 					<th scope="row">메일수신여부</th>
 					<td>
-					<!-- 
-						<input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y">
+						<input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y" <c:out value="${memberVO.mb_accept_e == 'Y' ? 'checked=\"checked\"': '' }" />>
 						<label for="mb_accept_e_Y">동의함</label>
-						<input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N" checked="checked">
+						<input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N" <c:out value="${memberVO.mb_accept_e == 'Y' ? '': 'checked=\"checked\"' }" />>
 						<label for="mb_accept_e_N">동의안함</label>
-					 -->
+						<!-- 
 					 	<div id="checkbox">
 					 		<input type="checkbox" class="form-check-input" id="mb_accept_e" name="mb_accept_e" value="Y">
 					 	</div>
+					 	 -->
 					</td>
 				</tr>
 				<tr>
@@ -274,6 +200,7 @@
 	          }
 	        } 
 	      });
+	      
 	    });
 	    
 	 });

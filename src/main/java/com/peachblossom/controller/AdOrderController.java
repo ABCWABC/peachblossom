@@ -18,9 +18,7 @@ import com.peachblossom.domain.PageDTO;
 import com.peachblossom.sevice.AdminOrderService;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
 
-@Log4j
 @AllArgsConstructor
 @RequestMapping("/admin/order/*")
 @Controller
@@ -51,18 +49,39 @@ public class AdOrderController {
 		ResponseEntity<String> entity = null;
 		
 		try {
-			
 			for(int i=0; i < ord_codeArr.size(); i++) {
 				oService.orderStateChange(ord_codeArr.get(i), ord_StateArr.get(i));
 			}
-
 			entity = new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
-
 		return entity;
+	}
+	
+	//주문삭제(주문테이블, 주문상세테이블)
+	@ResponseBody
+	@PostMapping("/checkDelete")
+	public ResponseEntity<String> checkDelete(@RequestParam("ord_codeArr[]") List<Integer> ord_codeArr){
+		
+		ResponseEntity<String> entity = null;
+		
+		try {
+			for(int i=0; i<ord_codeArr.size(); i++) {
+				oService.ordDelete(ord_codeArr.get(i));
+			}
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	//주문상세 폼
+	@GetMapping("/detailInfo")
+	public void detailInfo(Integer ord_code, Model model) {
+		model.addAttribute("oDetailList", oService.ordDetailInfo(ord_code));
 	}
 }

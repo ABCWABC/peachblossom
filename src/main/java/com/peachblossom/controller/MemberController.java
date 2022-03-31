@@ -1,6 +1,5 @@
 package com.peachblossom.controller;
 
-import javax.inject.Inject;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
@@ -39,8 +38,6 @@ public class MemberController {
 	
 	private JavaMailSender mailSender;
 	
-	// 주요기능 : 회원기능
-	
 	//회원가입 폼
 	@GetMapping("/join")
 	public void join() {
@@ -50,7 +47,7 @@ public class MemberController {
 	@PostMapping("/join")
 	public String joinOk(MemberVO vo, RedirectAttributes rttr) throws Exception{
 		
-		vo.setMb_password(cryptPassEnc.encode(vo.getMb_password())); //비밀번호 암호화
+		vo.setMb_password(cryptPassEnc.encode(vo.getMb_password()));
 		
 		log.info("회원정보출력" + vo);
 		
@@ -154,7 +151,8 @@ public class MemberController {
 		
 		String redirectURL = "";
 		
-		vo.setMb_accept_e(!StringUtils.isEmpty(vo.getMb_accept_e()) ? "Y" : "N");
+		vo.setMb_accept_e(vo.getMb_accept_e());
+		//vo.setMb_accept_e(!StringUtils.isEmpty(vo.getMb_accept_e()) ? "Y" : "N");     //checkbox 타입일때 사용
 		
 		log.info("회원의 수정한 정보:" + vo);
 				
@@ -274,6 +272,46 @@ public class MemberController {
 		return entity;
 	}
 	
+	//아이디찾기 폼
+	@GetMapping("/searchId")
+	public void IdReq() {
+	}
+	
+	//아이디찾기 처리
+	@ResponseBody
+	@PostMapping("/searchId")
+	public ResponseEntity<String> searchIdAction(@RequestParam("mb_email") String mb_email) {
+	
+		ResponseEntity<String> entity = null;
+		
+		String mb_id = service.searchIdByEmail(mb_email);
+		
+		if(!StringUtils.isEmpty(mb_id)) {
+			
+			EmailDTO dto = new EmailDTO("Peach Blossom", "leeyumi0713@gmail.com", mb_email, "아이디찾기 답변 메일", mb_id);
+			
+			MimeMessage message = mailSender.createMimeMessage();
+			
+			try {
+				message.addRecipient(RecipientType.TO, new InternetAddress(mb_email));
+				message.addFrom(new InternetAddress[] {new InternetAddress(dto.getSenderMail(), dto.getSenderName())});
+				message.setSubject(dto.getSubject(), "utf-8");
+				message.setText(dto.getMessage(), "utf-8");
+				
+				mailSender.send(message);
+				
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			}
+		}else {
+			entity = new ResponseEntity<String>("noMail", HttpStatus.OK);
+		}
+		return entity;
+	}
+	
 	//비밀번호 변경하기
 	@ResponseBody
 	@PostMapping("/changePw")
@@ -295,13 +333,4 @@ public class MemberController {
 		return entity;
 	}
 	
-	//아이디및비밀번호 찾기
-	@GetMapping("/searchIDPW")
-	public void searchIDPW() {
-		
-	}
-	
-	
-	
-
 }

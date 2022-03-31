@@ -157,7 +157,7 @@ input[type=text], input[type=password] {
 
 			<div class="searchPwTitleArea">
 				<h2>find password</h2>
-				<p>이메일로 비밀번호 찾기</p>
+				<p>이메일로 아이디 찾기</p>
 			</div>
 
 			<form class="searchPwForm" id="findPasswdForm" name="findPasswdForm" action="/exec/front/Member/FindPasswd/" method="post" target="_self" enctype="multipart/form-data">
@@ -165,14 +165,6 @@ input[type=text], input[type=password] {
 					<div class="findPw">
 						<fieldset>
 							<ul class="searchPwUl ec-base-desc">
-								<li>
-									<label for="mb_id" style="margin-right:35px">아이디</label>
-									<input type="text" id="mb_id" name="mb_id">
-								</li>
-								<li>
-									<label for="mb_name" style="margin-right:47px">이름</label>
-									<input type="text" id="mb_name" name="mb_name">
-								</li>
 								<li>
 									<label for="mb_email" style="margin-right:7px">가입 이메일</label>
 									<input type="text" id="mb_email" name="mb_email">
@@ -199,20 +191,8 @@ input[type=text], input[type=password] {
       //비밀번호 찾기 메일발송
       $("#btnMailSend").on("click", function(){
 
-    	let mb_id = $("#mb_id");
-    	let mb_name = $("#mb_name");
         let mb_email = $("#mb_email");
         
-        if(mb_id.val() == "" || mb_id.val() == null){
-          alert("아이디를 입력하세요.");
-          mb_id.focus();
-          return;
-        }
-        if(mb_name.val() == "" || mb_name.val() == null){
-          alert("이름을 입력하세요.");
-          mb_name.focus();
-          return;
-        }
         if(mb_email.val() == "" || mb_email.val() == null){
           alert("가입하신 메일주소를 입력하세요.");
           mb_email.focus();
@@ -220,13 +200,13 @@ input[type=text], input[type=password] {
         }
 
         $.ajax({
-          url: '/member/searchPw',
+          url: '/member/searchId',
           type: 'post',
           dataType: 'text',
-          data: { mb_id : mb_id.val(), mb_name : mb_name.val(), mb_email : mb_email.val() },
+          data: { mb_email : mb_email.val() },
           success: function(data){
             if(data == "success"){
-              alert("임시비밀번호가 메일발송되었습니다.\n변경바랍니다.");
+              alert("아이디가 메일발송되었습니다.\n확인바랍니다.");
             }else if(data == "fail"){
               alert("메일발송시 문제가 발생했습니다. 다시 진행해주세요.\n 문제가 발생시 관리자에게 연락주세요.");
             }else if(data == "noMail"){

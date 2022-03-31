@@ -2,10 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html>
 <head>
 	<!-- css, js 파일포함 -->
@@ -46,14 +42,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="box">
-					<div class="box-header">
-						<h3 class="box-title">주문리스트</h3>
-						<input type="button" id="btnCheckDelete" value="선택삭제">
-					</div>
-					<!-- /.box-header -->
 					<div class="box-body">
-						<div id="example2_wrapper"
-							class="dataTables_wrapper form-inline dt-bootstrap">
+						<div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
 							<div class="row">
 								<div class="col-sm-6"></div>
 								<div class="col-sm-6"></div>
@@ -79,9 +69,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 													<td><input type="checkbox" class="check" value='<c:out value="${orderVO.ord_code }"></c:out>'></td>
 													<td class="sorting_1"><fmt:formatDate value="${orderVO.ord_regdate }" pattern="yyyy-MM-dd mm:hh" /></td>
 													<td><a class="move" href="<c:out value="${orderVO.ord_code }"></c:out>">${orderVO.ord_code } </a></td>
-													<td><input type="text" value='<c:out value="${orderVO.ord_name }" />'></td>
+													<td><span><c:out value="${orderVO.ord_name }" /></span></td>
 													<td>주문방법</td>
-													<td><input type="text" value='<c:out value="${orderVO.ord_price }"></c:out>'></td>
+													<td><span><c:out value="${orderVO.ord_price }"></c:out></span></td>
 													<td>
 														<select name="ord_state">
 															<option value=""          <c:out value="${orderVO.ord_state == null?         'selected':'' }" />>주문상태 선택</option>
@@ -109,7 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-sm-5 dataTables_info">
+								<div class="col-sm-4 dataTables_info">
 									<form id="searchForm" action="/admin/product/productList" method="get">
 										<select name="type">
 											<option value=""   <c:out value="${pageMaker.cri.type == null? 'selected':'' }" />>--</option>
@@ -123,7 +113,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									</form>
 								</div>
 								
-								<div class="col-sm-7">
+								<div class="col-sm-4">
 									<div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
 										<ul class="pagination">
 											<c:if test="${pageMaker.prev }">
@@ -145,17 +135,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									</div>
 								</div>
 								
+								<div class="col-sm-4">
+									<div>
+										<input type="button" id="btnCheckDelete" value="선택삭제">
+										<input type="button" name="btnOrderStateAll" id="btnOrderStateAll" value="상태일괄변경">
+									</div>
+								</div>
+								
 								<form id="actionForm" action="/admin/order/orderList" method="get">
 									<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 									<input type="hidden" name="amount"  value="${pageMaker.cri.amount}">
 									<input type="hidden" name="type"    value="${pageMaker.cri.type}">
 									<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
 								</form>
-							</div>
-							<div class="row">
-								<div class="col-sm-12">
-									<input type="button" name="btnOrderStateAll" id="btnOrderStateAll" value="상태일괄변경">
-								</div>
 							</div>
 						</div>
 					</div>

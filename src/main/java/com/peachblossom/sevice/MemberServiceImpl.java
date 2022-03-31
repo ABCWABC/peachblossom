@@ -41,6 +41,11 @@ public class MemberServiceImpl implements MemberService {
 	public String searchPwByEmail(String mb_id, String mb_name, String mb_email) {
 		return mapper.searchPwByEmail(mb_id, mb_name, mb_email);
 	}
+	
+	@Override
+	public String searchIdByEmail(String mb_email) {
+		return mapper.searchIdByEmail(mb_email);
+	}
 
 	@Override
 	public int changePw(String mb_email, String mb_password) {

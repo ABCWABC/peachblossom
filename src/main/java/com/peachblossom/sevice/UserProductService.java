@@ -20,4 +20,5 @@ public interface UserProductService {
 	
 	public List<ProductVO> productListByCategory(Integer cate_code);
 	
+	public List<ProductVO> productNewList();
 }

@@ -47,4 +47,9 @@ public class UserProductServiceImpl implements UserProductService {
 		return mapper.productListByCategory(cate_code);
 	}
 
+	@Override
+	public List<ProductVO> productNewList() {
+		return mapper.productNewList();
+	}
+
 }

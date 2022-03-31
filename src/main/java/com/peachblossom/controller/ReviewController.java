@@ -2,7 +2,6 @@ package com.peachblossom.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,23 +19,21 @@ import com.peachblossom.domain.PageDTO;
 import com.peachblossom.domain.ReviewVO;
 import com.peachblossom.sevice.ReviewService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-//@AllArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/review/*")
 @Controller
 public class ReviewController {
 	
-	@Autowired
 	private ReviewService service;
 	
 	//리뷰리스트 출력
 	@GetMapping("/productReview")
 	public void product_review(@ModelAttribute("cri") Criteria cri,
 								@RequestParam("pro_num") Integer pro_num, Model model) {
-		
-		log.info("productReview");
 		
 		cri.setAmount(2);
 		
@@ -49,9 +46,7 @@ public class ReviewController {
 	//상품후기등록
 	@ResponseBody
 	@PostMapping("/productReviewWrite")
-	public ResponseEntity<String> productReviewWrite(ReviewVO vo, HttpSession session){
-		
-		log.info("상품후기: " + vo);
+	public ResponseEntity<String> productReviewWrite(ReviewVO vo, HttpSession session) {
 		
 		vo.setMb_id(((MemberVO) session.getAttribute("loginStatus")).getMb_id());
 		
@@ -64,14 +59,13 @@ public class ReviewController {
 			ex.printStackTrace();
 			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
-		
 		return entity;
 	}
 	
 	//상품후기수정
 	@ResponseBody
 	@PostMapping("/productReviewEdit")
-	public ResponseEntity<String> productReviewEdit(ReviewVO vo, HttpSession session){
+	public ResponseEntity<String> productReviewEdit(ReviewVO vo, HttpSession session) {
 		
 		log.info("상품후기: " + vo);
 		
@@ -92,7 +86,7 @@ public class ReviewController {
 	//상품후기삭제
 	@ResponseBody
 	@PostMapping("/productReviewDel")
-	public ResponseEntity<String> productReviewDel(Integer rew_num){
+	public ResponseEntity<String> productReviewDel(Integer rew_num) {
 		
 		ResponseEntity<String> entity = null;
 		

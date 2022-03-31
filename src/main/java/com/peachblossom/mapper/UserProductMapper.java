@@ -21,4 +21,6 @@ public interface UserProductMapper {
 	public ProductVO productDetail(Integer pro_num);
 	
 	public List<ProductVO> productListByCategory(Integer cate_code);
+	
+	public List<ProductVO> productNewList();
 }

@@ -1,12 +1,29 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
+<head>
+
 <!-- css, js 파일포함 -->
 <%@include file="/WEB-INF/views/admin/include/header_info.jsp" %>
-<script src="/bower_components/ckeditor/ckeditor.js"></script>
+<script src="/resources/bower_components/ckeditor/ckeditor.js"></script>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<style>
+
+	.productModifyBody {
+		font-size: 13px;
+		color: black;
+	}
+	
+	label {
+		margin-top: 10px;
+	}
+
+</style>
+
+</head>
+
+<body class="productModifyBody hold-transition skin-blue sidebar-mini">
 
 <div class="wrapper">
 
@@ -19,17 +36,16 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Page Header<small>Optional description</small></h1>
+      <h5 style="font-weight:bold;">상품등록 관리<small style="margin-left:10px;">상품수정</small></h5>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
+        <li><a href="/admin/product/productList"><i class="fa fa-dashboard"></i>상품리스트</a></li>
+	        <li class="active">상품수정</li>
       </ol>
     </section>
 
     <!-- Main content -->
-    <section class="content container-fluid">
+    <section class="content container-fluid" style="margin-top: -38px;">
         
-	<h3>상품수정</h3>
 	<form action="productModify" method="post" id="joinForm" enctype="multipart/form-data">
 	<div class="form-row">
 	  <div class="col-md-6">
@@ -80,6 +96,22 @@
 	    <input type="text" class="form-control" id="pro_publisher" name="pro_publisher" value='<c:out value="${productVO.pro_publisher}" />'>
 	  </div>
 	</div>
+	  
+   <div class="form-row">
+    <div class="col-md-6">
+      <label for="pro_amount">재고수량</label>
+      <input type="text" class="form-control" id="pro_amount" name="pro_amount" value='<c:out value="${productVO.pro_amount}" />'>
+    </div>
+    <div class="col-md-6">
+      <label for="pro_buy">판매여부</label>
+      <select class="form-control" id="pro_buy" name="pro_buy">
+	      <option>판매여부를 선택하세요</option>
+	      <option value="Y" <c:out value="${productVO.pro_buy == 'Y' ? 'selected' : ''}" />>판매함</option>
+	      <option value="N" <c:out value="${productVO.pro_buy == 'N' ? 'selected' : ''}" />>판매하지 않음</option>
+	  </select>
+    </div>
+   </div>
+   
 	<!-- 상품설명 : CKeditor -->
 	<div class="form-row">
 		<div class="col-md-12">
@@ -100,45 +132,10 @@
 	    <img name="proudctImage" id="previewImage" src="/admin/product/displayFile?fileName=<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 	  </div>
 	  <div class="col-md-4">
-	    <label for="upload"></label>
-	    
+	    <button type="submit" id="btnProductInsert" class="form-control" style="width: 130px; margin-left: 30px;">상품수정</button>
 	  </div>
 	</div>
-  
-   <div class="form-row">
-    <div class="col-md-4">
-      <label for="pro_amount">재고수량</label>
-      <input type="text" class="form-control" id="pro_amount" name="pro_amount" value='<c:out value="${productVO.pro_amount}" />'>
-    </div>
-    <div class="col-md-4">
-      <label for="pro_buy">판매여부</label>
-      <select class="form-control" id="pro_buy" name="pro_buy">
-	      <option>판매여부를 선택하세요</option>
-	      <option value="Y" <c:out value="${productVO.pro_buy == 'Y' ? 'selected' : ''}" />>판매함</option>
-	      <option value="N" <c:out value="${productVO.pro_buy == 'N' ? 'selected' : ''}" />>판매하지 않음</option>
-	  </select>
-      
-    </div>
-    <div class="col-md-4">
-      <label for=""></label>
-      <input type="hidden" class="form-control" id="" name="">
-    </div>
-    
-   </div>
-	<div class="form-row">
-	<div class="col-md-5">
-      <label for=""></label>
-      <input type="hidden" class="form-control" id="" name="">
-    </div>
-    <div class="col-md-2">
-      <button type="submit" id="btnProductInsert" class="form-control">상품수정</button>
-    </div>
-    <div class="col-md-5">
-      <label for=""></label>
-      <input type="hidden" class="form-control" id="" name="">
-    </div>
-   </div>
-  
+
 </form>
     </section>
     <!-- /.content -->

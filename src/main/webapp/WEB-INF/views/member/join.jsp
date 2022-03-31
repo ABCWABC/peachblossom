@@ -26,7 +26,7 @@
 	  </div>
 	  
 	  <!-- 회원가입 폼 작업 -->
-	  <h3>기본정보</h3>
+	  <h6>기본정보</h6>
 	  <p class="required">
 	  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
 	  </p>
@@ -53,7 +53,7 @@
 	            </th>
 	            <td>
 	              <div class="">
-	                <input type="password" id="mb_password" name="mb_password">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)
+	                <input type="password" id="mb_password" name="mb_password"> (영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)
 	                <div class="">
 	                  <div class="">
 	                    <!-- 클릭시 나타나게 표시
@@ -133,15 +133,16 @@
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
-				<!-- 
+				
 	              <input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y">
 	              <label for="mb_accept_e_Y">동의함</label>
 	              <input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N" checked="checked">
 	              <label for="mb_accept_e_N">동의안함</label>
-	            -->
+	            <!-- 
 	            	<div id="checkbox">
 	            		<input type="checkbox" class="form-check-input" id="mb_accept_e" name="mb_accept_e" value="Y">
-	            	</div>
+	            		<label class="form-check-label" for="mb_accept_e"></label>
+	            	</div>-->
 	            </td>
 	          </tr>
 	        </tbody>
@@ -152,8 +153,6 @@
 	    </div>
 	  </form>
 	  
-	  
-	
 	  <%@include file="/WEB-INF/views/include/footer.jsp" %>
 	</div>
 
@@ -161,11 +160,11 @@
 
   $(document).ready(function(){
 
-    let isCheckID = false;                   //아이디중복체크 
+    let isCheckID = false;                            // 아이디중복체크 
 
-    let isMailAuthConfirm = false;           //메일인증확인체크
+    let isMailAuthConfirm = false;                    // 메일인증확인체크
     
-    //폼에서 전송버튼<input type="submit">을 클릭하면 호출되는 이벤트설정
+    //회원가입 처리
     $("#joinForm").on("submit", function(){
       
       console.log("아이디중복체크? " + isCheckID)
@@ -204,7 +203,7 @@
         success: function(data){
           
           if(data == "Y"){
-            isCheckID = true;
+        	isCheckID = true;
         	alert("아이디 사용가능");
           }else if(data == "N"){
             mb_id.val("");
@@ -234,7 +233,6 @@
         success: function(data){
           
           if(data == "success"){
-            isMailAuthConfirm = true;
             alert("인증요청 메일발송됨.");
           }else if(data == "fail"){
         	  alert("인증요청 메일발송 에러.");
@@ -262,6 +260,7 @@
         success: function(data){
           
           if(data == "success"){
+        	isMailAuthConfirm = true;
             alert("인증요청 성공.");
           }else if(data == "fail"){
             alert("인증요청 실패\n 인증코드를 다시 입력하세요. 또는 인증요청을 다시 하기바랍니다.");
@@ -276,7 +275,7 @@
 
 </script>
 
-<!--우연번호 DAUM API-->
+<!--우편번호 DAUM API-->
 <!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
   <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">

@@ -52,8 +52,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <section class="content-header">
       <h5 style="font-weight:bold;">상품등록 관리<small style="margin-left:10px;">상품리스트</small></h5>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
+        <li><a href="/admin/main"><i class="fa fa-dashboard"></i>관리자 메인페이지</a></li>
+        <li class="active">상품리스트</li>
       </ol>
     </section>
 
@@ -102,7 +102,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 														 -->
 														<img name="proudctImage" src="/admin/product/displayFile?fileName=<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 													</a>
-														<input type="text" value='<c:out value="${productVO.pro_name }"></c:out>' readonly>
+														<input type="text" style="width:200px;" value='<c:out value="${productVO.pro_name }"></c:out>' readonly>
 													</td>
 													
 													<td><fmt:formatDate value="${productVO.pro_date }" pattern="yyyy-MM-dd" /><br><fmt:formatDate value="${productVO.pro_date }" pattern="hh:mm:ss" /></td>

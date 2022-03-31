@@ -3,7 +3,6 @@ package com.peachblossom.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -22,6 +21,9 @@ import com.peachblossom.domain.MemberVO;
 import com.peachblossom.sevice.CartService;
 import com.peachblossom.util.UploadFileUtils;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @RequestMapping("/cart/*")
 @Controller
 public class CartController {
@@ -29,13 +31,12 @@ public class CartController {
 	@Resource(name = "uploadFolder")
 	String uploadFolder;
 
-	@Inject
 	private CartService service;
 	
 	//장바구니 추가 (로그인 인증된 경우만)
 	@ResponseBody
 	@PostMapping("/cartAdd")
-	public ResponseEntity<String> cart_add(Integer pro_num, int cart_amount, HttpSession session) { // 키로 넘어오는것은 Integer , 아닌것은 int
+	public ResponseEntity<String> cart_add(Integer pro_num, int cart_amount, HttpSession session) {
 		
 		ResponseEntity<String> entity = null;
 		
@@ -71,7 +72,7 @@ public class CartController {
 	//장바구니 리스트의 썸네일 이미지 출력
 	@ResponseBody
 	@GetMapping("/displayFile")
-	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName){
+	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) {
 		
 		ResponseEntity<byte[]> entity = null;
 		entity = UploadFileUtils.getFileByte(uploadFolder, uploadPath, fileName);
@@ -81,7 +82,7 @@ public class CartController {
 	//장바구니 선택 삭제
 	@ResponseBody  
 	@PostMapping("/checkDelete")
-	public ResponseEntity<String> checkDelete(@RequestParam("cart_codeArr[]") List<Integer> cart_codeArr){
+	public ResponseEntity<String> checkDelete(@RequestParam("cart_codeArr[]") List<Integer> cart_codeArr) {
 		
 		ResponseEntity<String> entity = null;
 		

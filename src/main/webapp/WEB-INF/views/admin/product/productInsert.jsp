@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-
 <html>
-
 <head>
 
 <!-- css, js 파일포함 -->
@@ -40,8 +38,8 @@
 	    <section class="productInsertTitle content-header">
 	      <h5 style="font-weight:bold;">상품등록 관리<small style="margin-left:10px;">상품등록</small></h5>
 	      <ol class="breadcrumb">
-	        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-	        <li class="active">Here</li>
+	        <li><a href="/admin/product/productList"><i class="fa fa-dashboard"></i>상품리스트</a></li>
+	        <li class="active">상품등록</li>
 	      </ol>
 	    </section>
 	
@@ -91,6 +89,20 @@
 					<label id="pro_publisher">제조사</label>
 				    <input type="text" class="form-control" id="pro_publisher" name="pro_publisher">
 			    </div>
+			    <div class="form-row">
+			      <div class="col-md-6">
+				      <label for="pro_amount">재고수량</label>
+				      <input type="text" class="form-control" id="pro_amount" name="pro_amount">
+			      </div>
+			      <div class="col-md-6">
+				      <label for="pro_buy">판매여부</label>
+				      <select class="form-control" id="pro_buy" name="pro_buy">
+					      <option>판매여부를 선택하세요</option>
+					      <option value="Y">판매함</option>
+					      <option value="N">판매하지 않음</option>
+					  </select>
+			      </div>
+			   </div>
 			  </div>
 			  <!-- 상품설명 : CKeditor -->
 			  <div class="form-row">
@@ -110,42 +122,11 @@
 			      <!--<div id="preview_image"></div>-->
 			  </div>
 			  <div class="col-md-4">
-			      <label for="upload"></label>
+			      <button type="submit" id="btnProductInsert" class="form-control" style="width: 130px; margin-left: 30px;">상품등록</button>
 			      
 			  </div>
 			  </div>
 			  
-			  <div class="form-row">
-			      <div class="col-md-4">
-				      <label for="pro_amount">재고수량</label>
-				      <input type="text" class="form-control" id="pro_amount" name="pro_amount">
-			      </div>
-			      <div class="col-md-4">
-				      <label for="pro_buy">판매여부</label>
-				      <select class="form-control" id="pro_buy" name="pro_buy">
-					      <option>판매여부를 선택하세요</option>
-					      <option value="Y">판매함</option>
-					      <option value="N">판매하지 않음</option>
-					  </select>
-			      </div>
-			      <div class="col-md-4">
-				      <label for=""></label>
-				      <input type="hidden" class="form-control" id="" name="">
-			      </div>
-			   </div>
-			   <div class="form-row">
-				  <div class="col-md-5">
-				      <label for=""></label>
-				      <input type="hidden" class="form-control" id="" name="">
-			      </div>
-			   <div class="col-md-2">
-			      <button type="submit" id="btnProductInsert" class="form-control">상품등록</button>
-			   </div>
-			   <div class="col-md-5">
-			      <label for=""></label>
-			      <input type="hidden" class="form-control" id="" name="">
-			   </div>
-			 </div>
 		  </form>
 	    </section>
 	    <!-- /.content -->

@@ -95,6 +95,17 @@
 	
 	</select>
 	
+	<select id="searchIdByEmail" resultType="string">
+	
+		SELECT 
+			mb_id 
+		FROM 
+			mb_tbl
+		WHERE 
+			mb_email = #{mb_email}
+	
+	</select>
+	
 	<update id="changeNewPw">
 	
 		UPDATE
