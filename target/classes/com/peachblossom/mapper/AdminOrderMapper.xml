@@ -2,38 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.peachblossom.mapper.AdminOrderMapper">
 
-	
-	<sql id="criteria">
-		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
-			<foreach item="type" collection="typeArr">
-				<trim prefix="OR">
-					<choose>
-						<when test="type == 'N'.toString()">
-							ord_name like '%' || #{keyword} || '%'
-						</when>
-						<when test="type == 'C'.toString()">
-							ord_code like '%' || #{keyword} || '%'
-						</when>
-					</choose>
-				</trim>
-			</foreach>
-		</trim> 
-	</sql>
-	
-
+	<!-- 일반주문목록 -->
 	<select id="getListWithPaging" resultType="com.peachblossom.domain.OrderVO">
 	
 		<![CDATA[ 
 		SELECT 
 			ord_code, 
-        	mb_id, 
+        	mbsp_id, 
         	ord_name, 
         	ord_zipcode, 
         	ord_addr_basic, 
         	ord_addr_detail, 
-        	ord_tel1, 
-        	ord_tel2, 
-        	ord_tel3, 
+        	ord_tel, 
         	ord_price, 
         	ord_regdate, 
         	ord_message, 
@@ -45,14 +25,12 @@
 		        	/*+ index_desc(order_tbl pk_order_tbl) */ 
 		        	rownum rn,
 		        	ord_code, 
-		        	mb_id, 
+		        	mbsp_id, 
 		        	ord_name, 
 		        	ord_zipcode, 
 		        	ord_addr_basic, 
 		        	ord_addr_detail, 
-		        	ord_tel1, 
-		        	ord_tel2, 
-		        	ord_tel3, 
+		        	ord_tel, 
 		        	ord_price, 
 		        	ord_regdate, 
 		        	ord_message, 
@@ -62,19 +40,22 @@
 					order_tbl
 				WHERE 
 		]]>     
-		    
+		
+		<!-- 날짜검색 -->
+		<include refid="period"></include>
+		<!-- 조건검색 -->
 		<include refid="criteria"></include>
 		
 		<![CDATA[     
-				    rownum <= (#{pageNum} * #{amount}) 
+				    rownum <= (#{cri.pageNum} * #{cri.amount}) 
 				)
 		
 		WHERE 
-			rn > ((#{pageNum} - 1) * #{amount} )
+			rn > ((#{cri.pageNum} - 1) * #{cri.amount} )
 		]]>
 	
 	</select>
-
+	
 	<select id="getTotalCount" resultType="int">
 		SELECT 
 			count(*) 
@@ -82,11 +63,131 @@
 			order_tbl 
 		WHERE
 		
+		<!-- 날짜검색 -->
+		<include refid="period"></include>
+		<!-- 조건검색 -->
 		<include refid="criteria"></include> 
 		
 		ord_code > 0
 		
 	</select>
+	
+	<sql id="period">
+		
+		<if test="startDate != null and !startDate.equals('')">
+			<![CDATA[
+		
+				ord_regdate >= to_date(#{startDate}, 'YYYY-MM-DD')
+			AND
+				ord_regdate < to_date(#{endDate}, 'YYYY-MM-DD')
+			AND
+				
+			]]>
+		</if>
+	</sql>
+	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item="type" collection="cri.typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'N'.toString()">
+							ord_name like '%' || #{cri.keyword} || '%'
+						</when>
+						<when test="type == 'C'.toString()">
+							ord_code like '%' || #{cri.keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim> 
+	</sql>
+	
+	<!-- 주문상태별 주문목록 -->
+	
+	<select id="getOrderStateListWithPaging" resultType="com.peachblossom.domain.OrderVO">
+	
+		<![CDATA[ 
+		SELECT 
+			ord_code, 
+        	mbsp_id, 
+        	ord_name, 
+        	ord_zipcode, 
+        	ord_addr_basic, 
+        	ord_addr_detail, 
+        	ord_tel, 
+        	ord_price, 
+        	ord_regdate, 
+        	ord_message, 
+        	ord_state, 
+        	ord_depositor
+			
+		FROM (
+		        SELECT 
+		        	/*+ index_desc(order_tbl pk_order_tbl) */ 
+		        	rownum rn,
+		        	ord_code, 
+		        	mbsp_id, 
+		        	ord_name, 
+		        	ord_zipcode, 
+		        	ord_addr_basic, 
+		        	ord_addr_detail, 
+		        	ord_tel, 
+		        	ord_price, 
+		        	ord_regdate, 
+		        	ord_message, 
+		        	ord_state, 
+		        	ord_depositor
+				FROM 
+					order_tbl
+				WHERE 
+					ord_state = #{ord_state}
+				AND
+		]]>     
+		    
+		<include refid="ordStateCriteria"></include>
+		
+		<![CDATA[     
+				    rownum <= (#{cri.pageNum} * #{cri.amount}) 
+				)
+		
+		WHERE 
+			rn > ((#{cri.pageNum} - 1) * #{cri.amount} )
+		]]>
+	
+	</select>
+	
+	<select id="getOrderStateTotalCount" resultType="int">
+		SELECT 
+			count(*) 
+		FROM 
+			order_tbl 
+		WHERE
+			ord_state = #{ord_state}
+		AND
+			
+		<include refid="ordStateCriteria"></include> 
+		
+		ord_code > 0
+		
+	</select>
+	
+	<sql id="ordStateCriteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item="type" collection="cri.typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'N'.toString()">
+							ord_name like '%' || #{cri.keyword} || '%'
+						</when>
+						<when test="type == 'C'.toString()">
+							ord_code like '%' || #{cri.keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim> 
+	</sql>
 	
 	<update id="orderStateChange">
 	
@@ -100,14 +201,14 @@
 	</update>
 	
 	<delete id="ordDelete">
-	
+		
 		DELETE
 		
-		FROM
+		FROM 
 			order_tbl
 		WHERE
 			ord_code = #{ord_code}
-	
+		
 	</delete>
 	
 	<delete id="ordDetailDelete">
@@ -141,5 +242,30 @@
 			od.ord_code = #{ord_code}
 	
 	</select>
+	
+	<delete id="ordDetailListDelete">
+	
+		DELETE
+		FROM
+			ordetail_tbl
+		WHERE
+			ord_code = #{ord_code}
+		AND
+			pro_num = #{pro_num}
+	
+	</delete>
+	
+	<!-- 주문진행상태 건수 -->
+	<select id="getOrderStateCount" resultType="int">
+	
+		SELECT
+			count(*)
+		FROM
+			order_tbl
+		WHERE
+			ord_state = #{ord_state}
+	
+	</select>
+
 	
 </mapper>

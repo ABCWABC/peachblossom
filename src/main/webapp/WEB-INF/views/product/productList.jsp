@@ -90,7 +90,7 @@
 					</li>
 				</c:if>
 				<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num">	
-					<li class='paginate_button ${pageMaker.cri.pageNum == num ? "active":"" }'>
+					<li class='paginate_button ${pageMaker.cri.pageNum == num ? "active" : "" }'>
 						<a href="${num}" aria-controls="example2" data-dt-idx="1" tabindex="0">${num}</a>
 					</li>
 				</c:forEach>
@@ -126,27 +126,35 @@
         //장바구니 담기
         $("button[name='btnCartAdd']").on("click", function(){
             
-            let pro_num = $(this).parents("div.card-body").find("input[name='pro_num']").val();
-            
-           $.ajax({
-              url: '/cart/cartAdd',
-              type: 'post',
-              dataType: 'text',
-              data: {pro_num: pro_num, cart_amount : 1},
-              success: function(data) {
-                if(data == "success") {
-                  if(confirm("장바구니에 추가되었습니다.\n 지금 확인하겠습니까?")){
-                    location.href = "/cart/cartList";
-                  }
-                }
-              }
-           });
+	        let pro_num = $(this).parents("div.card-body").find("input[name='pro_num']").val();
+	            
+	        $.ajax({
+	           url: '/cart/cartAdd',
+	           type: 'post',
+	           dataType: 'text',
+	           data: {pro_num: pro_num, cart_amount : 1},
+	           success: function(data) {
+	             if(data == "success") {
+	               if(confirm("장바구니에 추가되었습니다.\n 지금 확인하겠습니까?")){
+	                 location.href = "/cart/cartList";
+	               }
+	             }
+	           }
+	        });
+        });
+        
+        //구매하기
+        $("button[name='btnBuyAdd']").on("click", function(){
+        	
+        	let pro_num = $(this).parents("div.card-body").find("input[name='pro_num']").val();
+            let pro_amount = 1;
+            location.href = "/order/orderInfo?type=direct&pro_num="+pro_num+"&pro_amount="+ pro_amount;
         });
         
         let actionForm = $("#actionForm");
         
-		//페이지번호 클릭시 : 선택한 페이지번호, 페이징정보, 검색정보
 		$(".paginate_button a").on("click", function(e){
+			
 			e.preventDefault();
 			
 			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
@@ -155,11 +163,12 @@
         
 		//상세페이지 이동
 	    $("a.proDetail").on("click", function(e){
-	      e.preventDefault();
-	      let pro_num = $(this).attr("href");
-	      actionForm.append("<input type='hidden' name='pro_num' value='" + pro_num + "'>");
-	      actionForm.attr("action", "/product/productDetail");
-	      actionForm.submit();
+	    	
+		    e.preventDefault();
+		    let pro_num = $(this).attr("href");
+		    actionForm.append("<input type='hidden' name='pro_num' value='" + pro_num + "'>");
+		    actionForm.attr("action", "/product/productDetail");
+		    actionForm.submit();
 	    });
 		
       });

@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
+
 <html>
   <head>
     <meta charset="utf-8">
@@ -10,183 +10,281 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Pricing example · Bootstrap v4.6</title>
+    <title>peach blossom</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/pricing/">
 
-    
-
-    <!-- Bootstrap core CSS -->
-    
-    <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"> -->
-    <!-- <link rel="stylesheet" href="https://getbootstrap.com/docs/4.6/dist/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
-    
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-    <link href="pricing.css" rel="stylesheet">
+	<%@include file="/WEB-INF/views/include/plugin_js.jsp" %>
+	<%@include file="/WEB-INF/views/include/productArrange_css.jsp" %>
+	
   </head>
-
+  
   <body>
+  	<%@include file="/WEB-INF/views/include/header.jsp" %>
+  	
+  	<div class="slideshow carousel slide" id="carouselExampleIndicators">
+  		<div class="carousel-indicators">
+		    <button type="button" id="indicators1" class="active"></button>
+		    <button type="button" id="indicators2"></button>
+		    <button type="button" id="indicators3"></button>
+  		</div>
+  		<div class="slideshow_slides">
+  			<a href=""><img alt="" id="Slide1" src="/resources/img/main_image_1.jpg" width="1000px"></a>
+  			<a href=""><img alt="" id="Slide2" src="/resources/img/main_image_2.jpg" width="1000px"></a>
+  			<a href=""><img alt="" id="Slide3" src="/resources/img/main_image_3.jpg" width="1000px"></a>
+  		</div>
+		<button class="carousel-control-prev" type="button" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="visually-hidden"></span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="visually-hidden"></span>
+		</button>
+  	</div>
+	
+	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+	  <h4>BEST</h4>
+	</div>
+	
+	<div class="ec-base-product">
+	<ul class="prdList grid4">
+		<li id="anchorBoxId_15159" class="xans-record-">
+			<div class="box">
+				<div class="thumbnail">
+					<div class="prdImg">
+						<a href="/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/" name="">
+							<img src="/resources/img/리앙 배색 반팔 티셔츠 (4color).gif" id="" alt="" class="thumb">
+						</a>
+					</div>
+				</div>
+				<div class="description" onclick="location.href='/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/';">
+					<div class="txt">
+						<p class="name">
+							<a href="/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/" class="">
+								<span style="font-size: 12px; color: #333333; font-weight: bold;">[landmade]어썸 테일러 트위드 자켓 (2color)</span>
+							</a>
+						</p>
+						<ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
+							<li rel="소비자가" class=" xans-record-">
+								<span style="font-size: 12px; color: #aaaaaa; text-decoration: line-through;">79,900원</span>
+							</li>
+							<li rel="판매가" class=" xans-record-">
+								<span style="font-size: 12px; color: #555555; font-weight: bold; text-decoration: line-through;">68,900원</span>
+								<span id="span_product_tax_type_text" style="text-decoration: line-through;"> </span>
+							</li>
+							<li rel="할인판매가" class=" xans-record-" style="margin-bottom:10px;">
+								<strong class="title ">
+									<span style="font-size: 12px; color: #555555;">할인판매가</span> :
+								</strong>
+								<span style="font-size: 12px; color: #555555;">62,010원 
+									<span style="font-size: 11px; color: #c19361;">(6,890원 할인)</span>
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li id="anchorBoxId_15159" class="xans-record-">
+			<div class="box">
+				<div class="thumbnail">
+					<div class="prdImg">
+						<a href="/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/" name="">
+							<img src="/resources/img/프렌치 반팔 티셔츠 (2color).gif" id="" alt="" class="thumb">
+						</a>
+					</div>
+				</div>
+				<div class="description" onclick="location.href='/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/';">
+					<div class="txt">
+						<p class="name">
+							<a href="/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/" class="">
+								<span style="font-size: 12px; color: #333333; font-weight: bold;">[landmade]어썸 테일러 트위드 자켓 (2color)</span>
+							</a>
+						</p>
+						<ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
+							<li rel="소비자가" class=" xans-record-">
+								<span style="font-size: 12px; color: #aaaaaa; text-decoration: line-through;">79,900원</span>
+							</li>
+							<li rel="판매가" class=" xans-record-">
+								<span style="font-size: 12px; color: #555555; font-weight: bold; text-decoration: line-through;">68,900원</span>
+								<span id="span_product_tax_type_text" style="text-decoration: line-through;"> </span>
+							</li>
+							<li rel="할인판매가" class=" xans-record-" style="margin-bottom:10px;">
+								<strong class="title ">
+									<span style="font-size: 12px; color: #555555;">할인판매가</span> :
+								</strong>
+								<span style="font-size: 12px; color: #555555;">62,010원 
+									<span style="font-size: 11px; color: #c19361;">(6,890원 할인)</span>
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li id="anchorBoxId_15159" class="xans-record-">
+			<div class="box">
+				<div class="thumbnail">
+					<div class="prdImg">
+						<a href="/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/" name="">
+							<img src="/resources/img/365 데일리 U넥 티셔츠 (10color).gif" id="" alt="" class="thumb">
+						</a>
+					</div>
+				</div>
+				<div class="description" onclick="location.href='/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/';">
+					<div class="txt">
+						<p class="name">
+							<a href="/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/" class="">
+								<span style="font-size: 12px; color: #333333; font-weight: bold;">[landmade]어썸 테일러 트위드 자켓 (2color)</span>
+							</a>
+						</p>
+						<ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
+							<li rel="소비자가" class=" xans-record-">
+								<span style="font-size: 12px; color: #aaaaaa; text-decoration: line-through;">79,900원</span>
+							</li>
+							<li rel="판매가" class=" xans-record-">
+								<span style="font-size: 12px; color: #555555; font-weight: bold; text-decoration: line-through;">68,900원</span>
+								<span id="span_product_tax_type_text" style="text-decoration: line-through;"> </span>
+							</li>
+							<li rel="할인판매가" class=" xans-record-" style="margin-bottom:10px;">
+								<strong class="title ">
+									<span style="font-size: 12px; color: #555555;">할인판매가</span> :
+								</strong>
+								<span style="font-size: 12px; color: #555555;">62,010원 
+									<span style="font-size: 11px; color: #c19361;">(6,890원 할인)</span>
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li id="anchorBoxId_15159" class="xans-record-">
+			<div class="box">
+				<div class="thumbnail">
+					<div class="prdImg">
+						<a href="/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/" name="">
+							<img src="//shopperland.co.kr/web/product/medium/202203/0c20dec4ea07313d223c7556973d5478.webp" id="" alt="" class="thumb">
+						</a>
+					</div>
+				</div>
+				<div class="description" onclick="location.href='/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/';">
+					<div class="txt">
+						<p class="name">
+							<a href="/product/landmade어썸-테일러-트위드-자켓-2color/15159/category/1/display/3/" class="">
+								<span style="font-size: 12px; color: #333333; font-weight: bold;">[landmade]어썸 테일러 트위드 자켓 (2color)</span>
+							</a>
+						</p>
+						<ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
+							<li rel="소비자가" class=" xans-record-">
+								<span style="font-size: 12px; color: #aaaaaa; text-decoration: line-through;">79,900원</span>
+							</li>
+							<li rel="판매가" class=" xans-record-">
+								<span style="font-size: 12px; color: #555555; font-weight: bold; text-decoration: line-through;">68,900원</span>
+								<span id="span_product_tax_type_text" style="text-decoration: line-through;"> </span>
+							</li>
+							<li rel="할인판매가" class=" xans-record-" style="margin-bottom:10px;">
+								<strong class="title ">
+									<span style="font-size: 12px; color: #555555;">할인판매가</span> :
+								</strong>
+								<span style="font-size: 12px; color: #555555;">62,010원 
+									<span style="font-size: 11px; color: #c19361;">(6,890원 할인)</span>
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+	</div>
+
+	<div class="container">
+
+		<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		  <h4>NEW ARRIVALS</h4>
+		  <p style="font-size: 13px;" >봄신상 :) 하루 5% 할인!</p>
+		</div>
+		  <%@include file="/WEB-INF/views/include/footer.jsp" %>
+    </div>
     
-<%@include file="/WEB-INF/views/include/header.jsp" %>
-
-
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4">Pricing</h1>
-  <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
-</div>
-
-<div class="container">
-<!-- Top(1) -->
-   <div class="row">
-     <c:forEach items="${topProductList}" var="topProductVO">
-     <div class="col-md-3 parentDetail">
-       <div class="card mb-4 shadow-sm">
-         <a href="${topProductVO.pro_num }" class="proDetail">
-			<img name="proudctImage" width="100%" height="225" src="/product/displayFile?fileName=s_<c:out value="${topProductVO.pro_img }"></c:out>&uploadPath=<c:out value="${topProductVO.pro_uploadpath }"></c:out>">
-		 </a>
-		<input type="hidden" name="cate_code" value="${topProductVO.cate_code }">
-         <div class="card-body">
-              <p class="card-text">
-              	<a href="${topProductVO.pro_num }" class="proDetail">
-              		<c:out value="${topProductVO.pro_name }"></c:out>
-              	</a>
-              	<br>
-              	<fmt:formatNumber type="currency" value="${topProductVO.pro_price }" /> 
-              	<input type="hidden" name="pro_num" value="${topProductVO.pro_num }">
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" name="btnBuyAdd" class="btn btn-sm btn-outline-secondary">Buy</button>
-                  <button type="button" name="btnCartAdd" class="btn btn-sm btn-outline-secondary">Cart</button>
-                </div>
-                
-              </div>
-            </div>
-       </div>
-     </div>
-     </c:forEach>
-    </div> 
-    <!-- Pants(2) -->
-    <div class="row">
-     <c:forEach items="${pantsProductList}" var="pantsProductVO">
-     <div class="col-md-3 parentDetail">
-       <div class="card mb-4 shadow-sm">
-         <a href="${pantsProductVO.pro_num }" class="proDetail">
-			<img name="proudctImage" width="100%" height="225" src="/product/displayFile?fileName=s_<c:out value="${pantsProductVO.pro_img }"></c:out>&uploadPath=<c:out value="${pantsProductVO.pro_uploadpath }"></c:out>">
-		 </a>
-		 <input type="hidden" name="cate_code" value="${pantsProductVO.cate_code }">
-         <div class="card-body">
-              <p class="card-text">
-              	<a href="${pantsProductVO.pro_num }" class="proDetail">
-              		<c:out value="${pantsProductVO.pro_name }"></c:out>
-              	</a>
-              	<br>
-              	<fmt:formatNumber type="currency" value="${pantsProductVO.pro_price }" /> 
-              	<input type="hidden" name="pro_num" value="${pantsProductVO.pro_num }">
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" name="btnBuyAdd" class="btn btn-sm btn-outline-secondary">Buy</button>
-                  <button type="button" name="btnCartAdd" class="btn btn-sm btn-outline-secondary">Cart</button>
-                </div>
-                
-              </div>
-            </div>
-       </div>
-     </div>
-     </c:forEach>
-    </div> 
-    <!-- Shirts(3) -->
-    <div class="row">
-     <c:forEach items="${shirtsProductList}" var="shirtsProductVO">
-     <div class="col-md-3 parentDetail">
-       <div class="card mb-4 shadow-sm">
-         <a href="${shirtsProductVO.pro_num }" class="proDetail">
-			<img name="proudctImage" width="100%" height="225" src="/product/displayFile?fileName=s_<c:out value="${shirtsProductVO.pro_img }"></c:out>&uploadPath=<c:out value="${shirtsProductVO.pro_uploadpath }"></c:out>">
-		 </a>
-		<input type="hidden" name="cate_code" value="${shirtsProductVO.cate_code }">
-         <div class="card-body">
-              <p class="card-text">
-              	<a href="${shirtsProductVO.pro_num }" class="proDetail">
-              		<c:out value="${shirtsProductVO.pro_name }"></c:out>
-              	</a>
-              	<br>
-              	<fmt:formatNumber type="currency" value="${shirtsProductVO.pro_price }" /> 
-              	<input type="hidden" name="pro_num" value="${shirtsProductVO.pro_num }">
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" name="btnBuyAdd" class="btn btn-sm btn-outline-secondary">Buy</button>
-                  <button type="button" name="btnCartAdd" class="btn btn-sm btn-outline-secondary">Cart</button>
-                </div>
-                
-              </div>
-            </div>
-       </div>
-     </div>
-     </c:forEach>
-    </div>       
-</div>
-      <%@include file="/WEB-INF/views/include/footer.jsp" %>
-
 	<script>
 
-      $(function(){
+		//메인 슬라이드
+		$(function(){
+			var slides = $(".slideshow img");
+			var indicators = $(".carousel-indicators button");
+			var slideCount = slides.length;
+			var currentIndex = 0;
+			var timer = setInterval(showNextSlide, 3500);
+			
+			slides.eq(currentIndex+1).hide();
+			slides.eq(currentIndex+2).hide();
+			
+			function showNextSlide() {
+				var nextIndex = (currentIndex+1) % slideCount;
+				
+				slides.eq(currentIndex).hide();
+				indicators.eq(currentIndex).attr("class","");
+				slides.eq(nextIndex).show();
+				indicators.eq(nextIndex).attr("class","active");
+				currentIndex = nextIndex;
+			}
+	
+	        //메인슬라이드 prev, next 처리
+	        $(".carousel-control-prev").on("click", function(){
+	        	
+	        	showNextSlide().stop();                            //멈춤오류
+	        	
+	        	var prevIndex = (currentIndex-1) % slideCount;
+	        	var nextIndex = (currentIndex+1) % slideCount;
+	        	
+	        	slides.eq(currentIndex).hide();
+				slides.eq(prevIndex).show();
+				currentIndex = nextIndex;
+	        });
+	        $(".carousel-control-next").on("click", function(){
+	        	
+	        	showNextSlide().stop();
+	        	
+	        	var nextIndex = (currentIndex+1) % slideCount;
+	        	slides.eq(currentIndex).hide();
+				slides.eq(nextIndex).show();
+				currentIndex = nextIndex;
+	        });
+	        
+	        //슬라이드바 클릭시 처리
+	        $("#indicators1").on("click", function() {
+	        	showNextSlide().stop();                             //멈춤오류
+				$("#indicators1").attr("class","active");
+				$("#indicators2").attr("class","");
+				$("#indicators3").attr("class","");
+				$("#Slide1").show();
+				$("#Slide2").hide();
+				$("#Slide3").hide();
+			});
+			$("#indicators2").on("click", function() {
+				showNextSlide().stop();
+				$("#indicators1").attr("class","");
+				$("#indicators2").attr("class","active");
+				$("#indicators3").attr("class","");
+				$("#Slide1").hide();
+				$("#Slide2").show();
+				$("#Slide3").hide();
+			});
+			$("#indicators3").on("click", function() {
+				showNextSlide().stop();
+				$("#indicators1").attr("class","");
+				$("#indicators2").attr("class","");
+				$("#indicators3").attr("class","active");
+				$("#Slide1").hide();
+				$("#Slide2").hide();
+				$("#Slide3").show();
+			});
+	        
+		});  
+    </script>
 
-        //장바구니 담기  --- 수정필요
-        $("button[name='btnCartAdd']").on("click", function(){
-            
-            let pro_num = $(this).parents("div.card-body").find("input[name='pro_num']").val();
-
-           $.ajax({
-              url: '/cart/cartAdd',
-              type: 'post',
-              dataType: 'text',
-              data: {pro_num: pro_num, cart_amount : 1},
-              success: function(data) {
-                if(data == "success") {
-                  if(confirm("장바구니에 추가되었습니다.\n 지금 확인하겠습니까?")){
-                    location.href = "/cart/cartList";
-                  }
-                }
-              }
-           });
-        });
-        
-		$("button[name='btnBuyAdd']").on("click", function(){
-            
-            let pro_num = $(this).parents("div.card-body").find("input[name='pro_num']").val();
-            let pro_amount = 1;
-            location.href = "/order/orderInfo?type=direct&pro_num="+pro_num+"&pro_amount="+ pro_amount;
-        });
-    
-	    //상세페이지 이동
-	    $("a.proDetail").on("click", function(e){
-			e.preventDefault();
-			let cate_code = $(this).parents(".parentDetail").find("input[name='cate_code']").val();
-			console.log("카테고리: " + cate_code);
-			location.href = "/product/productDetail?pro_num=" + $(this).attr("href") + "&cate_code=" + cate_code + "&type=N";
-		});
-	});
-    </script>    
   </body>
 </html>

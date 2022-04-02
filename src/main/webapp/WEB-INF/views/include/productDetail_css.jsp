@@ -15,7 +15,7 @@
 }
 
 #star_grade a {
-	font-size: 22px;
+	font-size: 16px;
 	text-decoration: none;
 	color: lightgray;
 }
@@ -23,7 +23,9 @@
 #star_grade a.on {
 	color: black;
 }
-
+.container {
+	min-width: 768px;
+}
 .xans-product-detail {
 	position: relative;
 	margin: 0 auto 100px;
@@ -46,10 +48,17 @@
 	width: 50%;
 	margin: 0 0 0 50px;;
 }
+.reviewWrite{
+	margin: 20px 0 30px 0;
+}
+.rating {
+	float: left;
+	margin: 0 15px 0 15px;
+}
 
 .xans-product-detail .imgArea .keyImg {
 	margin: 0;
-	max-width: 300px;
+	max-width: 380px;
 }
 
 .xans-product-detail .imgArea .keyImg .thumbnail {
@@ -101,6 +110,7 @@
 	display: inline;
 	font-size: 16px;
 	color: #000;
+	margin-bottom: 170px;
 }
 
 .detailArea h2 {

@@ -14,7 +14,6 @@
 		font-size: 13px;
 		color: black;
 	}
-	
 	label {
 		margin-top: 10px;
 	}
@@ -144,36 +143,36 @@
 <!-- 상품이미지 미리보기 -->
 <script>
 
+	//
     function readImage(input) {
-      if (input.files && input.files[0]) {
-          
-        let imgPath = $("#upload").val();
-        alert(imgPath);
-        let ext = imgPath.substring(imgPath.lastIndexOf(".")+1).toLowerCase();
-        alert(ext);
-        if(typeof(FileReader) == "undefined") {
-          alert("브라우저가 작업을 지원안합니다.");
-          return;
-        }
-
-        if(ext=="gif" || ext=="png" || ext=="jpg" || ext=="jpeg") {
-          
-          const reader = new FileReader();
-          
-          reader.onload = (e) => {
-              const previewImage = document.getElementById('previewImage');
-              previewImage.src = e.target.result;
-          }
-          // reader객체가 파일을 읽어들이는 작업
-          reader.readAsDataURL(input.files[0]);
-          
-        }else{
-          $("#upload").val("");
-          alert("이미지 파일을 선택하세요.");
-        }
-      }
+		if (input.files && input.files[0]) {
+		    
+		  let imgPath = $("#upload").val();
+		  alert(imgPath);
+		  let ext = imgPath.substring(imgPath.lastIndexOf(".")+1).toLowerCase();
+		  alert(ext);
+		  if(typeof(FileReader) == "undefined") {
+		    alert("브라우저가 작업을 지원안합니다.");
+		    return;
+		  }
+		
+		  if(ext=="gif" || ext=="png" || ext=="jpg" || ext=="jpeg") {
+		    
+		    const reader = new FileReader();
+		    
+		    reader.onload = (e) => {
+		        const previewImage = document.getElementById('previewImage');
+		        previewImage.src = e.target.result;
+		    }
+		    reader.readAsDataURL(input.files[0]);
+		    
+		  }else{
+		    $("#upload").val("");
+		    alert("이미지 파일을 선택하세요.");
+		  }
+		}
     }
-    // 이벤트 리스너
+    
     document.getElementById('upload').addEventListener('change', (e) => {
         readImage(e.target);
     })

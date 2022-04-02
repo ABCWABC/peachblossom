@@ -36,4 +36,8 @@ public class CartServiceImpl implements CartService {
 		mapper.cartAllDel(mb_id);
 	}
 
+	@Override
+	public void cartAmountModify(Integer pro_num, int cart_amount, String mb_id) {
+		mapper.cartAmountModify(pro_num, cart_amount, mb_id);
+	}
 }

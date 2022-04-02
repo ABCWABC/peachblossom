@@ -69,7 +69,7 @@
 			
 			var form = $("#loginForm");
 			
-			// 로그인 버튼 클릭 시 
+			// 로그인 처리
 			$("#btn_login").on("click", function(){
 				
 				var ad_userid = $("#ad_userid");
@@ -86,29 +86,6 @@
 				} else {
 					form.submit();
 				}
-				
-				/*
-				$.ajax({
-					url: '/admin/login',
-					type: 'post',
-					dataType: 'text',
-					data: { ad_userid : ad_userid.val(), ad_userpw : ad_userpw.val() },
-					success: function(data){
-						
-						if(data == "logonSuccess"){
-							alert("로그인 되었습니다.\n환영합니다!");
-							location.href = "/admin/main";
-						}else if(data == "failId"){
-							alert("로그인에 실패하였습니다.\n아이디를 다시 확인해주세요.");
-							ad_userid.focus();
-						}else if(data == "failPw"){
-							alert("로그인에 실패하였습니다.\n비밀번호를 다시 확인해주세요.");
-							ad_userpw.focus();
-						}
-						
-					}
-				});
-				*/
 				
 			});
 			

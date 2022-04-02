@@ -71,5 +71,18 @@
 			mb_id = #{mb_id}
 	
 	</delete>
+	
+	<update id="cartAmountModify">
+	
+		UPDATE
+			cart_tbl
+		SET
+			cart_amount = #{cart_amount}
+		WHERE
+			mb_id = #{mb_id}
+		AND
+			pro_num = #{pro_num}
+	
+	</update>
 
 </mapper>

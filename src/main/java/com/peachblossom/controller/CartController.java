@@ -108,4 +108,14 @@ public class CartController {
 		
 		return "redirect:/cart/cartList";
 	}
+	
+	//장바구니 수량변경 처리
+	@GetMapping("/cartAmountModify")
+	public String cartAmountModify(Integer pro_num, int cart_amount, HttpSession session) {
+		
+		String mb_id = ((MemberVO)session.getAttribute("loginStatus")).getMb_id();
+		service.cartAmountModify(pro_num, cart_amount, mb_id);
+		
+		return "redirect:/cart/cartList";
+	}
 }

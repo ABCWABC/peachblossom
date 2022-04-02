@@ -19,13 +19,13 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 	private AdminOrderMapper oMapper;
 
 	@Override
-	public List<OrderVO> getListWithPaging(Criteria cri) {
-		return oMapper.getListWithPaging(cri);
+	public List<OrderVO> getListWithPaging(Criteria cri, String startDate, String endDate) {
+		return oMapper.getListWithPaging(cri, startDate, endDate);
 	}
 
 	@Override
-	public int getTotalCount(Criteria cri) {
-		return oMapper.getTotalCount(cri);
+	public int getTotalCount(Criteria cri, String startDate, String endDate) {
+		return oMapper.getTotalCount(cri, startDate, endDate);
 	}
 
 	@Override
@@ -45,4 +45,23 @@ public class AdminOrderServiceImpl implements AdminOrderService {
 		return oMapper.ordDetailInfo(ord_code);
 	}
 
+	@Override
+	public void ordDetailDelete(Integer ord_code, Integer pro_num) {
+		oMapper.ordDetailListDelete(ord_code, pro_num);
+	}
+
+	@Override
+	public List<OrderVO> getOrderStateListWithPaging(Criteria cri, String ord_state) {
+		return oMapper.getOrderStateListWithPaging(cri, ord_state);
+	}
+
+	@Override
+	public int getOrderStateTotalCount(Criteria cri, String ord_state) {
+		return oMapper.getOrderStateTotalCount(cri, ord_state);
+	}
+
+	@Override
+	public int getOrderStateCount(String ord_state) {
+		return oMapper.getOrderStateCount(ord_state);
+	}
 }

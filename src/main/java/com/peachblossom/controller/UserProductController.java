@@ -53,33 +53,33 @@ public class UserProductController {
 	@GetMapping("/productMain")
 	public void productMain(Model model) {  //top:1, pants:2 shirts:3
 		
-		List<ProductVO> newList = service.productNewList();
-		for(int i=0; i<newList.size(); i++) {
-			ProductVO vo = newList.get(i);
+//		List<ProductVO> newList = service.productNewList();
+//		for(int i=0; i<newList.size(); i++) {
+//			ProductVO vo = newList.get(i);
+//			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
+//		}
+//		model.addAttribute("newProductList", newList);
+		
+		
+		
+		List<ProductVO> topList = service.productListByCategory(1);
+		for(int i=0; i<topList.size(); i++) {
+			ProductVO vo = topList.get(i);
 			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
 		}
-		model.addAttribute("newProductList", newList);
-		
-		
-		
-//		List<ProductVO> topList = service.productListByCategory(1);
-//		for(int i=0; i<topList.size(); i++) {
-//			ProductVO vo = topList.get(i);
-//			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
-//		}
-//		List<ProductVO> pantsList = service.productListByCategory(2);
-//		for(int i=0; i<pantsList.size(); i++) {
-//			ProductVO vo = pantsList.get(i);
-//			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
-//		}
-//		List<ProductVO> shirtsList = service.productListByCategory(3);
-//		for(int i=0; i<shirtsList.size(); i++) {
-//			ProductVO vo = shirtsList.get(i);
-//			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
-//		}
-//		model.addAttribute("topProductList", topList);
-//		model.addAttribute("pantsProductList", pantsList);
-//		model.addAttribute("shirtsProductList", shirtsList);
+		List<ProductVO> pantsList = service.productListByCategory(2);
+		for(int i=0; i<pantsList.size(); i++) {
+			ProductVO vo = pantsList.get(i);
+			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
+		}
+		List<ProductVO> shirtsList = service.productListByCategory(3);
+		for(int i=0; i<shirtsList.size(); i++) {
+			ProductVO vo = shirtsList.get(i);
+			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
+		}
+		model.addAttribute("topProductList", topList);
+		model.addAttribute("pantsProductList", pantsList);
+		model.addAttribute("shirtsProductList", shirtsList);
 	}
 
 	//2차카테고리 - 각 상품리스트

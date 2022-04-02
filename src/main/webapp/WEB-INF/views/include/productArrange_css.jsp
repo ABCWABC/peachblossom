@@ -148,4 +148,20 @@
 	    color: #999;
 	    vertical-align: top;
 	}
+	.slideshow img {
+		    width: 100%;
+		    height: auto;
+	}
+	.carousel-indicators button{
+		width: 30px;
+		height: 4px;
+		hit-area-height: 10px;
+		spacer: 3px;
+		opacity: .5;
+		active-bg: $white;
+		active-opacity: 1;
+		transition: opacity .6s ease;
+		margin: 0 10px 20px 0;
+		border: none;
+	}
 	</style>

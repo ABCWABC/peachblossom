@@ -40,7 +40,7 @@
 		<div id="infoFix" class="fixed">
 			<div class="infoArea">
 				<div class="headingArea">
-					<h2>${productVO.pro_name }</h2>
+					<h2>${productVO.pro_name }</h2><br><br>
 
 				<div class="xans-element- xans-product xans-product-detaildesign">
 					<table border="1" summary="">
@@ -48,7 +48,7 @@
 						<tbody>
 							<tr class=" xans-record-">
 								<th scope="row"><span style="font-size: 11px; color: #454545;">판매가</span></th>
-								<td><span style="font-size: 11px; color: #454545;"><strong id="span_product_price_text">${productVO.pro_price }</strong>
+								<td><span style="font-size: 11px; color: #454545;"><strong id="span_product_price_text">${productVO.pro_price }</strong> 원
 									<input type="hidden" id="pro_price" name="pro_price" value=""></span></td>
 							</tr>
 							<tr class=" xans-record-">
@@ -63,6 +63,9 @@
 							</tr>
 						</tbody>
 					</table>
+					<!-- 숨겨진 정보 -->
+					<input type="hidden" name="pro_num" id="pro_num" value="${productVO.pro_num }">
+					<input type="hidden" name="pro_amount" id="pro_amount" value="1">
 				</div>
 
 				<table border="1" summary="" class="xans-element- xans-product xans-product-option xans-record-">
@@ -123,7 +126,7 @@
 		<!-- 상세페이지 -->
 		<div id="prdDetail" class="ec-base-tab01 gFlex ">
 			<div class="cont" >
-				<p><br>${productVO.pro_content}</p><br><br><br>
+				<p><br>${productVO.pro_content }</p><br><br><br>
 			</div>
 
 		</div>
@@ -178,12 +181,12 @@
         <!-- Criteria클래스가 기본생성자에 의하여 기본값으로 파라미터가 사용 -->
         
         <c:if test="${type == 'Y' }">
-        <input type="hidden" name="pageNum" value="${cri.pageNum}">
-        <input type="hidden" name="amount" value="${cri.amount}">
+        	<input type="hidden" name="pageNum" value="${cri.pageNum}">
+        	<input type="hidden" name="amount" value="${cri.amount}">
         </c:if>
         
-        <input type="hidden" name="cate_code" value="${cate_code}">
-			  <!-- 상품코드 동적추가작업 -->
+        <input type="hidden" name="cate_code" value="${cate_code}"> <!-- 상품코드 동적추가작업 -->
+			  
    	 </form>
 
  	 <!-- 상품후기 -->
@@ -197,13 +200,12 @@
 
     <script>
 
-      //
+      //리뷰페이지 불러오기
       let getProductReview = function() {
           $("#product_review").load("/review/productReview?pro_num=" + ${productVO.pro_num });
       }
       getProductReview();
 
-      // jquery ready()이벤트 구문.
       $(function(){
 
         let actionForm = $("#actionForm");
@@ -211,10 +213,6 @@
         //장바구니 담기
         $("button[name='btnCartAdd']").on("click", function(){
             
-            let pro_num = $(this).parents("div.card-body").find("input[name='pro_num']").val();
-            
-           // console.log("상품코드" + pro_num);
-
            $.ajax({
               url: '/cart/cartAdd',
               type: 'post',
@@ -228,27 +226,24 @@
                 }
               }
            });
+           
         });
 
-        //리스트 클릭
+        //다시 리스트화면으로 되돌아가기
         $("button[name='btnProductist']").on("click", function(){
-          actionForm.attr("action", "/product/productList");
-          actionForm.submit();
+        	actionForm.attr("action", "/product/productList");
+        	actionForm.submit();
         });
 
-        
-        
-
-        //상품 별점 클릭
+        //후기 별점 처리 및 포인트 계산
         $("#product_review").on("click", "#star_grade a", function(e){
-          e.preventDefault();
-          console.log("별")
-          $(this).parent().children("a").removeClass("on") // 기존선택되어 추가된 on선택자를 제거. 변경
-          $(this).addClass("on").prevAll("a").addClass("on");
-          
-          scoreCount();
+	        e.preventDefault();
+	        console.log("별")
+	        $(this).parent().children("a").removeClass("on");
+	        $(this).addClass("on").prevAll("a").addClass("on");
+	          
+	        scoreCount();
         });
-
 
         let scoreCount = function() {
           	let point = 0;
@@ -259,13 +254,12 @@
 	            }
 	          });  
 	          
-	          $("#reviewScore").val(point);
-	        }
+	        $("#reviewScore").val(point);
+	    }
 
-
-        //상품후기 클릭
+        //상품후기등록 처리
         $("#product_review").on("click", "#btnReviewAdd", function() {
-          console.log("상품후기 클릭");
+        	console.log("상품후기 클릭");
 
             $.ajax({
             url: '/review/productReviewWrite',
@@ -279,7 +273,7 @@
             success: function(data){
               if(data == "success") {
                 alert("상품후기가 등록됨");
-                getProductReview();
+                getProductReview();            //리뷰페이지 불러오기 메서드
               }
             }
           });
@@ -287,12 +281,11 @@
 
         //상품후기 수정
         $("#product_review").on("click", "#btnReviewEdit", function() {
-          //console.log("상품후기 클릭");
 
-          $("#btnReviewAdd").show(); // 상품후기등록버튼 보이기
-          $("#btnReviewEdit").hide(); // 상품후기수정버튼 숨기기
-
-          console.log($("#reviewContent").val());
+	        $("#btnReviewAdd").show();
+	        $("#btnReviewEdit").hide();
+	
+	        console.log($("#reviewContent").val());
           
             $.ajax({
             url: '/review/productReviewEdit',
@@ -391,19 +384,16 @@
           
         });
 
-
+		//
         let reviewLoad = function() {
-          let reviewForm = $("#reviewForm");
-          let amount = reviewForm.find("input[name=amount]").val();
-          
-          // 상품코드, 페이징정보
-          $("#product_review").load("/review/productReview?pro_num="+pro_num+"&pageNum="+pageNum+"&amount="+ amount);
+	        let reviewForm = $("#reviewForm");
+	        let amount = reviewForm.find("input[name=amount]").val();
+	          
+	        $("#product_review").load("/review/productReview?pro_num="+pro_num+"&pageNum="+pageNum+"&amount="+ amount);
         }
      		
       });
-
 		
-      
     </script>
 
 <div id="reviewModal">
