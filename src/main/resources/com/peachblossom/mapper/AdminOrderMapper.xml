@@ -8,12 +8,14 @@
 		<![CDATA[ 
 		SELECT 
 			ord_code, 
-        	mbsp_id, 
+        	mb_id, 
         	ord_name, 
         	ord_zipcode, 
         	ord_addr_basic, 
         	ord_addr_detail, 
-        	ord_tel, 
+        	ord_tel1, 
+        	ord_tel2, 
+        	ord_tel3, 
         	ord_price, 
         	ord_regdate, 
         	ord_message, 
@@ -25,12 +27,14 @@
 		        	/*+ index_desc(order_tbl pk_order_tbl) */ 
 		        	rownum rn,
 		        	ord_code, 
-		        	mbsp_id, 
+		        	mb_id, 
 		        	ord_name, 
 		        	ord_zipcode, 
 		        	ord_addr_basic, 
 		        	ord_addr_detail, 
-		        	ord_tel, 
+		        	ord_tel1, 
+		        	ord_tel2, 
+		        	ord_tel3, 
 		        	ord_price, 
 		        	ord_regdate, 
 		        	ord_message, 
@@ -74,12 +78,12 @@
 	
 	<sql id="period">
 		
-		<if test="startDate != null and !startDate.equals('')">
+		<if test="startDate != null and !startDate.equals('') and endDate != null and !endDate.equals('')">
 			<![CDATA[
 		
 				ord_regdate >= to_date(#{startDate}, 'YYYY-MM-DD')
 			AND
-				ord_regdate < to_date(#{endDate}, 'YYYY-MM-DD')
+				ord_regdate < to_date(#{endDate}, 'YYYY-MM-DD') + 1
 			AND
 				
 			]]>
@@ -110,12 +114,14 @@
 		<![CDATA[ 
 		SELECT 
 			ord_code, 
-        	mbsp_id, 
+        	mb_id, 
         	ord_name, 
         	ord_zipcode, 
         	ord_addr_basic, 
         	ord_addr_detail, 
-        	ord_tel, 
+        	ord_tel1, 
+        	ord_tel2, 
+        	ord_tel3, 
         	ord_price, 
         	ord_regdate, 
         	ord_message, 
@@ -127,12 +133,14 @@
 		        	/*+ index_desc(order_tbl pk_order_tbl) */ 
 		        	rownum rn,
 		        	ord_code, 
-		        	mbsp_id, 
+		        	mb_id, 
 		        	ord_name, 
 		        	ord_zipcode, 
 		        	ord_addr_basic, 
 		        	ord_addr_detail, 
-		        	ord_tel, 
+		        	ord_tel1, 
+		        	ord_tel2, 
+		        	ord_tel3, 
 		        	ord_price, 
 		        	ord_regdate, 
 		        	ord_message, 

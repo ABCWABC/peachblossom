@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.peachblossom.domain.MemberVO;
 import com.peachblossom.domain.OrderDetailList;
@@ -72,7 +73,8 @@ public class OrderController {
 	}
 	
 	@PostMapping("/orderAction") // 클라이언트에서 보낸 데이타가 메서드의 파라미터에 타입또는 값이 제공되지 않아서 에러발생
-	public String orderAction(OrderVO order, OrderDetailList orderDetail, HttpSession session) {
+	public String orderAction(OrderVO order, OrderDetailList orderDetail, HttpSession session,
+								RedirectAttributes rttr) {
 		
 		order.setMb_id( ( (MemberVO)session.getAttribute("loginStatus") ).getMb_id() );
 		
@@ -81,7 +83,14 @@ public class OrderController {
 		
 		oService.orderInsert(order, orderDetail);
 		
-		return "redirect:/";
+		String pro_name = String.format("주문번호: %d [상품 %d 건]", order.getOrd_code(), orderDetail.getOrderDetailList().size());
+		
+		rttr.addAttribute("ord_name", order.getOrd_name());
+		rttr.addAttribute("ord_price", order.getOrd_price());
+		rttr.addAttribute("ord_zipcode", order.getOrd_zipcode());
+		rttr.addAttribute("pro_name", pro_name);
+		
+		return "redirect:/order/orderPayView";
 	}
 
 }

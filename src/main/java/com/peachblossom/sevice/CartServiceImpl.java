@@ -37,7 +37,7 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public void cartAmountModify(Integer pro_num, int cart_amount, String mb_id) {
-		mapper.cartAmountModify(pro_num, cart_amount, mb_id);
+	public void cartAmountModify(CartVO vo) {
+		mapper.cartAmountModify(vo);
 	}
 }

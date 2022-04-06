@@ -110,12 +110,50 @@ public class CartController {
 	}
 	
 	//장바구니 수량변경 처리
-	@GetMapping("/cartAmountModify")
-	public String cartAmountModify(Integer pro_num, int cart_amount, HttpSession session) {
+	@ResponseBody
+	@PostMapping("/cartAmountModify")
+	public ResponseEntity<String> cartAmountModify(Integer pro_num, int cart_amount, HttpSession session) {
 		
-		String mb_id = ((MemberVO)session.getAttribute("loginStatus")).getMb_id();
-		service.cartAmountModify(pro_num, cart_amount, mb_id);
+		ResponseEntity<String> entity = null;
 		
-		return "redirect:/cart/cartList";
+		CartVO vo = new CartVO();
+		vo.setPro_num(pro_num);
+		vo.setCart_amount(cart_amount);
+		vo.setMb_id(((MemberVO)session.getAttribute("loginStatus")).getMb_id());
+		
+		try {
+			service.cartAmountModify(vo);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
+	
+	
+	
+	
+//	//장바구니 수량변경 처리
+//	@ResponseBody
+//	@PostMapping("/cartAmountModify")
+//	public ResponseEntity<String> cartAmountModify(@RequestParam("pro_numArr[]") List<Integer> pro_numArr, 
+//													@RequestParam("cart_amountArr[]") List<Integer> cart_amountArr, int cart_amount, HttpSession session) {
+//		
+//		ResponseEntity<String> entity = null;
+//		String mb_id = ((MemberVO)session.getAttribute("loginStatus")).getMb_id();
+//		
+//		try {
+//			for(int i=0; i<cart_amountArr.size(); i++) {
+//				service.cartAmountModify(pro_numArr.get(i), cart_amountArr.get(i), mb_id);
+//			}
+//			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+//		}
+//		return entity;
+//	}
 }

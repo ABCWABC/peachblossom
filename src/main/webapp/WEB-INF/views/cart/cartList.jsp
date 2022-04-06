@@ -97,7 +97,7 @@
 						</td>
 						<td>
 							<input type="number" name="cart_amount" value='<c:out value="${cartListVO.cart_amount }"></c:out>'>
-							<input type="button" id="cart_amount_btn" value="변경">
+							<input type="button" name="cart_amount_btn" value="변경">
 						</td>
 						<td>
 							<span class="sum_price"><c:out value="${cartListVO.pro_price * cartListVO.cart_amount }"></c:out></span>
@@ -122,7 +122,6 @@
 	</div>
       <%@include file="/WEB-INF/views/include/footer.jsp" %>
     </div>
-
    
     <script>
 
@@ -174,19 +173,21 @@
 			});
 			
 			//장바구니 수량변경 처리
-			$("#cart_amount_btn").on("click", function(){
+			$("input[name='cart_amount_btn']").on("click", function(){
 				
 				let pro_num = parseInt($(this).parent().parent().find("td a.pro_num").attr("href"));
 				let cart_amount = parseInt($(this).parent().parent().find("input[name='cart_amount']").val());
 				
-				console.log(pro_num);
-				console.log(cart_amount);
-				
 				$.ajax({
 					url: '/cart/cartAmountModify',
-					type:'get',
+					type:'post',
 					dataType: 'text',
-					data:  { pro_num : pro_num , cart_amount : cart_amount }
+					data:  { pro_num : pro_num , cart_amount : cart_amount },
+					success: function(data){
+						if(data == "success") {
+							alert("수량변경되었습니다");
+						}
+					}
 				});
 			});
 		

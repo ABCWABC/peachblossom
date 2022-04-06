@@ -49,37 +49,24 @@ public class UserProductController {
 		return entity;
 	}
 	
-	//메인에서 카테고리별 상품리스트
+	//메인에서 BEST , NEW 상품리스트
 	@GetMapping("/productMain")
-	public void productMain(Model model) {  //top:1, pants:2 shirts:3
+	public void productMain(Model model) {
 		
-//		List<ProductVO> newList = service.productNewList();
-//		for(int i=0; i<newList.size(); i++) {
-//			ProductVO vo = newList.get(i);
-//			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
-//		}
-//		model.addAttribute("newProductList", newList);
-		
-		
-		
-		List<ProductVO> topList = service.productListByCategory(1);
-		for(int i=0; i<topList.size(); i++) {
-			ProductVO vo = topList.get(i);
+		List<ProductVO> newList = service.productNewList();
+		for(int i=0; i<newList.size(); i++) {
+			ProductVO vo = newList.get(i);
 			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
 		}
-		List<ProductVO> pantsList = service.productListByCategory(2);
-		for(int i=0; i<pantsList.size(); i++) {
-			ProductVO vo = pantsList.get(i);
+		List<ProductVO> bestList = service.productBestList();
+		for(int i=0; i<bestList.size(); i++) {
+			ProductVO vo = bestList.get(i);
 			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
 		}
-		List<ProductVO> shirtsList = service.productListByCategory(3);
-		for(int i=0; i<shirtsList.size(); i++) {
-			ProductVO vo = shirtsList.get(i);
-			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
-		}
-		model.addAttribute("topProductList", topList);
-		model.addAttribute("pantsProductList", pantsList);
-		model.addAttribute("shirtsProductList", shirtsList);
+		
+		model.addAttribute("newProductList", newList);
+		model.addAttribute("bestProductList", bestList);
+		
 	}
 
 	//2차카테고리 - 각 상품리스트

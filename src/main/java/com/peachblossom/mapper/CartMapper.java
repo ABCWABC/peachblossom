@@ -17,5 +17,5 @@ public interface CartMapper {
 	
 	public void cartAllDel(String mb_id);
 
-	public void cartAmountModify(Integer pro_num, int cart_amount, String mb_id);
+	public void cartAmountModify(CartVO vo);
 }

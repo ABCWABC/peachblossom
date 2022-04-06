@@ -89,8 +89,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Link in level 2</a></li>
-            <li><a href="#">Link in level 2</a></li>
+            <li><a href="#">월별주문통계</a></li>
+            <li><a href="#">전체통계</a></li>
           </ul>
         </li>
         

@@ -52,4 +52,9 @@ public class UserProductServiceImpl implements UserProductService {
 		return mapper.productNewList();
 	}
 
+	@Override
+	public List<ProductVO> productBestList() {
+		return mapper.productBestList();
+	}
+
 }

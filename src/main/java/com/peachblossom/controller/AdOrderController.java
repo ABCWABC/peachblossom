@@ -3,7 +3,18 @@ package com.peachblossom.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -161,5 +172,118 @@ public class AdOrderController {
 		entity = UploadFileUtils.getFileByte(uploadFolder, uploadPath, fileName );
 		
 		return entity;
+	}
+	
+	//주문데이타 엑셀다운
+	@GetMapping("/excelDown")
+	public void excelDown(HttpServletResponse response, Criteria cri) throws Exception {
+		
+		String startDate = "";
+		String endDate = "";
+		
+		cri.setAmount(2);
+		
+		List<OrderVO> list = oService.getListWithPaging(cri, startDate, endDate);    //엑셀파일의 데이타(내용)
+		
+		//Workbook wb = new HSSFWorkbook();               // MS-Office 2003년도 버전까지
+		
+		Workbook wb = new XSSFWorkbook();                 // MS-Office 2003년도 이후
+		Sheet sheet = wb.createSheet("주문데이타");
+		Row row = null;
+		Cell cell = null;
+		int rowNo = 0;
+		
+		// 1)제목행 스타일 적용
+		CellStyle headStyle = wb.createCellStyle();
+		//가는 경계선
+		headStyle.setBorderTop(BorderStyle.THIN);
+		headStyle.setBorderBottom(BorderStyle.THIN);
+		headStyle.setBorderLeft(BorderStyle.THIN);
+		headStyle.setBorderRight(BorderStyle.THIN);
+		
+		//배경은 노랑색
+		headStyle.setFillBackgroundColor(IndexedColors.YELLOW.getIndex());
+		headStyle.setFillPattern(FillPatternType.SPARSE_DOTS);
+		
+		//데이타 가운데정렬
+		headStyle.setAlignment(HorizontalAlignment.CENTER);
+		
+		//2)데이터행 경계선
+		CellStyle bodyStyle = wb.createCellStyle();
+		//가는 경계선
+		bodyStyle.setBorderTop(BorderStyle.THIN);
+		bodyStyle.setBorderBottom(BorderStyle.THIN);
+		bodyStyle.setBorderLeft(BorderStyle.THIN);
+		bodyStyle.setBorderRight(BorderStyle.THIN);
+		
+		//제목행 작업
+		row = sheet.createRow(rowNo++);
+		cell = row.createCell(0);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("주문번호");
+		
+		cell = row.createCell(1);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("주문자");
+		
+		cell = row.createCell(2);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("연락처");
+		
+		cell = row.createCell(3);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("주문가격");
+		
+		cell = row.createCell(4);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("주문일");
+		
+		//데이터 행작업
+		
+		for(OrderVO vo : list) {
+			//주문번호
+			row = sheet.createRow(rowNo++);
+			
+			cell = row.createCell(0);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(vo.getOrd_code());
+			
+			//주문자
+			cell = row.createCell(1);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(vo.getOrd_name());
+			
+			//연락처
+			cell = row.createCell(2);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(vo.getOrd_tel1());
+			cell = row.createCell(3);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(vo.getOrd_tel2());
+			cell = row.createCell(4);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(vo.getOrd_tel3());
+			
+			//주문가격
+			cell = row.createCell(5);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(vo.getOrd_price());
+			
+			//주문일
+			cell = row.createCell(6);
+			cell.setCellStyle(bodyStyle);
+			cell.setCellValue(vo.getOrd_regdate());
+	
+		}
+		
+		//엑셀출력
+		String fileName = "주문데이타.xlsx";
+		String outputFileName = new String(fileName.getBytes("KSC5601"), "8859_1");
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition", "attachment;filename=\"" + outputFileName + "\"");
+		
+		wb.write(response.getOutputStream());
+		wb.close();
+	
 	}
 }

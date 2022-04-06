@@ -116,7 +116,7 @@
 			      <input type="file" id="upload" name="upload">
 			  </div>
 			  <div class="col-md-4">
-			      <label for="upload">미리보기</label>
+			      <label for="previewImage">미리보기</label>
 			      <img alt="" src="" id="previewImage">
 			      <!--<div id="preview_image"></div>-->
 			  </div>
@@ -148,9 +148,8 @@
 		if (input.files && input.files[0]) {
 		    
 		  let imgPath = $("#upload").val();
-		  alert(imgPath);
 		  let ext = imgPath.substring(imgPath.lastIndexOf(".")+1).toLowerCase();
-		  alert(ext);
+		  alert("파일경로: "+ imgPath +" , 확장자: "+ ext);
 		  if(typeof(FileReader) == "undefined") {
 		    alert("브라우저가 작업을 지원안합니다.");
 		    return;

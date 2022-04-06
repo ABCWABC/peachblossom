@@ -8,7 +8,7 @@ import com.peachblossom.domain.OrderVO;
 
 public interface AdminOrderService {
 	
-public List<OrderVO> getListWithPaging(Criteria cri, String startDate, String endDate);
+	public List<OrderVO> getListWithPaging(Criteria cri, String startDate, String endDate);
 	
 	public int getTotalCount(Criteria cri, String startDate, String endDate);
 	

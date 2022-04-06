@@ -144,13 +144,55 @@
 		
 	<select id="productNewList" resultType="com.peachblossom.domain.ProductVO">
 	
-		<![CDATA[ 
 		SELECT 
-        	pro_num, 
+			pro_num, 
         	cate_prt_code, 
         	cate_code, 
         	pro_name, 
-        	pro_price,
+        	pro_price, 
+        	pro_discount, 
+        	pro_publisher, 
+        	pro_content,
+        	pro_uploadpath, 
+        	pro_img, 
+        	pro_amount, 
+        	pro_buy, 
+        	pro_date, 
+        	pro_updatedate
+		FROM (
+			SELECT 
+				pro_num, 
+	        	cate_prt_code, 
+	        	cate_code, 
+	        	pro_name, 
+	        	pro_price, 
+	        	pro_discount, 
+	        	pro_publisher, 
+	        	pro_content,
+	        	pro_uploadpath, 
+	        	pro_img, 
+	        	pro_amount, 
+	        	pro_buy, 
+	        	pro_date, 
+	        	pro_updatedate
+        	FROM 
+        		product_tbl
+        	ORDER BY
+        		 pro_date desc
+    	)
+		WHERE 
+			rownum BETWEEN 1 AND 4
+	
+	</select>
+	
+	<select id="productBestList" resultType="com.peachblossom.domain.ProductVO">
+	
+		SELECT 
+			pro_num, 
+        	cate_prt_code, 
+        	cate_code, 
+        	pro_name, 
+        	pro_price, 
         	pro_discount, 
         	pro_publisher, 
         	pro_content,
@@ -161,10 +203,27 @@
         	pro_date, 
         	pro_updatedate
 		FROM 
-			product_tbl
-		AND
-			rownum < 5
-		]]>
+			product_tbl p
+		WHERE 
+			p.pro_num in
+			(
+				SELECT 
+					pro_num
+				FROM 
+					(
+						SELECT 
+							pro_num, 
+				        	count(pro_num)
+			        	FROM 
+			        		ordetail_tbl
+			        	GROUP BY
+			        		pro_num
+			        	ORDER BY
+			        		count(pro_num) desc
+		        	)
+		        WHERE
+		        	rownum BETWEEN 1 AND 4
+			)
 	
 	</select>
 
