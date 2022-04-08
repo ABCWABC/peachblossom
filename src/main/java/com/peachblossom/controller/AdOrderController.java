@@ -49,7 +49,8 @@ public class AdOrderController {
 
 	//관리자 주문페이지 출력
 	@GetMapping("/orderList")
-	public void orderList(Criteria cri, @RequestParam(value = "startDate", required = false) String startDate, @RequestParam(value = "endDate", required = false) String endDate, Model model) {
+	public void orderList(Criteria cri, @RequestParam(value = "startDate", required = false) String startDate, 
+							@RequestParam(value = "endDate", required = false) String endDate, Model model) {
 		
 		log.info("시작날짜: " + startDate);
 		log.info("종료날짜: " + endDate);
@@ -61,20 +62,19 @@ public class AdOrderController {
 		model.addAttribute("ord_total", total);
 		
 		//주문상태별 건수
-		model.addAttribute("ord_count",  oService.getOrderStateCount("주문접수")); //주문접수
-		model.addAttribute("ord_pay", oService.getOrderStateCount("결제완료")); //결제완료
-		model.addAttribute("ord_delivery", oService.getOrderStateCount("배송준비중")); //배송준비중
-		model.addAttribute("ord_cancel", oService.getOrderStateCount("취소요청")); //취소요청
-		model.addAttribute("ord_change", oService.getOrderStateCount("교환요청")); //교환요청
+		model.addAttribute("ord_count",  oService.getOrderStateCount("주문접수"));
+		model.addAttribute("ord_pay", oService.getOrderStateCount("결제완료"));
+		model.addAttribute("ord_delivery", oService.getOrderStateCount("배송준비중"));
+		model.addAttribute("ord_cancel", oService.getOrderStateCount("취소요청"));
+		model.addAttribute("ord_change", oService.getOrderStateCount("교환요청"));
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		model.addAttribute("orderList", list);
-		
 	}
 	
-	//주문상태별 목록보기.  jsp파일명은 orderList.jsp파일을 함께 사용한다.
+	//주문상태별 목록보기
 	@GetMapping("/orderStateList")
-	public String  orderStateList(@ModelAttribute("ord_state") String ord_state, Criteria cri, Model model)  {
+	public String orderStateList(@ModelAttribute("ord_state") String ord_state, Criteria cri, Model model) {
 		
 		cri.setAmount(1);
 		List<OrderVO> list = oService.getOrderStateListWithPaging(cri, ord_state);
@@ -83,11 +83,11 @@ public class AdOrderController {
 		model.addAttribute("ord_total", total);
 		
 		//주문상태별 건수
-		model.addAttribute("ord_count",  oService.getOrderStateCount("주문접수")); //주문접수
-		model.addAttribute("ord_pay", oService.getOrderStateCount("결제완료")); //결제완료
-		model.addAttribute("ord_delivery", oService.getOrderStateCount("배송준비중")); //배송준비중
-		model.addAttribute("ord_cancel", oService.getOrderStateCount("취소요청")); //취소요청
-		model.addAttribute("ord_change", oService.getOrderStateCount("교환요청")); //교환요청
+		model.addAttribute("ord_count",  oService.getOrderStateCount("주문접수"));
+		model.addAttribute("ord_pay", oService.getOrderStateCount("결제완료"));
+		model.addAttribute("ord_delivery", oService.getOrderStateCount("배송준비중"));
+		model.addAttribute("ord_cancel", oService.getOrderStateCount("취소요청"));
+		model.addAttribute("ord_change", oService.getOrderStateCount("교환요청"));
 		
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		model.addAttribute("orderList", list);
@@ -118,7 +118,7 @@ public class AdOrderController {
 	//주문삭제(주문테이블, 주문상세테이블)
 	@ResponseBody
 	@PostMapping("/checkDelete")
-	public ResponseEntity<String> checkDelete(@RequestParam("ord_codeArr[]") List<Integer> ord_codeArr){
+	public ResponseEntity<String> checkDelete(@RequestParam("ord_codeArr[]") List<Integer> ord_codeArr) {
 	
 		ResponseEntity<String> entity = null;
 		
@@ -134,6 +134,7 @@ public class AdOrderController {
 		return entity;
 	}
 	
+	//관리자 주문상세페이지 출력
 	@GetMapping("/detailInfo")
 	public void detailInfo(Integer ord_code, Model model) {
 		
@@ -146,6 +147,7 @@ public class AdOrderController {
 		model.addAttribute("oDetailList", list);
 	}
 	
+	//주문삭제(주문상세테이블만)
 	@ResponseBody
 	@PostMapping("/detailListDelete")
 	public ResponseEntity<String> detailListDelete(Integer ord_code, Integer pro_num) {
@@ -183,41 +185,38 @@ public class AdOrderController {
 		
 		cri.setAmount(2);
 		
-		List<OrderVO> list = oService.getListWithPaging(cri, startDate, endDate);    //엑셀파일의 데이타(내용)
+		List<OrderVO> list = oService.getListWithPaging(cri, startDate, endDate);    // 엑셀파일의 데이타(내용)
 		
-		//Workbook wb = new HSSFWorkbook();               // MS-Office 2003년도 버전까지
-		
+//		Workbook wb = new HSSFWorkbook();                 // MS-Office 2003년도 버전까지
 		Workbook wb = new XSSFWorkbook();                 // MS-Office 2003년도 이후
+		
 		Sheet sheet = wb.createSheet("주문데이타");
 		Row row = null;
 		Cell cell = null;
 		int rowNo = 0;
 		
-		// 1)제목행 스타일 적용
-		CellStyle headStyle = wb.createCellStyle();
-		//가는 경계선
-		headStyle.setBorderTop(BorderStyle.THIN);
+		CellStyle headStyle = wb.createCellStyle();       // 1) 제목행 스타일 적용
+		
+		headStyle.setBorderTop(BorderStyle.THIN);         // 가는 경계선
 		headStyle.setBorderBottom(BorderStyle.THIN);
 		headStyle.setBorderLeft(BorderStyle.THIN);
 		headStyle.setBorderRight(BorderStyle.THIN);
 		
-		//배경은 노랑색
-		headStyle.setFillBackgroundColor(IndexedColors.YELLOW.getIndex());
-		headStyle.setFillPattern(FillPatternType.SPARSE_DOTS);
+		headStyle.setFillBackgroundColor(IndexedColors.YELLOW.getIndex());  // 배경은 노랑색
+		//headStyle.setFillPattern(FillPatternType.SPARSE_DOTS);            // 배경도트 설정취소
 		
-		//데이타 가운데정렬
-		headStyle.setAlignment(HorizontalAlignment.CENTER);
+		headStyle.setAlignment(HorizontalAlignment.CENTER);                 // 데이타 가운데정렬
 		
-		//2)데이터행 경계선
-		CellStyle bodyStyle = wb.createCellStyle();
-		//가는 경계선
+		
+		CellStyle bodyStyle = wb.createCellStyle();       // 2) 데이터행 경계선 스타일 적용
+		
 		bodyStyle.setBorderTop(BorderStyle.THIN);
 		bodyStyle.setBorderBottom(BorderStyle.THIN);
 		bodyStyle.setBorderLeft(BorderStyle.THIN);
 		bodyStyle.setBorderRight(BorderStyle.THIN);
 		
-		//제목행 작업
-		row = sheet.createRow(rowNo++);
+		row = sheet.createRow(rowNo++);                   // 제목행 작업
+		
 		cell = row.createCell(0);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("주문번호");
@@ -228,32 +227,35 @@ public class AdOrderController {
 		
 		cell = row.createCell(2);
 		cell.setCellStyle(headStyle);
-		cell.setCellValue("연락처");
-		
+		cell.setCellValue("연락처1");
 		cell = row.createCell(3);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("연락처2");
+		cell = row.createCell(4);
+		cell.setCellStyle(headStyle);
+		cell.setCellValue("연락처3");
+		
+		cell = row.createCell(5);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("주문가격");
 		
-		cell = row.createCell(4);
+		cell = row.createCell(6);
 		cell.setCellStyle(headStyle);
 		cell.setCellValue("주문일");
 		
-		//데이터 행작업
 		
-		for(OrderVO vo : list) {
-			//주문번호
+		for(OrderVO vo : list) {                         // 데이터 행작업
+			
 			row = sheet.createRow(rowNo++);
 			
 			cell = row.createCell(0);
 			cell.setCellStyle(bodyStyle);
 			cell.setCellValue(vo.getOrd_code());
 			
-			//주문자
-			cell = row.createCell(1);
+			cell = row.createCell(1);            
 			cell.setCellStyle(bodyStyle);
 			cell.setCellValue(vo.getOrd_name());
 			
-			//연락처
 			cell = row.createCell(2);
 			cell.setCellStyle(bodyStyle);
 			cell.setCellValue(vo.getOrd_tel1());
@@ -264,12 +266,10 @@ public class AdOrderController {
 			cell.setCellStyle(bodyStyle);
 			cell.setCellValue(vo.getOrd_tel3());
 			
-			//주문가격
 			cell = row.createCell(5);
 			cell.setCellStyle(bodyStyle);
 			cell.setCellValue(vo.getOrd_price());
 			
-			//주문일
 			cell = row.createCell(6);
 			cell.setCellStyle(bodyStyle);
 			cell.setCellValue(vo.getOrd_regdate());

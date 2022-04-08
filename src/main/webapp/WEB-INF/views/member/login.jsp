@@ -11,6 +11,15 @@
    <%@include file="/WEB-INF/views/include/plugin_js.jsp" %>
    <%@include file="/WEB-INF/views/include/login_css.jsp" %>
    
+   <script>
+    	let msg = '${msg}';
+    	if(msg == 'idFail') {
+    		alert("아이디를 확인해주세요");
+    	} else if(msg == 'pwFail') {
+    		alert("비밀번호를 확인해주세요");
+    	}
+    </script>
+   
  </head>
  <body>
    <%@include file="/WEB-INF/views/include/header.jsp" %>
@@ -23,7 +32,7 @@
 				</div>
 
 				<div class="loginwrap">
-					<form>
+					<form method="post" action="/member/login2" id="loginForm">
 						<div class="xans-element- xans-member xans-member-login ">
 							<div class="login">
 								<fieldset>
@@ -76,7 +85,10 @@
           mb_password.focus();
           return;
         }
+        
+        $("#loginForm").submit();
 
+        /*
         $.ajax({
           url: '/member/login',
           type: 'post',
@@ -96,6 +108,7 @@
             
           } 
         });
+        */
       });
       
       $("#btnJoinUs").on("click", function(){

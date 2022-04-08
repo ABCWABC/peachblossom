@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import com.peachblossom.domain.MemberVO;
 import com.peachblossom.domain.OrderDetailList;
 import com.peachblossom.domain.OrderInfoVO;
 import com.peachblossom.domain.OrderVO;
+import com.peachblossom.sevice.KakaoPayServiceImpl;
 import com.peachblossom.sevice.OrderService;
 import com.peachblossom.util.UploadFileUtils;
 
@@ -36,9 +38,11 @@ public class OrderController {
 	
 	private OrderService oService;
 	
+	private KakaoPayServiceImpl kakaopayService;
+	
 	//주문내역
 	@RequestMapping("/orderInfo")
-	public void orderInfo(String type, @RequestParam(value = "pro_num", required = false) Integer pro_num, @RequestParam(value = "pro_amount", required = false) Integer pro_amount, HttpSession session, Model model) {
+	public void orderInfo(@RequestParam(value = "type", required = false, defaultValue = "cart_order") String type, @RequestParam(value = "pro_num", required = false) Integer pro_num, @RequestParam(value = "pro_amount", required = false) Integer pro_amount, HttpSession session, Model model) {
 		
 		String mb_id = ((MemberVO) session.getAttribute("loginStatus")).getMb_id();
 		
@@ -91,6 +95,10 @@ public class OrderController {
 		rttr.addAttribute("pro_name", pro_name);
 		
 		return "redirect:/order/orderPayView";
+	}
+	
+	@GetMapping("/orderPayView")
+	public void orderPayView(@ModelAttribute("order") OrderVO order, @ModelAttribute("pro_name") String pro_name) {
 	}
 
 }

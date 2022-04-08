@@ -11,7 +11,7 @@
 	table, tr, th, td {
      		font-size: 12px;
      	}
-     	input[type=text], input[type=password] {
+   	input[type=text], input[type=password] {
 	    height: 25px;
 	    line-height: 25px;
 	    padding: 2px 4px;

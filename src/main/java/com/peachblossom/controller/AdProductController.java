@@ -30,7 +30,6 @@ import com.peachblossom.domain.Criteria;
 import com.peachblossom.domain.PageDTO;
 import com.peachblossom.domain.ProductVO;
 import com.peachblossom.sevice.AdminProductService;
-import com.peachblossom.sevice.SlideService;
 import com.peachblossom.util.UploadFileUtils;
 
 import lombok.AllArgsConstructor;
@@ -193,8 +192,6 @@ public class AdProductController {
 		
 		return entity;
 	}
-	
-	//상품삭제
 	
 	//상품선택삭제(ajax호출).pro_uploadpathArr   400에러발생되면. 클라이언트에서 보낸 데이타를 스프링에서 받지 못하는 상태. (중요)ajax로 사용시 파라미터를 [] 로 사용해야 한다.
 	@ResponseBody  

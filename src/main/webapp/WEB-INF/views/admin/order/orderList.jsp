@@ -38,7 +38,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content container-fluid">
+    <section class="content container-fluid" style="min-width: 1083px;">
 
 		<div class="row">
 			<div class="col-xs-12">
@@ -52,9 +52,9 @@
 								<input type="button" value="결제완료[${ord_pay}]" data-ordstate="결제완료" name="btnOrdState">
 								<input type="button" value="배송준비중[${ord_delivery}]" data-ordstate="배송준비중" name="btnOrdState">
 								<input type="button" value="배송처리" data-ordstate="배송처리" name="btnOrdState">
-								<input type="button" value="배송완료" data-ordstate="배송완료" name="btnOrdState">
+								<input type="button" value="배송완료" data-ordstate="배송완료" name="btnOrdState"><br>
 								<input type="button" value="주문취소" data-ordstate="주문취소" name="btnOrdState">
-								<input type="button" value="미주문" data-ordstate="미주문" name="btnOrdState"><br>
+								<input type="button" value="미주문" data-ordstate="미주문" name="btnOrdState">
 								<input type="button" value="취소요청[${ord_cancel}]" data-ordstate="취소요청" name="btnOrdState">
 								<input type="button" value="취소완료" data-ordstate="취소완료" name="btnOrdState">
 								<input type="button" value="교환요청[${ord_change}]" data-ordstate="교환요청" name="btnOrdState">
@@ -110,11 +110,11 @@
 											<c:forEach items="${orderList }" var="orderVO" varStatus="status">
 												<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
 													<td><input type="checkbox" class="check" value='<c:out value="${orderVO.ord_code }"></c:out>'></td>
-													<td class="sorting_1"><fmt:formatDate value="${orderVO.ord_regdate }" pattern="yyyy-MM-dd mm:hh" /></td>
-													<td><a class="move" href="<c:out value="${orderVO.ord_code }"></c:out>"> ${orderVO.ord_code } </a></td>
-													<td><input type="text" value='<c:out value="${orderVO.ord_name }" />'></td>
+													<td><fmt:formatDate value="${orderVO.ord_regdate }" pattern="yyyy-MM-dd mm:hh" /></td>
+													<td><a href="<c:out value="${orderVO.ord_code }"></c:out>">${orderVO.ord_code }</a></td>
+													<td><span><c:out value="${orderVO.ord_name }"></c:out></span><input type="hidden" value='<c:out value="${orderVO.ord_name }" />'></td>
 													<td>주문방법</td>
-													<td><input type="text" value='<c:out value="${orderVO.ord_price }"></c:out>'></td>
+													<td><span><c:out value="${orderVO.ord_price }"></c:out></span><input type="hidden" value='<c:out value="${orderVO.ord_price }"></c:out>'></td>
 													<td>
 														<select name="ord_state">
 															<option value="" <c:out value="${orderVO.ord_state == null? 'selected':'' }" />>주문상태 선택</option>
@@ -370,11 +370,6 @@
 
 	//주문상태변경
 	$("input[name='btnOrderStateChange']").on("click",function() {
-	
-		if ($(".check:checked").length == 0) {
-			alert("주문상태변경 항목을 선택하세요.");
-			return;
-		}
 	
 		let ord_code = $(this).data("ord_code");
 		let ord_state = $(this).parent().parent().find("select[name='ord_state']").val();

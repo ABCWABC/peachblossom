@@ -15,34 +15,72 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/pricing/">
     <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
     
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-      
-      .cartTitle {
-      	margin-bottom: 30px;
-      }
-      
-      table, tr, th, td {
-      	font-size: 12px;
-      }
-      img[name="proudctImage"] {
-      	width: 80px;
-      	height: auto;
-      }
-    </style>
+<style>
+	.bd-placeholder-img {
+		font-size: 1.125rem;
+		text-anchor: middle;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
+	}
+	
+	@media (min-width: 768px) {
+		.bd-placeholder-img-lg {
+			font-size: 3.5rem;
+		}
+	}
+	.cartTitle {
+		margin-bottom: 30px;
+	}
+	table, tr, th, td {
+		font-size: 12px;
+	}
+	img[name="proudctImage"] {
+		width: 80px;
+		height: auto;
+	}
+	input[name="orderAll"] {
+		display: inline-block;
+		box-sizing: border-box;
+		padding: 12px 38px;
+		border: 1px solid transparent;
+		border-radius: 0;
+		font-size: 12px;
+		line-height: 18px;
+		font-weight: normal;
+		text-decoration: none;
+		vertical-align: middle;
+		word-spacing: -0.5px;
+		letter-spacing: 0;
+		text-align: center;
+		white-space: nowrap;
+		color: #fff;
+		background-color: #222;
+	}
+	input[name="orderSome"] {
+		display: inline-block;
+		box-sizing: border-box;
+		padding: 12px 38px;
+		border: 1px solid #d5d5d5;
+		border-radius: 0;
+		font-size: 12px;
+		line-height: 18px;
+		font-weight: normal;
+		text-decoration: none;
+		vertical-align: middle;
+		word-spacing: -0.5px;
+		letter-spacing: 0;
+		text-align: center;
+		white-space: nowrap;
+		color: #353535;
+		background-color: #eee;
+	}
+	.ec-base-button {
+		padding: 10px 0;
+		text-align: center;
+	}
+</style>
 
   </head>
 
@@ -109,7 +147,6 @@
 					</tr>
 					<tr>
 						<td colspan="6">
-							<input type="button" id="btnOrderAdd" value="주문하기">
 							<input type="button" id="btnCartAllDelete" value="장바구니비우기">
 							<input type="button" id="btnCheckDelete" value="선택삭제">
 						</td>
@@ -118,6 +155,10 @@
 			</tbody>
 
 		</table>
+		<div class="ec-base-button">
+			  <input type="button" id="btnOrderAdd" value="전체주문하기" name="orderAll">
+			  <input type="button" value="주문취소" name="orderSome">
+		  </div>
 	</div>
 	</div>
       <%@include file="/WEB-INF/views/include/footer.jsp" %>

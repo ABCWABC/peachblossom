@@ -217,6 +217,38 @@ public class MemberController {
 		return entity;
 	}
 	
+	@PostMapping("/login2")
+	public String login2(@RequestParam("mb_id") String mb_id, @RequestParam("mb_password") String mbsp_password, HttpSession session, RedirectAttributes rttr) throws Exception{
+		
+		String url = "";
+
+		MemberVO vo = service.login(mb_id);
+		
+		if(vo == null) { // id가 존재안하는 의미
+			rttr.addFlashAttribute("msg", "idFail");
+			url = "/member/login";
+		}else {	// id가 존재하는 의미.
+			
+			if(cryptPassEnc.matches(mbsp_password, vo.getMb_password())) {
+				rttr.addFlashAttribute("msg", "loginsuccess");
+				
+				session.setAttribute("loginStatus", vo); // 로그인 성공 상태정보를 세션으로 저장
+				
+				String destination = (String) session.getAttribute("dest");
+				url = destination != null ? (String) destination : "/";
+				
+			}else {
+				
+				rttr.addFlashAttribute("msg", "pwFail");
+				url = "/member/login";
+			}
+		}
+		
+		
+		return "redirect:" + url;
+		
+	}
+	
 	//로그아웃처리
 	@GetMapping("/logout")
 	public String logout(HttpSession session, RedirectAttributes rttr) {

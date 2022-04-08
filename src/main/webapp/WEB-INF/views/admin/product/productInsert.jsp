@@ -118,7 +118,6 @@
 			  <div class="col-md-4">
 			      <label for="previewImage">미리보기</label>
 			      <img alt="" src="" id="previewImage">
-			      <!--<div id="preview_image"></div>-->
 			  </div>
 			  <div class="col-md-4">
 			      <button type="submit" id="btnProductInsert" class="form-control" style="width: 130px; margin-left: 30px;">상품등록</button>
@@ -140,104 +139,96 @@
 	<!-- REQUIRED JS SCRIPTS -->
 	<%@include file="/WEB-INF/views/admin/include/plugin_js.jsp" %>
 
-<!-- 상품이미지 미리보기 -->
 <script>
 
-	//
-    function readImage(input) {
+	//상품이미지 미리보기
+	function readImage(input) {
+	
 		if (input.files && input.files[0]) {
-		    
-		  let imgPath = $("#upload").val();
-		  let ext = imgPath.substring(imgPath.lastIndexOf(".")+1).toLowerCase();
-		  alert("파일경로: "+ imgPath +" , 확장자: "+ ext);
-		  if(typeof(FileReader) == "undefined") {
-		    alert("브라우저가 작업을 지원안합니다.");
-		    return;
-		  }
-		
-		  if(ext=="gif" || ext=="png" || ext=="jpg" || ext=="jpeg") {
-		    
-		    const reader = new FileReader();
-		    
-		    reader.onload = (e) => {
-		        const previewImage = document.getElementById('previewImage');
-		        previewImage.src = e.target.result;
-		    }
-		    reader.readAsDataURL(input.files[0]);
-		    
-		  }else{
-		    $("#upload").val("");
-		    alert("이미지 파일을 선택하세요.");
-		  }
-		}
-    }
-    
-    document.getElementById('upload').addEventListener('change', (e) => {
-        readImage(e.target);
-    })
-
-</script>
-
-<script>
-	$(document).ready(function(){
-		
-		let ckeditor_config = {
-				
-			resize_enabled : false,
-			enterMode : CKEDITOR.ENTER_BR,
-			shiftEnterMode : CKEDITOR.ENTER_P,
-			toolbarCanCollapse : true,
-			removePlugins : "elementspath",
 			
-			filebrowserUploadUrl : "editor/imageUpload"
-		};
-		CKEDITOR.replace('pro_content', ckeditor_config);
-		
-	});
+			let imgPath = $("#upload").val();
+			let ext = imgPath.substring(imgPath.lastIndexOf(".")+1).toLowerCase();
+			alert("파일경로: "+ imgPath +" , 확장자: "+ ext);
+			
+			if(typeof(FileReader) == "undefined") {
+				alert("브라우저가 작업을 지원안합니다.");
+				return;
+			}
+			
+			if(ext=="gif" || ext=="png" || ext=="jpg" || ext=="jpeg") {
+			  
+			const reader = new FileReader();
+			
+			reader.onload = (e) => {
+				const previewImage = document.getElementById('previewImage');
+				previewImage.src = e.target.result;
+			}
+			reader.readAsDataURL(input.files[0]);
+			  
+			}else{
+				$("#upload").val("");
+				alert("이미지 파일을 선택하세요.");
+			}
+		}
+	}
+	//상품이미지 미리보기 함수 실행
+	document.getElementById('upload').addEventListener('change', (e) => {
+		readImage(e.target);
+	})
+
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <script id="subCategoryTemplate" type="text/x-handlebars-template">
-  <option>2차카테고리 선택</option>
-  {{#each .}}
-  
-	<option value="{{cate_code}}">{{cate_name}}</option>
-  
-  {{/each}}
+	<option>2차카테고리 선택</option>
+	{{#each .}}
+		<option value="{{cate_code}}">{{cate_name}}</option>
+	{{/each}}
 </script>
 
 <script>
-  $(document).ready(function(){
 
-    $("#mainCategory").on("change", function(){
+	// subCategory   : 2차카테고리 데이타
+	// target        : 2차카테고리 바인딩 결과가 출력될 위치
+	// template      : 2차카테고리 핸들바템플릿
+	let subCategoryBindingView = function(subCategory, target, template) {
+	
+		let templateObj = Handlebars.compile(template.html());
+		let subCateOptionsResult = templateObj(subCategory);
+		
+		$("#subCategory option").remove();                                  //누적되는 증상발생. 처리..
+		target.append(subCateOptionsResult);
+	}
 
-      if($(this).val() == "") {alert("카테고리 선택하세요."); return;}
+	//2차카테고리 출력
+	$(document).ready(function(){
 
-      let url = "/admin/product/subCategory/" + $(this).val()
-
-      $.getJSON(url, function(data){
-
-        subCategoryBindingView(data, $("#subCategory"), $("#subCategoryTemplate"));
-
-      });
+	    $("#mainCategory").on("change", function(){
+	
+		    if($(this).val() == "") {alert("카테고리 선택하세요."); return;}
+		
+		    let url = "/admin/product/subCategory/" + $(this).val()
+		
+		    $.getJSON(url, function(data){
+		    	
+		    	subCategoryBindingView(data, $("#subCategory"), $("#subCategoryTemplate"));
+	    });
     });
+    
+	let ckeditor_config = {
+			
+		resize_enabled : false,
+		enterMode : CKEDITOR.ENTER_BR,
+		shiftEnterMode : CKEDITOR.ENTER_P,
+		toolbarCanCollapse : true,
+		removePlugins : "elementspath",
+		
+		filebrowserUploadUrl : "editor/imageUpload"
+	};
+	
+	CKEDITOR.replace('pro_content', ckeditor_config);
   });
-</script>
-
-<script>
-  // subCategory   : 2차카테고리 데이타
-  // target        : 2차카테고리 바인딩 결과가 출력될 위치
-  // template      : 2차카테고리 핸들바템플릿
-  let subCategoryBindingView = function(subCategory, target, template) {
-
-    let templateObj = Handlebars.compile(template.html());
-    let subCateOptionsResult = templateObj(subCategory);
-
-    //누적되는 증상발생. 처리..
-    $("#subCategory option").remove();
-    target.append(subCateOptionsResult);
-
-  }
+	
 </script>
 
 </body>

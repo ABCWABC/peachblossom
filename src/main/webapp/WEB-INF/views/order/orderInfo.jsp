@@ -42,6 +42,10 @@
 				</tr>
 			</thead>
 			<tbody>
+				<c:if test="${empty orderInfo}"></c:if>
+					
+				
+			
 				<c:if test="${not empty orderInfo}">
 				<c:forEach items="${orderInfo }" var="orderInfoVO" varStatus="status">
 					<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
@@ -213,14 +217,21 @@
 	        </tbody>
 	      </table>
 	      <div class="ec-base-button">
-	      	  <!-- <input type="hidden" name="type" value="cart_order"> -->
 			  <input type="submit" value="주문하기" name="order">
-			  <img src="/resources/img/custom_reco.gif" id="check_module">
 			  <input type="button" value="주문취소" name="cancel">
 		  </div>
+		  <div class="container">
+  <h5>결제하기</h5>
+  <div class="row">
+	<div class="col-sm-12">
+   		<img src="/resources/img/payment_icon_yellow_large.png" id="btn_kakaopay" style="cursor:pointer;">
+  	</div>
+  </div>  
+  <%@include file="/WEB-INF/views/include/footer.jsp" %>
+</div>
 	    </div>
 	  </form>
-	  
+	 
 	
 	  <%@include file="/WEB-INF/views/include/footer.jsp" %>
 	</div>

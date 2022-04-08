@@ -14,15 +14,11 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-	
-	
-	
-	
 		 
 	<resources mapping="/bower_components/**" location="/resources/bower_components/" />
 	<resources mapping="/dist/**" location="/resources/dist/" />
 	<resources mapping="/upload/**" location="/resources/upload/" />
-
+	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -35,5 +31,41 @@
 	<!-- 파일업로드 설정. 첨부된 파일을 UploadController의  MultipartFile[] uploadFile 에게 전달한다. -->
 	<!-- multipartResolver 지정된 이름이고, 서블릿 3.0이상의 버전에서 제공.  3.0미만에서서는 pom.xml에 업로드 라이브러리를 설정후 사용해야 함. -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>
+	
+	<!-- 인터셉터 클래스를 bean설정구문 -->
+	<beans:bean id="loginInterceptor" class="com.peachblossom.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="authInterceptor" class="com.peachblossom.interceptor.AuthInterceptor"></beans:bean>
+	
+	
+	<interceptors>
+		<!-- 사용자 로그인 관리 -->
+		<interceptor>
+			<mapping path="/member/mypage"/>
+			<mapping path="/order/*"/>
+			<mapping path="/cart/*"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>	
+		<!-- 관리자 로그인 관리 -->
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<exclude-mapping path="/admin/main"/>
+			<exclude-mapping path="/admin/login"/>
+			<exclude-mapping path="/admin/logout"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+		
+		<!-- 
+		<interceptor>
+			<mapping path="/member/loginOk"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>	
+	
+		<interceptor>
+			<mapping path="/admin/login"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>	
+ 		-->
+	
+	</interceptors>
 	
 </beans:beans>

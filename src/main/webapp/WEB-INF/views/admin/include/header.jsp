@@ -63,7 +63,6 @@
 						
 							<!-- The user image in the menu -->
 							<li class="user-header">
-								<img src="/dist/img/mementomori.jpg" class="img-circle" alt="User Image">
 								<p>neveraxe - Web Developer <small>Member since April. 2021</small></p>
 							</li>
 							
