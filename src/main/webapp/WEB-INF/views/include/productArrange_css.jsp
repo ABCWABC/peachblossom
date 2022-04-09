@@ -149,8 +149,9 @@
 	    vertical-align: top;
 	}
 	.slideshow img {
-		    width: 100%;
-		    height: auto;
+	    width: 100%;
+	    height: auto;
+	    z-index: -1;
 	}
 	.carousel-indicators button{
 		width: 30px;
@@ -164,4 +165,4 @@
 		margin: 0 10px 20px 0;
 		border: none;
 	}
-	</style>
+</style>

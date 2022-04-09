@@ -4,9 +4,6 @@
 
 <!-- header style -->
 <style>
-	.header {
-		/* position: fixed; */
-	}
 	.firstArea {
 		padding: 30px 0px 20px 0px; 
 	}
@@ -22,10 +19,18 @@
 		margin: 0px 100px 70px 100px;
 	    border-bottom: 1px solid #dee2e6;
 	}
+	.secondArea > div {
+		height: 35px;
+	}
 	#logoText{
 		margin: 0px 0px 0px 50px;
 		font-size: 30px;
 		font-weight: 100px;
+	}
+	.nav-item a {
+		font-size: 12px;
+		text-decoration: none;
+		color: black;
 	}
 	input[name=keyword] {
 		height: 25px;
@@ -34,13 +39,16 @@
 		width: 140px;
 		font-size: 12px;
 	}
-	.nav-item a {
-		font-size: 12px;
-		text-decoration: none;
-		color: black;
+	.subCategory {
+		position: absolute;
+		background: rgb(240, 240, 240, 0.5);
+		display: block;
+		z-index: 1;
+		min-width: 100px;
 	}
+
 </style>
-	<div class="header">
+	<div class="header" style="min-width: 1003px;">
 		<!-- topArea -->
 		<div class="firstArea">
 	       <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white">
@@ -76,6 +84,7 @@
 	    
 	    
 	    <div class="row secondArea">
+	    
 	    	<div class="col-sm-9">
 	            <ul class="nav">
 	            	<c:forEach items="${userCategory }" var="categoryVO">
@@ -87,11 +96,11 @@
 	            </ul>
 			</div>
 			
-			<div class="col-sm-2"> 
+			<div class="col-sm-3"> 
 			    <!-- 검색창 -->
 			    <form id="searchBarForm" name="" action="" method="get" target="_self" enctype="multipart/form-data">
 			        <input type="text" id="keyword" name="keyword" fw-filter="" fw-label="검색어" fw-msg="" class="inputTypeText" placeholder="검색" value="">
-			        <div>&#128270;</div>
+			        <span id="keywordIcon">&#128270;</span>
 				</form>
 			</div>
 	    </div>
@@ -101,6 +110,7 @@
 	$(function(){
 	  
 		//1차카테고리 클릭시
+		/*
 		$(".nav .nav-item a.nav-link").on("click", function(e){
 		 
 			e.preventDefault();
@@ -121,6 +131,54 @@
 					$(selector).append(subCategoryStr);
 				}
 			});
+		});
+		
+		$("div.subCategory").on("click", "a.sub_cate", function(e){
+		  
+			e.preventDefault();
+			
+			location.href = "/product/productList?cate_code=" + $(this).attr("href");
+		});
+		*/
+
+		
+		//1차카테고리 클릭시
+		$(".nav .nav-item a.nav-link").on("mouseenter", function(){
+			
+			let url = "/product/subCategory/" + $(this).attr("href");
+			let curAnchor = $(this);                                   // ajax메서드 호출전에 선택자 this를 전역변수로 받아야 한다.
+			
+			$.getJSON(url, function(data){
+			
+				$(".nav .nav-item div.subCategory").each(function(){   // 기존 2차카테고리 정보 모두 삭제
+					$(this).empty();
+				});
+				
+				let subCategoryStr = "";
+				for(let i=0; i<data.length; i++) {
+					let selector = "#subCategory_" + data[i].cate_prt_code;
+					subCategoryStr = "<a class='sub_cate' href='" + data[i].cate_code + "'>" + data[i].cate_name + "</a><br>";
+					$(selector).append(subCategoryStr);
+				}
+			});
+		});
+		
+			
+		$(".nav .nav-item div.subCategory").on("mouseleave", function(){
+		
+			let url = "/product/subCategory/" + $(".nav .nav-item a.nav-link").attr("href");
+			
+			$.getJSON(url, function(data){
+				$(".nav .nav-item div.subCategory").each(function(){   // 기존 2차카테고리 정보 모두 삭제
+					$(this).empty();
+				});
+			});
+		});
+		
+		$(".nav .nav-item a.nav-link").on("click", function(e){
+			
+			e.preventDefault();
+			//location.href = "/product/productList?cate_code=" + $(this).attr("href");
 		});
 		
 		$("div.subCategory").on("click", "a.sub_cate", function(e){

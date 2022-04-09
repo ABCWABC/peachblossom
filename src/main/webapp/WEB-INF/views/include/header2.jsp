@@ -141,13 +141,59 @@
 
 	      });
 	  });
+	
+		//
+		$('.nav .nav-item a.nav-link').on("mouseover",".secondArea > div",function(e){
+			$(this).stop().animate({height: '300px;'}, 300);
+		}).on("mouseout",".secondArea > div",function(e){
+			$(this).stop().animate({height: '35px;'});
+		});
+		
+		
+		$('.nav .nav-item').on("mouseover", ".secondArea > div", function(){
+			console.log("123");
+			$(this).stop().animate({height: '300px;'}, 300);
+		}).on("mouseout", ".secondArea > div" ,function(){
+			$(this).stop().animate({height: '35px;'});
+		});
+		
+		
+		$('.nav .nav-item a.nav-link').mouseover(function(){
+			$(".secondArea div").stop().animate({height: '300px;'}, 300);
+		}).mouseout(function(){
+			$(".secondArea div").stop().animate({height: '35px;'}, 300);
+		});
+		
+	  
+		//1차카테고리 클릭시
+		$(".nav .nav-item a.nav-link").on("click", function(e){
+		 
+			e.preventDefault();
+			
+			let url = "/product/subCategory/" + $(this).attr("href");
+			let curAnchor = $(this);                                   // ajax메서드 호출전에 선택자 this를 전역변수로 받아야 한다.
+			
+			$.getJSON(url, function(data){
+			
+				$(".nav .nav-item div.subCategory").each(function(){   // 기존 2차카테고리 정보 모두 삭제
+					$(this).empty();
+				});
+				
+				let subCategoryStr = "";
+				for(let i=0; i<data.length; i++) {
+					let selector = "#subCategory_" + data[i].cate_prt_code;
+					subCategoryStr = "<a class='sub_cate' href='" + data[i].cate_code + "'>" + data[i].cate_name + "</a><br>";
+					$(selector).append(subCategoryStr);
+				}
+			});
+		});
 
-	  $("div.subCategory").on("click", "a.sub_cate", function(e){
-		e.preventDefault();
-
-		//console.log("2차카테고리 클릭");
-		location.href = "/product/productList?cate_code=" + $(this).attr("href");
-	  });
+		$("li.subCategory").on("click", "a.sub_cate", function(e){
+			e.preventDefault();
+			
+			//console.log("2차카테고리 클릭");
+			location.href = "/product/productList?cate_code=" + $(this).attr("href");
+		});
 	});
   </script>
     

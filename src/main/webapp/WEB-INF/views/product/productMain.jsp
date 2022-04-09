@@ -19,7 +19,7 @@
 	
   </head>
   
-  <body>
+  <body style="min-width: 1003px;">
   	<%@include file="/WEB-INF/views/include/header.jsp" %>
   	
   	<div class="slideshow carousel slide" id="carouselExampleIndicators">
@@ -50,30 +50,30 @@
 	
 	<div class="ec-base-product">
 		<ul class="prdList grid4">
-			<c:forEach items="${bestProductList }" var="bestProductList" varStatus="status">
+			<c:forEach items="${bestProductList }" var="productVO" varStatus="status">
 				<li id="anchorBoxId_15159" class="xans-record-">
 					<div class="box card-body">
 						<div class="thumbnail">
 							<div class="prdImg">
-								<a href="${bestProductList.pro_num }" class="proDetail">
+								<a href="${productVO.pro_num }" class="proDetailBest">
 									<!-- 썸네일로 용량줄이고 싶을경우 사용 (대신 gif파일 사용불가, 화질흐림)
 										<img class="thumb" src="/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 									 -->
-									<img class="thumb" src="/product/displayFile?fileName=<c:out value="${bestProductList.pro_img }"></c:out>&uploadPath=<c:out value="${bestProductList.pro_uploadpath }"></c:out>">
+									<img class="thumb" src="/product/displayFile?fileName=<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 								</a>
 							</div>
 						</div>
 						<div class="description">  <!-- http://localhost:8888/product/productDetail?pageNum=1&amount=8&cate_code=7&pro_num=42 -->
 							<div class="txt">
 								<p class="name">
-									<a href="${bestProductList.pro_num }" class="proDetail">
-										<span style="font-size: 12px; color: #333333; font-weight: bold;"><c:out value="${bestProductList.pro_name }"></c:out></span>
+									<a href="${productVO.pro_num }" class="proDetailBest">
+										<span style="font-size: 12px; color: #333333; font-weight: bold;"><c:out value="${productVO.pro_name }"></c:out></span>
 									</a>
 								</p>
-								<input type="hidden" name="pro_num" value="${bestProductList.pro_num }">
+								<input type="hidden" name="pro_num" value="${productVO.pro_num }">
 								<ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
 									<li rel="판매가" class=" xans-record-">
-										<span style="font-size: 12px; color: #555555; font-weight: bold; text-decoration: line-through;"><fmt:formatNumber type="number" pattern="#,###" value="${bestProductList.pro_price }" />원</span>
+										<span style="font-size: 12px; color: #555555; font-weight: bold; text-decoration: line-through;"><fmt:formatNumber type="number" pattern="#,###" value="${productVO.pro_price }" />원</span>
 										<span id="span_product_tax_type_text" style="text-decoration: line-through;"> </span>
 									</li>
 									<li rel="할인판매가" class=" xans-record-" style="margin-bottom:10px;">
@@ -81,10 +81,10 @@
 											<span style="font-size: 12px; color: #555555;">할인판매가</span> :
 										</strong>
 										<span style="font-size: 12px; color: #555555;">
-											<fmt:parseNumber var="pro_disPrice" value="${bestProductList.pro_price - bestProductList.pro_price * (bestProductList.pro_discount*0.01) }" integerOnly="true" />
+											<fmt:parseNumber var="pro_disPrice" value="${productVO.pro_price - productVO.pro_price * (productVO.pro_discount*0.01) }" integerOnly="true" />
 											<fmt:formatNumber type="number" pattern="#,###" value="${pro_disPrice }" />원
 											<span style="font-size: 11px; color: #c19361;">(
-												<fmt:parseNumber var="disPrice" value="${bestProductList.pro_price * (bestProductList.pro_discount*0.01) }" integerOnly="true" />
+												<fmt:parseNumber var="disPrice" value="${productVO.pro_price * (productVO.pro_discount*0.01) }" integerOnly="true" />
 												<fmt:formatNumber type="number" pattern="#,###" value="${disPrice }" />원 할인)
 											</span>
 										</span>
@@ -109,30 +109,30 @@
 	</div>
 	<div class="ec-base-product">
 		<ul class="prdList grid4">
-			<c:forEach items="${newProductList }" var="newProductList" varStatus="status">
+			<c:forEach items="${newProductList }" var="productVO" varStatus="status">
 				<li id="anchorBoxId_15159" class="xans-record-">
 					<div class="box card-body">
 						<div class="thumbnail">
 							<div class="prdImg">
-								<a href="${newProductList.pro_num }" class="proDetail">
+								<a href="${productVO.pro_num }" class="proDetailNew">
 									<!-- 썸네일로 용량줄이고 싶을경우 사용 (대신 gif파일 사용불가, 화질흐림)
 										<img class="thumb" src="/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 									 -->
-									<img class="thumb" src="/product/displayFile?fileName=<c:out value="${newProductList.pro_img }"></c:out>&uploadPath=<c:out value="${newProductList.pro_uploadpath }"></c:out>">
+									<img class="thumb" src="/product/displayFile?fileName=<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 								</a>
 							</div>
 						</div>
 						<div class="description">  <!-- http://localhost:8888/product/productDetail?pageNum=1&amount=8&cate_code=7&pro_num=42 -->
 							<div class="txt">
 								<p class="name">
-									<a href="${productVO.pro_num }" class="proDetail">
-										<span style="font-size: 12px; color: #333333; font-weight: bold;"><c:out value="${newProductList.pro_name }"></c:out></span>
+									<a href="${productVO.pro_num }" class="proDetailNew">
+										<span style="font-size: 12px; color: #333333; font-weight: bold;"><c:out value="${productVO.pro_name }"></c:out></span>
 									</a>
 								</p>
-								<input type="hidden" name="pro_num" value="${newProductList.pro_num }">
+								<input type="hidden" name="pro_num" value="${productVO.pro_num }">
 								<ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
 									<li rel="판매가" class=" xans-record-">
-										<span style="font-size: 12px; color: #555555; font-weight: bold; text-decoration: line-through;"><fmt:formatNumber type="number" pattern="#,###" value="${newProductList.pro_price }" />원</span>
+										<span style="font-size: 12px; color: #555555; font-weight: bold; text-decoration: line-through;"><fmt:formatNumber type="number" pattern="#,###" value="${productVO.pro_price }" />원</span>
 										<span id="span_product_tax_type_text" style="text-decoration: line-through;"> </span>
 									</li>
 									<li rel="할인판매가" class=" xans-record-" style="margin-bottom:10px;">
@@ -140,10 +140,10 @@
 											<span style="font-size: 12px; color: #555555;">할인판매가</span> :
 										</strong>
 										<span style="font-size: 12px; color: #555555;">
-											<fmt:parseNumber var="pro_disPrice" value="${newProductList.pro_price - newProductList.pro_price * (newProductList.pro_discount*0.01) }" integerOnly="true" />
+											<fmt:parseNumber var="pro_disPrice" value="${productVO.pro_price - productVO.pro_price * (productVO.pro_discount*0.01) }" integerOnly="true" />
 											<fmt:formatNumber type="number" pattern="#,###" value="${pro_disPrice }" />원
 											<span style="font-size: 11px; color: #c19361;">(
-												<fmt:parseNumber var="disPrice" value="${newProductList.pro_price * (newProductList.pro_discount*0.01) }" integerOnly="true" />
+												<fmt:parseNumber var="disPrice" value="${productVO.pro_price * (productVO.pro_discount*0.01) }" integerOnly="true" />
 												<fmt:formatNumber type="number" pattern="#,###" value="${disPrice }" />원 할인)
 											</span>
 										</span>
@@ -160,7 +160,15 @@
 			</c:forEach>
 		</ul>
 	</div>
-	
+	<!--prev,page number, next 를 클릭하면 아래 form이 작동된다.-->
+	<form id="actionForm" action="/product/productList" method="get">
+		<!--list.jsp 가 처음 실행되었을 때 pageNum의 값을 사용자가 선택한 번호의 값으로 변경-->
+		<input type="hidden" name="pageNum" value="1">
+		<input type="hidden" name="amount" value="1">
+		<input type="hidden" name="cate_code" value="1">
+		
+		<!--글번호추가-->
+	</form>
 	<%@include file="/WEB-INF/views/include/footer.jsp" %>
     
 	<script>
@@ -281,8 +289,22 @@
 			actionForm.submit();
     	});
         
-		//상세페이지 이동
-	    $("a.proDetail").on("click", function(e){
+		//상세페이지 이동 - Best
+	    $("a.proDetailBest").on("click", function(e){
+	    	
+	    	console.log("123");
+	    	
+		    e.preventDefault();
+		    let pro_num = $(this).attr("href");
+		    actionForm.append("<input type='hidden' name='pro_num' value='" + pro_num + "'>");
+		    actionForm.attr("action", "/product/productDetail");
+		    actionForm.submit();
+	    });
+		
+		//상세페이지 이동 - New
+	    $("a.proDetailNew").on("click", function(e){
+	    	
+	    	console.log("456");
 	    	
 		    e.preventDefault();
 		    let pro_num = $(this).attr("href");
