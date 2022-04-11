@@ -14,7 +14,11 @@ public interface UserProductService {
 	
 	public List<ProductVO> getListWithPaging(Integer cate_code, Criteria cri);
 	
+	public List<ProductVO> getListWithPagingSearch(Criteria cri);
+	
 	public int getTotalCount(Integer cate_code);
+	
+	public int getTotalCountSearch(Criteria cri);
 	
 	public ProductVO productDetail(Integer pro_num);
 	

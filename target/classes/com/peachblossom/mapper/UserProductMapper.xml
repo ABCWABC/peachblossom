@@ -29,8 +29,7 @@
 	</select>
 	
 	<select id="getListWithPaging" resultType="com.peachblossom.domain.ProductVO">
-	
-		<![CDATA[ 
+		
 		SELECT 
 			pro_num, 
 			cate_prt_code, 
@@ -68,11 +67,13 @@
 				FROM 
 					product_tbl
 				WHERE 
+					<![CDATA[ 
 					cate_code = #{cate_code}
 					AND
 				    rownum <= (#{cri.pageNum} * #{cri.amount}) 
+				    ]]>
 				)
-		
+		<![CDATA[ 
 		WHERE 
 			rn > ((#{cri.pageNum} - 1) * #{cri.amount} )
 		]]>
@@ -226,5 +227,69 @@
 			)
 	
 	</select>
+	
+	<select id="getListWithPagingSearch" resultType="com.peachblossom.domain.ProductVO">
+		
+		SELECT 
+			pro_num, 
+			cate_prt_code, 
+			cate_code, 
+			pro_name, 
+			pro_price, 
+			pro_discount, 
+			pro_publisher, 
+			pro_content, 
+			pro_img,
+			pro_uploadpath, 
+			pro_amount, 
+			pro_buy, 
+			pro_date, 
+			pro_updatedate 
+			
+		FROM (
+		        SELECT 
+		        	/*+ index_desc(product_tbl pk_product_tbl) */ 
+		        	rownum rn, 
+		        	pro_num, 
+		        	cate_prt_code, 
+		        	cate_code, 
+		        	pro_name, 
+		        	pro_price, 
+		        	pro_discount, 
+		        	pro_publisher, 
+		        	pro_content,
+		        	pro_uploadpath, 
+		        	pro_img, 
+		        	pro_amount, 
+		        	pro_buy, 
+		        	pro_date, 
+		        	pro_updatedate
+				FROM 
+					product_tbl
+				WHERE 
+					pro_name like '%' || #{keyword} || '%'     <!-- 조건검색 AND -->
+					AND
+					<![CDATA[ 
+				    rownum <= (#{pageNum} * #{amount}) 
+				    ]]>
+				)
+		<![CDATA[ 
+		WHERE 
+			rn > ((#{pageNum} - 1) * #{amount} )
+		]]>
+	
+	</select>
+	
+	<select id="getTotalCountSearch" resultType="int">
+	
+		SELECT 
+			count(*) 
+		FROM 
+			product_tbl 
+		WHERE
+			pro_name like '%' || #{keyword} || '%'
+		
+	</select>
+	
 
 </mapper>

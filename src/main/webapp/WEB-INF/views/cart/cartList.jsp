@@ -117,7 +117,7 @@
 				
 				<c:if test="${not empty cartList}">
 				<c:forEach items="${cartList }" var="cartListVO" varStatus="status">
-					<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
+					<tr role="row cartProduct" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
 						<td><input type="checkbox" class="check" value="<c:out value="${cartListVO.cart_code }" />"></td>
 						<td>
 							<a class="pro_num" href="<c:out value="${cartListVO.pro_num }"></c:out>">
@@ -156,8 +156,8 @@
 
 		</table>
 		<div class="ec-base-button">
-			  <input type="button" id="btnOrderAdd" value="전체주문하기" name="orderAll">
-			  <input type="button" value="주문취소" name="orderSome">
+			  <input type="button" id="btnOrderAdd" value="전체상품 주문하기" name="orderAll">
+			  <input type="button" id="btnOrderAddSome" value="선택상품 주문하기" name="orderSome">
 		  </div>
 	</div>
 	</div>
@@ -285,10 +285,38 @@
 				location.href = "/cart/cartAllDelete";
 			});
 			
-			//주문하기
+			//주문하기-All
 			$("#btnOrderAdd").on("click", function(){
+				
 				location.href = "/order/orderInfo?type=cart_order";
-			});		
+				
+			});
+			
+			//주문하기-Some
+			$("#btnOrderAddSome").on("click", function(){
+				
+				if($(".check:checked").length == 0){
+					alert("주문할 상품을 선택하세요.");
+					return;
+				}
+				
+				let pro_num = [];
+				let pro_amount = [];
+				
+				$(".check:checked").each(function(){
+					let pro_num = $(this).parents(".cartProduct").find("a.pro_num").attr("href");
+					pro_numArr.push(pro_num);
+					
+					let pro_amount = $(this).parents(".cartProduct").find("input[name='cart_amount']").val();
+					pro_amountArr.push(pro_amount);
+					
+				})
+				
+				console.log(pro_num);
+				console.log(pro_amount);
+				
+				location.href = "/order/orderInfo?type=cart_order";
+			});	
 		});
 
 	</script>

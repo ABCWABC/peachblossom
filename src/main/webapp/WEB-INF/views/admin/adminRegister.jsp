@@ -25,10 +25,10 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Page Header<small>Optional description</small></h1>
+      <h5 style="font-weight:bold;">관리자기능<small style="margin-left:10px;">관리자회원추가</small></h5>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
+        <li><a href="/admin/main"><i class="fa fa-dashboard"></i>관리자 메인페이지</a></li>
+        <li class="active">관리자회원추가</li>
       </ol>
     </section>
 

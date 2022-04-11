@@ -48,8 +48,7 @@
 		<!-- 관리자 로그인 관리 -->
 		<interceptor>
 			<mapping path="/admin/**"/>
-			<exclude-mapping path="/admin/main"/>
-			<exclude-mapping path="/admin/login"/>
+			<exclude-mapping path="/admin/logon"/>
 			<exclude-mapping path="/admin/logout"/>
 			<beans:ref bean="authInterceptor"/>
 		</interceptor>

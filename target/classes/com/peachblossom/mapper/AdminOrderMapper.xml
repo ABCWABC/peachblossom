@@ -76,12 +76,12 @@
 				WHERE 
 		]]>     
 		
-		<!-- 날짜검색 -->
-		<include refid="period"></include>
-		<!-- 조건검색 -->
-		<include refid="criteria"></include>
-		
-		<![CDATA[     
+				<!-- 날짜검색 -->
+				<include refid="period"></include>
+				<!-- 조건검색 -->
+				<include refid="criteria"></include>
+				
+				<![CDATA[     
 				    rownum <= (#{cri.pageNum} * #{cri.amount}) 
 				)
 		

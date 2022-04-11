@@ -94,21 +94,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 														<input type="hidden" name="pro_img" value='<c:out value="${productVO.pro_img }"></c:out>'>
 														<input type="hidden" name="pro_uploadpath" value='<c:out value="${productVO.pro_uploadpath }"></c:out>'>
 													</td>
-													<td class="sorting_1"><c:out value="${productVO.pro_num }"></c:out></td>
+													<td><c:out value="${productVO.pro_num }"></c:out></td>
 													<td>
-													<a class="move" href="<c:out value="${productVO.pro_num }"></c:out>">
+													<a href="<c:out value="${productVO.pro_num }"></c:out>">
 														<!-- 
 														<img name="proudctImage" src="/admin/product/displayFile?fileName=s_<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 														 -->
 														<img name="proudctImage" src="/admin/product/displayFile?fileName=<c:out value="${productVO.pro_img }"></c:out>&uploadPath=<c:out value="${productVO.pro_uploadpath }"></c:out>">
 													</a>
-														<input type="text" style="width:200px;" value='<c:out value="${productVO.pro_name }"></c:out>' readonly>
+														<span> <c:out value="${productVO.pro_name }"></c:out></span>
+														<input type="hidden" style="width:200px;" value='<c:out value="${productVO.pro_name }"></c:out>'>
 													</td>
 													
 													<td><fmt:formatDate value="${productVO.pro_date }" pattern="yyyy-MM-dd" /><br><fmt:formatDate value="${productVO.pro_date }" pattern="hh:mm:ss" /></td>
-													<td><input type="text" value='<c:out value="${productVO.pro_price }"></c:out>' readonly></td>
 													<td>
-														<input type="text" value='<c:out value="${productVO.pro_amount }"></c:out>' readonly>
+														<span><c:out value="${productVO.pro_price }"></c:out></span>
+														<input type="hidden" value='<c:out value="${productVO.pro_price }"></c:out>'></td>
+													<td>
+														<span><c:out value="${productVO.pro_amount }"></c:out></span>
+														<input type="hidden" value='<c:out value="${productVO.pro_amount }"></c:out>'>
 													</td>
 													<td>
 														<input type="checkbox" value="<c:out value="${productVO.pro_buy }"></c:out>" 

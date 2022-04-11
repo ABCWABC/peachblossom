@@ -88,6 +88,24 @@ public class UserProductController {
 		model.addAttribute("productList", list);
 	}
 	
+	@GetMapping("/productListSearch")
+	public void productListSearch(@ModelAttribute("cri") Criteria cri, Model model) {
+		
+		cri.setAmount(8);
+		
+		List<ProductVO> list = service.getListWithPagingSearch(cri);
+		
+		for(int i=0; i<list.size(); i++) {
+			ProductVO vo = list.get(i);
+			vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
+		}
+		
+		int total = service.getTotalCountSearch(cri);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
+		model.addAttribute("productList", list);
+	}
+	
 	//상품상세페이지 출력
 	@GetMapping("/productDetail")
 	public void productDetail(@RequestParam(value = "type", defaultValue = "Y") String type, @ModelAttribute("cri") Criteria cri

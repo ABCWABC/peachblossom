@@ -48,18 +48,27 @@
 						<tbody>
 							<tr class=" xans-record-">
 								<th scope="row"><span style="font-size: 11px; color: #454545;">판매가</span></th>
-								<td><span style="font-size: 11px; color: #454545;"><strong id="span_product_price_text">${productVO.pro_price }</strong> 원
-									<input type="hidden" id="pro_price" name="pro_price" value=""></span></td>
+								<td>
+									<fmt:parseNumber var="pro_disPrice" value="${productVO.pro_price - productVO.pro_price * (productVO.pro_discount*0.01) }" integerOnly="true" />
+									<fmt:formatNumber type="number" pattern="#,###" value="${pro_disPrice }" />
+									<!-- 
+									<span style="font-size: 11px; color: #454545;"><strong id="span_product_price_text">${productVO.pro_price }</strong></span>--> 원
+									<input type="hidden" id="pro_price" name="pro_price" value="">
+								</td>
 							</tr>
 							<tr class=" xans-record-">
 								<th scope="row"><span style="font-size: 12px; color: #555555;">적립금</span></th>
-								<td><span style="font-size: 12px; color: #555555;"><span id="span_mileage_text">1%</span></span></td>
+								<td>
+									<span style="font-size: 12px; color: #555555;"><span id="span_mileage_text">1%</span></span>
+								</td>
 							</tr>
 
 							<tr class=" xans-record-">
 								<th scope="row"><span style="font-size: 12px; color: #555555;">배송비</span></th>
-								<td><span style="font-size: 12px; color: #555555;"><span class="delv_price_B">
-									<input id="delivery_cost_prepaid" name="delivery_cost_prepaid" value="P" type="hidden">무료</span></span></td>
+								<td>
+									<span style="font-size: 12px; color: #555555;">
+									<input type="hidden" id="delivery_cost_prepaid" name="delivery_cost_prepaid" value="P">무료</span>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -67,7 +76,8 @@
 					<input type="hidden" name="pro_num" id="pro_num" value="${productVO.pro_num }">
 					<input type="hidden" name="pro_amount" id="pro_amount" value="1">
 				</div>
-
+				
+				<!-- 
 				<table border="1" summary="" class="xans-element- xans-product xans-product-option xans-record-">
 					<caption>상품 옵션</caption>
 					<tbody></tbody>
@@ -75,19 +85,11 @@
 						<tr>
 							<th scope="row">color</th>
 							<td>
-								<select option_product_no="15158" option_select_element="ec-option-select-finder" option_sort_no="1" option_type="T" item_listing_type="S" 
-										option_title="color" product_type="product_option" product_option_area="product_option_15158_0" name="option1"
-										id="product_option_id1" class="ProductOption0" option_style="select" required="true">
-									<option value="*" selected="" link_image="">- [필수] 옵션을 선택해주세요 -</option>
-									<option value="**" disabled="" link_image="">-------------------</option>
+								<select>
+									<option>- [필수] 옵션을 선택해주세요 -</option>
+									<option>-------------------</option>
 									<option value="아이보리" link_image="">아이보리</option>
-									<option value="베이지" link_image="">베이지</option>
-									<option value="핑크" link_image="">핑크</option>
-									<option value="퍼플" link_image="">퍼플</option>
-									<option value="민트" link_image="">민트</option>
-									<option value="스카이블루" link_image="">스카이블루</option>
-									<option value="레드" link_image="">레드</option>
-									<option value="블랙" link_image="">블랙</option></select>
+								</select>
 								<p class="value"></p>
 							</td>
 						</tr>
@@ -102,8 +104,9 @@
 				<div id="totalPrice" class="totalPrice">
 					<strong>Total Price</strong>(qty) : <span class="total"><strong><em>0</em></strong> (0개)</span>
 				</div>
+				 -->
 
-				<div class="xans-element- xans-product xans-product-action ">
+				<div class="xans-element- xans-product xans-product-action " style="margin-top: 50px;">
 					<div class="ec-base-button gColumn">
 						<button type="button" name="btnBuyAdd" class="btn btn-sm btn-outline-secondary">Buy</button>&nbsp;
                   		<button type="button" name="btnCartAdd" class="btn btn-sm btn-outline-secondary">Cart</button>&nbsp;
@@ -179,6 +182,8 @@
         <!--list.jsp 가 처음 실행되었을 때 pageNum의 값을 사용자가 선택한 번호의 값으로 변경-->
         
         <!-- Criteria클래스가 기본생성자에 의하여 기본값으로 파라미터가 사용 -->
+        
+        <input type="hidden" name="keyword" value="${cri.keyword == null ? '' : cri.keyword}">
         
         <c:if test="${type == 'Y' }">
         	<input type="hidden" name="pageNum" value="${cri.pageNum}">
@@ -273,7 +278,7 @@
             success: function(data){
               if(data == "success") {
                 alert("상품후기가 등록됨");
-                getProductReview();            //리뷰페이지 불러오기 메서드
+                reviewLoad();            //리뷰페이지 불러오기 메서드
               }
             }
           });
@@ -300,7 +305,6 @@
             success: function(data){
               if(data == "success") {
                 alert("상품후기가 수정됨");
-                //getProductReview();
                 reviewLoad();
               }
             }
@@ -322,9 +326,8 @@
           let rew_score = $(this).parent().parent().find("[name='rew_score']").val();
           $("#reviewScore").val(rew_score);
 
-
-
           console.log("스코어" + rew_score);
+          
           //리뷰 내용
           let rew_content = $(this).parent().parent().find("[name='rew_content']").val();
           $("#reviewContent").val(rew_content);
@@ -374,13 +377,15 @@
         });
 
         //상품후기목록 페이지번호 클릭
-        let pageNum, pro_num;
+        let pageNum;
+        let pro_num;
+        
         $("#product_review").on("click", "ul.pagination a.page-link", function(e){
-          e.preventDefault();
-          pro_num = $("#pro_num").val();
-          pageNum = $(this).attr("href");
-          
-          reviewLoad();
+	        e.preventDefault();
+	        pro_num = $("#pro_num").val();
+	        pageNum = $(this).attr("href");
+	          
+	        reviewLoad();
           
         });
 

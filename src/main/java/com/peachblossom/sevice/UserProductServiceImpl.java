@@ -57,4 +57,14 @@ public class UserProductServiceImpl implements UserProductService {
 		return mapper.productBestList();
 	}
 
+	@Override
+	public List<ProductVO> getListWithPagingSearch(Criteria cri) {
+		return mapper.getListWithPagingSearch(cri);
+	}
+
+	@Override
+	public int getTotalCountSearch(Criteria cri) {
+		return mapper.getTotalCountSearch(cri);
+	}
+
 }

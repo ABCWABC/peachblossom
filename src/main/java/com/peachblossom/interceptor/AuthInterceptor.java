@@ -22,7 +22,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 		
 		// 세션처리작업
 		HttpSession session = request.getSession();
-		AdminVO admin = (AdminVO) session.getAttribute("admin");
+		AdminVO admin = (AdminVO) session.getAttribute("adminStatus");
 		
 		if(admin == null) {  // 관리자 미 로그인 시, 로그인 페이지 로드
 			logger.info("===== Admin not logged in =====");
@@ -30,7 +30,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 			// 로그인 페이지 로드 전에 요청된 페이지 정보 저장
 			getDestination(request);
 			
-			response.sendRedirect("/admin/main");
+			response.sendRedirect("/admin/logon");
 			
 			return false;
 		}

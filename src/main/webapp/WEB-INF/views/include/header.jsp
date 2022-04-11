@@ -46,6 +46,10 @@
 		z-index: 1;
 		min-width: 100px;
 	}
+	#keywordIcon{
+		border: none;
+		background: none;
+	}
 
 </style>
 	<div class="header" style="min-width: 1003px;">
@@ -68,15 +72,12 @@
 			    <c:if test="${sessionScope.loginStatus != null }">
 				    <a class="p-2 text-dark" href="/member/logout">LOGOUT</a>
 				    <a class="p-2 text-dark" href="/member/modify">MODIFY</a>
-				    <a class="p-2 text-dark" href="/cart/cartList">CART(숫자)</a>
+				    <a class="p-2 text-dark" href="/cart/cartList">CART</a>
 				</c:if>
 				
 				<!-- 로그인여부 상관없이 표시 -->
-			    <a class="p-2 text-dark" href="/order/orderInfo">ORDER</a>
+			    <a class="p-2 text-dark" href="/order/orderInfo">ORDER✨</a>
 			    <a class="p-2 text-dark" href="/member/mypage">MYPAGE</a>
-			    <a class="p-2 text-dark" href="#">NOTICE✨</a>
-			    <a class="p-2 text-dark" href="#">Q&A</a>
-			    <a class="p-2 text-dark" href="#">REVIEW</a>
 			    
 			  </nav>
 		   </div>
@@ -98,9 +99,14 @@
 			
 			<div class="col-sm-3"> 
 			    <!-- 검색창 -->
-			    <form id="searchBarForm" name="" action="" method="get" target="_self" enctype="multipart/form-data">
-			        <input type="text" id="keyword" name="keyword" fw-filter="" fw-label="검색어" fw-msg="" class="inputTypeText" placeholder="검색" value="">
-			        <span id="keywordIcon">&#128270;</span>
+			    <form id="searchBarForm" action="/product/productListSearch" method="get" target="_self">
+			        <input type="text" id="keyword" name="keyword" placeholder="검색" value="<c:out value="${pageMaker.cri.keyword}" />">
+			        <button id="keywordIcon">&#128270;</button>
+					
+					<input type="hidden" name="type" value="${pageMaker.cri.type}">
+					<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum == null ? 1 : pageMaker.cri.pageNum}">
+					<input type="hidden" name="amount" value="${pageMaker.cri.amount == null ? 8 : pageMaker.cri.amount}">
+					
 				</form>
 			</div>
 	    </div>

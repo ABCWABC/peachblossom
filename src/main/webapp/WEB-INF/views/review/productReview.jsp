@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<div class="col-sm-12 reviewWrite">
+<div class="col-sm-12 reviewWrite" style="min-width: 1000px;">
 	<h5>상품후기</h5>
 	<div class="rating">
 		<p id="star_grade">
@@ -14,8 +14,9 @@
 			<a href="#">★</a>
 		</p>
 	</div>
+	<input type="hidden" id="reviewNum">
 	<input type="hidden" id="reviewScore">
-	<textarea id="reviewContent" rows="1" style="width: 50%;"></textarea>
+	<textarea id="reviewContent" rows="1" style="width: 60%;"></textarea>
 	<button id="btnReviewAdd" style="font-size: 13px;">상품후기등록</button>
 	<button id="btnReviewEdit" style="display: none; font-size: 13px;">상품후기수정</button>
 </div>
@@ -33,6 +34,8 @@
 			<c:forEach items="${reviewListVO }" var="reviewVO" varStatus="status">
 				<tr>
 					<td>
+						<input type="hidden" name="rew_num" value="${reviewVO.rew_num }">
+						 <input type="hidden" name="rew_score" value="${reviewVO.rew_score }">
 						<c:set var="star" />
 						<c:choose>
 							<c:when test="${ reviewVO.rew_score eq 1 }">
@@ -58,9 +61,9 @@
 						</div>
 					</td>
 					<td style="font-size: 13px;">
-						${reviewVO.rew_content }
+						<input type="hidden" name="rew_content" value="${reviewVO.rew_content }">${reviewVO.rew_content }
 					</td>
-						<td style="min-width: 70px; font-size: 13px;">
+					<td style="min-width: 70px; font-size: 13px;">
 						<button type="button" name="btnReviewEditModal" class="" style="margin-bottom:3px;">수정</button><br>
 						<button type="button" name="btnReviewDelModal" class="">삭제</button>
 					</td>
@@ -95,7 +98,7 @@
 </div>
 
 <!--prev,page number, next 를 클릭하면 아래 form이 작동된다.-->
-<form id="actionForm" action="/admin/product/productList" method="get">
+<form id="reviewForm" action="/review/productReview" method="get">
 	<!--list.jsp 가 처음 실행되었을 때 pageNum의 값을 사용자가 선택한 번호의 값으로 변경-->
 	<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
 	<input type="hidden" name="amount" value="${pageMaker.cri.amount}">

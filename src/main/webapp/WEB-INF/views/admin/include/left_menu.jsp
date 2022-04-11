@@ -75,7 +75,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Link in level 2</a></li>
+            <li><a href="/admin/member/userinfo_list">회원목록</a></li>
             <li><a href="#">Link in level 2</a></li>
           </ul>
         </li>

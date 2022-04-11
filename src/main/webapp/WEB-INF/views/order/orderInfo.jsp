@@ -28,210 +28,199 @@
 			</div>
 		</div>
 	<form action="/order/orderAction" method="post" id="orderForm">
-	<div class="row">
-	<div class="col-sm-12">
-		<table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
-			<thead>
-				<tr role="row">
-					<th><input type="checkbox" id="checkAll" name="checkAll"></th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">상품이미지</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">상품명</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">판매가</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">수량</th>
-					<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">합계</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:if test="${empty orderInfo}"></c:if>
+		<div class="row">
+		<div class="col-sm-12">
+			<table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
+				<thead>
+					<tr role="row">
+						<th><input type="checkbox" id="checkAll" name="checkAll"></th>
+						<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">상품이미지</th>
+						<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">상품명</th>
+						<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">판매가</th>
+						<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">수량</th>
+						<th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1">합계</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:if test="${empty orderInfo}"></c:if>
+						
+					<c:if test="${not empty orderInfo}">
+					<c:forEach items="${orderInfo }" var="orderInfoVO" varStatus="status">
+						<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
+							<td><input type="checkbox" class="check" value="<c:out value="${cartListVO.cart_code }" />"></td>
+							<td>
+								<a class="move" href="<c:out value="${orderInfoVO.pro_num }"></c:out>">
+									<img name="proudctImage" src="/order/displayFile?fileName=<c:out value="${orderInfoVO.pro_img }"></c:out>&uploadPath=<c:out value="${orderInfoVO.pro_uploadpath }"></c:out>">
+								</a>
+							</td>
+							<td>
+								<span><c:out value="${orderInfoVO.pro_name }"></c:out></span>
+								<input type="hidden" name="orderDetailList[${status.index }].pro_num" value='<c:out value="${orderInfoVO.pro_num }"></c:out>'>
+							</td>
+							<td>
+								<span><c:out value="${orderInfoVO.pro_price }"></c:out></span> 원
+								<input type="hidden" value='<c:out value="${orderInfoVO.pro_price }"></c:out>'>
+							</td>
+							<td>
+								<span><c:out value="${orderInfoVO.cart_amount }"></c:out></span>
+								<input type="hidden" name="orderDetailList[${status.index }].dt_amount" value='<c:out value="${orderInfoVO.cart_amount }"></c:out>'>
+							</td>
+							<td>
+								<span><c:out value="${orderInfoVO.orderprice }"></c:out></span>
+								<input type="hidden" class="order_price" name="orderDetailList[${status.index }].dt_price" value='<c:out value="${orderInfoVO.orderprice }"></c:out>'>원
+							</td>
+						</tr>
+					</c:forEach>
+						<tr>
+							<td colspan="6">합계 : <span id="ord_price"></span> 원
+							<input type="hidden" name="ord_price"></td>
+						</tr>
+					</c:if>
+								 
 					
-				
+				</tbody>
+			</table>
+			<div style="font-size:11px; color:gray;">상품의 옵션 및 수량 변경은 상품상세 또는 장바구니에서 가능합니다.</div>
 			
-				<c:if test="${not empty orderInfo}">
-				<c:forEach items="${orderInfo }" var="orderInfoVO" varStatus="status">
-					<tr role="row" class="<c:if test="${status.count % 2 == 0 }">odd</c:if><c:if test="${status.count % 2 != 0 }">even</c:if>">
-						<td><input type="checkbox" class="check" value="<c:out value="${cartListVO.cart_code }" />"></td>
-						<td>
-							<a class="move" href="<c:out value="${orderInfoVO.pro_num }"></c:out>">
-								<img name="proudctImage" src="/order/displayFile?fileName=<c:out value="${orderInfoVO.pro_img }"></c:out>&uploadPath=<c:out value="${orderInfoVO.pro_uploadpath }"></c:out>">
-							</a>
-						</td>
-						<td>
-							<span><c:out value="${orderInfoVO.pro_name }"></c:out></span>
-							<input type="hidden" name="orderDetailList[${status.index }].pro_num" value='<c:out value="${orderInfoVO.pro_num }"></c:out>'>
-						</td>
-						<td>
-							<span><c:out value="${orderInfoVO.pro_price }"></c:out></span> 원
-							<input type="hidden" value='<c:out value="${orderInfoVO.pro_price }"></c:out>'>
-						</td>
-						<td>
-							<span><c:out value="${orderInfoVO.cart_amount }"></c:out></span>
-							<input type="hidden" name="orderDetailList[${status.index }].dt_amount" value='<c:out value="${orderInfoVO.cart_amount }"></c:out>'>
-						</td>
-						<td>
-							<span><c:out value="${orderInfoVO.orderprice }"></c:out></span>
-							<input type="hidden" class="order_price" name="orderDetailList[${status.index }].dt_price" value='<c:out value="${orderInfoVO.orderprice }"></c:out>'>원
-						</td>
-					</tr>
-				</c:forEach>
-					<tr>
-						<td colspan="6">합계 : <span id="ord_price"></span> 원
-						<input type="hidden" name="ord_price"></td>
-					</tr>
-				</c:if>
-							 
-				
-			</tbody>
-		</table>
-		<div style="font-size:11px; color:gray;">상품의 옵션 및 수량 변경은 상품상세 또는 장바구니에서 가능합니다.</div>
-		
-	</div>
-	</div>
-	  <br><br>
-	  <h6>주문 정보</h6>
-	  <p class="required">
-	  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
-	  </p>
-	  
-	  	<div>
-	  		<table class="table table-bordered">
-	        <colgroup>
-	          <col style="width:150px;">
-	          <col style="width:auto;">
-	        </colgroup>
-	        <tbody>
-	          <tr>
-	            <th scope="row">주문하시는 분 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <input type="text" name="mb_name" id="mb_name" value="${sessionScope.loginStatus.mb_name}">
-	            </td>
-	          </tr>
-	          
-	          <tr class="">
-	            <th scope="row">주소 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <input type="text" id="mb_zipcode" name="mb_zipcode" value="${sessionScope.loginStatus.mb_zipcode}" style="margin-bottom:5px"> 우편번호
-	              <br>
-	              <input type="text" id="mb_addr" name="mb_addr" value="${sessionScope.loginStatus.mb_addr}" style="margin-bottom:5px; width: 430px"> 기본주소
-	              <br>
-	              <input type="text" id="mb_addr_d" name="mb_addr_d" value="${sessionScope.loginStatus.mb_addr_d}" style="width: 430px"> 나머지주소
-	            </td>
-	          </tr>
-	          <tr class="">
-	            <th scope="row">휴대전화 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <input type="text" id="mb_mobile1" name="mb_mobile1" value="${sessionScope.loginStatus.mb_mobile1}">-
-	              <input type="text" id="mb_mobile2" name="mb_mobile2" value="${sessionScope.loginStatus.mb_mobile2}">-
-	              <input type="text" id="mb_mobile3" name="mb_mobile3" value="${sessionScope.loginStatus.mb_mobile3}">
-	            </td>
-	          </tr>
-	          <tr>
-	            <th scope="row">이메일 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <input type="text" id="mb_email" name="mb_email" value="${sessionScope.loginStatus.mb_email}">
-	              <br>-이메일을 통해 주문처리과정을 보내드립니다.
-	              <br>-이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해주세요.         
-	            </td>
-	          </tr>
-	        </tbody>
-	      </table>
-	    </div>
-	      <div style="font-size:11px; color:gray;">주문자정보 변경은 상단 MODIFY에서 가능합니다.</div>
-	  
-	  <br><br>
-	  <h6>배송 정보</h6>
-	  <p class="required">
-	  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
-	  </p>
-	  
-	  
-	  	<div>
-	  		<table class="table table-bordered">
-	        <colgroup>
-	          <col style="width:150px;">
-	          <col style="width:auto;">
-	        </colgroup>
-	        <tbody>
-	          <tr>
-	            <th scope="row">배송지선택 
-	            </th>
-	            <td>
-	              <input type="checkbox" id="orderInfoCopy"> 주문자 정보와 동일
-	            </td>
-	          </tr>
-	          <tr>
-	            <th scope="row">받으시는 분 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <input type="text" name="ord_name" id="ord_name">
-	            </td>
-	          </tr>
-	          
-	          <tr class="">
-	            <th scope="row">주소 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <input type="text" id="ord_zipcode" name="ord_zipcode" style="margin-bottom:5px">
-	              <input type="button" class="btnNormal" id="btnPostCode" name="btnPostCode" value="우편번호찾기" onclick="sample2_execDaumPostcode()">
-	              <br>
-	              <input type="text" id="ord_addr_basic" name="ord_addr_basic" style="margin-bottom:5px; width: 430px"> 기본주소
-	              <br>
-	              <input type="text" id="ord_addr_detail" name="ord_addr_detail" style="width: 430px"> 나머지주소
-	              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
-	            </td>
-	          </tr>
-	          <tr class="">
-	            <th scope="row">휴대전화 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <input type="text" id="ord_tel1" name="ord_tel1">-
-	              <input type="text" id="ord_tel2" name="ord_tel2">-
-	              <input type="text" id="ord_tel3" name="ord_tel3">
-	            </td>
-	          </tr>
-	          <tr>
-	            <th scope="row">배송메시지 
-	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
-	            </th>
-	            <td>
-	              <textarea rows="3" name="ord_message" id="ord_message"></textarea>
-	            </td>
-	          </tr>
-	          <tr>
-	            <th scope="row">입금자명
-	            </th>
-	            <td>
-	              <input type="text" id="ord_depositor" name="ord_depositor"> (주문자와 같을경우 생략가능)
-	            </td>
-	          </tr>
-	        </tbody>
-	      </table>
-	      <div class="ec-base-button">
-			  <input type="submit" value="주문하기" name="order">
-			  <input type="button" value="주문취소" name="cancel">
-		  </div>
-		  <div class="container">
-  <h5>결제하기</h5>
-  <div class="row">
-	<div class="col-sm-12">
-   		<img src="/resources/img/payment_icon_yellow_large.png" id="btn_kakaopay" style="cursor:pointer;">
-  	</div>
-  </div>  
-  <%@include file="/WEB-INF/views/include/footer.jsp" %>
-</div>
-	    </div>
+		</div>
+		</div>
+		  <br><br>
+		  <h6>주문 정보</h6>
+		  <p class="required">
+		  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
+		  </p>
+		  
+		  	<div>
+		  		<table class="table table-bordered">
+		        <colgroup>
+		          <col style="width:150px;">
+		          <col style="width:auto;">
+		        </colgroup>
+		        <tbody>
+		          <tr>
+		            <th scope="row">주문하시는 분 
+		              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+		            </th>
+		            <td>
+		              <input type="text" name="mb_name" id="mb_name" value="${sessionScope.loginStatus.mb_name}">
+		            </td>
+		          </tr>
+		          
+		          <tr class="">
+		            <th scope="row">주소 
+		              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+		            </th>
+		            <td>
+		              <input type="text" id="mb_zipcode" name="mb_zipcode" value="${sessionScope.loginStatus.mb_zipcode}" style="margin-bottom:5px"> 우편번호
+		              <br>
+		              <input type="text" id="mb_addr" name="mb_addr" value="${sessionScope.loginStatus.mb_addr}" style="margin-bottom:5px; width: 430px"> 기본주소
+		              <br>
+		              <input type="text" id="mb_addr_d" name="mb_addr_d" value="${sessionScope.loginStatus.mb_addr_d}" style="width: 430px"> 나머지주소
+		            </td>
+		          </tr>
+		          <tr class="">
+		            <th scope="row">휴대전화 
+		              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+		            </th>
+		            <td>
+		              <input type="text" id="mb_mobile1" name="mb_mobile1" value="${sessionScope.loginStatus.mb_mobile1}">-
+		              <input type="text" id="mb_mobile2" name="mb_mobile2" value="${sessionScope.loginStatus.mb_mobile2}">-
+		              <input type="text" id="mb_mobile3" name="mb_mobile3" value="${sessionScope.loginStatus.mb_mobile3}">
+		            </td>
+		          </tr>
+		          <tr>
+		            <th scope="row">이메일 
+		              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+		            </th>
+		            <td>
+		              <input type="text" id="mb_email" name="mb_email" value="${sessionScope.loginStatus.mb_email}">
+		              <br>-이메일을 통해 주문처리과정을 보내드립니다.
+		              <br>-이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해주세요.         
+		            </td>
+		          </tr>
+		        </tbody>
+		      </table>
+		    </div>
+		      <div style="font-size:11px; color:gray;">주문자정보 변경은 상단 MODIFY에서 가능합니다.</div>
+		  
+		  <br><br>
+		  <h6>배송 정보</h6>
+		  <p class="required">
+		  	<img alt="" src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif"> 필수입력사항
+		  </p>
+		  
+		  
+		  	<div>
+		  		<table class="table table-bordered">
+		        <colgroup>
+		          <col style="width:150px;">
+		          <col style="width:auto;">
+		        </colgroup>
+		        <tbody>
+		          <tr>
+		            <th scope="row">배송지선택 
+		            </th>
+		            <td>
+		              <input type="checkbox" id="orderInfoCopy"> 주문자 정보와 동일
+		            </td>
+		          </tr>
+		          <tr>
+		            <th scope="row">받으시는 분 
+		              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+		            </th>
+		            <td>
+		              <input type="text" name="ord_name" id="ord_name">
+		            </td>
+		          </tr>
+		          
+		          <tr class="">
+		            <th scope="row">주소 
+		              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+		            </th>
+		            <td>
+		              <input type="text" id="ord_zipcode" name="ord_zipcode" style="margin-bottom:5px">
+		              <input type="button" class="btnNormal" id="btnPostCode" name="btnPostCode" value="우편번호찾기" onclick="sample2_execDaumPostcode()">
+		              <br>
+		              <input type="text" id="ord_addr_basic" name="ord_addr_basic" style="margin-bottom:5px; width: 430px"> 기본주소
+		              <br>
+		              <input type="text" id="ord_addr_detail" name="ord_addr_detail" style="width: 430px"> 나머지주소
+		              <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
+		            </td>
+		          </tr>
+		          <tr class="">
+		            <th scope="row">휴대전화 
+		              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+		            </th>
+		            <td>
+		              <input type="text" id="ord_tel1" name="ord_tel1">-
+		              <input type="text" id="ord_tel2" name="ord_tel2">-
+		              <input type="text" id="ord_tel3" name="ord_tel3">
+		            </td>
+		          </tr>
+		          <tr>
+		            <th scope="row">배송메시지 
+		              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
+		            </th>
+		            <td>
+		              <textarea rows="3" name="ord_message" id="ord_message"></textarea>
+		            </td>
+		          </tr>
+		          <tr>
+		            <th scope="row">입금자명
+		            </th>
+		            <td>
+		              <input type="text" id="ord_depositor" name="ord_depositor"> (주문자와 같을경우 생략가능)
+		            </td>
+		          </tr>
+		        </tbody>
+		      </table>
+		      <div class="ec-base-button">
+				  <input type="submit" value="주문하기(일반결제)" name="order">
+				  <input type="button" value="주문하기(카카오페이결제)" name="orderKAKAO">
+				  <input type="button" value="주문취소" name="cancel">
+			  </div>
+		    </div>
 	  </form>
-	 
 	
 	  <%@include file="/WEB-INF/views/include/footer.jsp" %>
 	</div>
@@ -264,12 +253,21 @@
           $("#ord_tel2").val($("#mb_mobile2").val());
           $("#ord_tel3").val($("#mb_mobile3").val());
 	  });
+      
+      $("input[name='cancel']").on("click", function() {
+    	  location.href = "/";
+      });
     
+	  $("input[name='orderKAKAO']").on("click", function(){
+		 
+		 $("#orderForm").attr("action", "/order/orderActionKAKAO");
+		 $("#orderForm").submit();
+	  });
     });
 
 </script>
 
-<!--우연번호 DAUM API-->
+<!--우편번호 DAUM API-->
 <!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
   <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">

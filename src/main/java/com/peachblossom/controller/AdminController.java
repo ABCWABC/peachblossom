@@ -57,6 +57,14 @@ public class AdminController {
 		return "redirect:"+redirectUrl;
 	}
 	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		
+		session.invalidate();
+		
+		return "/admin/logon";
+	}
+	
 	@GetMapping("/main")
 	public void main() {
 	}

@@ -7,7 +7,7 @@
    <meta name="description" content="">
    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
    <meta name="generator" content="Hugo 0.88.1">
-   <title>Insert title here</title>
+   <title>peach blossom</title>
    <%@include file="/WEB-INF/views/include/plugin_js.jsp" %>
    <%@include file="/WEB-INF/views/include/login_css.jsp" %>
    

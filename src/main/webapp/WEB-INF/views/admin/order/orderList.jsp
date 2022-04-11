@@ -319,7 +319,7 @@
 	//삭제버튼 클릭시
 	$("input[name='btnProductDelete']").on("click",function() {
 	
-		if (!confirm("삭제하겠읍니까?")) return;
+		if (!confirm("삭제하겠습니까?")) return;
 	
 		let pro_num = $(this).data("pro_num");
 		
@@ -381,23 +381,39 @@
 		ord_codeArr.push(ord_code);
 		let ord_StateArr = []; //주문상태 배열
 		ord_StateArr.push(ord_state);
-	
-		$.ajax({
-			url : '/admin/order/orderStateAll',
-			type : 'post',
-			dataType : 'text',
-			data : {
-				ord_codeArr : ord_codeArr,
-				ord_StateArr : ord_StateArr
-			},
-			success : function(data) {
-				if (data == "success") {
-					alert("주문상태가 변경됨");
+		
+		if(ord_state == "주문취소") {
+			$.ajax({
+				url : '/admin/order/orderDelete',
+				type : 'post',
+				dataType : 'text',
+				data : {
+					ord_code : ord_code,
+				},
+				success : function(data) {
+					if (data == "success") {
+						alert("주문정보가 삭제됨");
+					}
 				}
-			}
-		});
+			});
+		}else{
+			$.ajax({
+				url : '/admin/order/orderStateAll',
+				type : 'post',
+				dataType : 'text',
+				data : {
+					ord_codeArr : ord_codeArr,
+					ord_StateArr : ord_StateArr
+				},
+				success : function(data) {
+					if (data == "success") {
+						alert("주문상태가 변경됨");
+					}
+				}
+			});
+		}
+	
 	});
-
 
 	// 주문진행상태별 목록보기
 	$("input[name='btnOrdState']").on("click", function(){

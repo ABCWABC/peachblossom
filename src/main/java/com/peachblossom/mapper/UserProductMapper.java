@@ -16,7 +16,11 @@ public interface UserProductMapper {
 	
 	public List<ProductVO> getListWithPaging(@Param("cate_code") Integer cate_code, @Param("cri") Criteria cri);
 	
+	public List<ProductVO> getListWithPagingSearch(Criteria cri);
+	
 	public int getTotalCount(Integer cate_code);
+	
+	public int getTotalCountSearch(Criteria cri);
 	
 	public ProductVO productDetail(Integer pro_num);
 	

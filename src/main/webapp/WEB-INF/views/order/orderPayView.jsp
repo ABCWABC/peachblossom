@@ -34,14 +34,11 @@
 <%@include file="/WEB-INF/views/include/header.jsp" %>
 
 <div class="container">
-  <h5>결제하기</h5>
-  <div class="row">
-	<div class="col-sm-12">
-   		<img src="/resources/img/payment_icon_yellow_large.png" id="btn_kakaopay" style="cursor:pointer;">
-  	</div>
-  </div>  
-  <%@include file="/WEB-INF/views/include/footer.jsp" %>
+	<h6>하단 카카오페이 결제 버튼을 클릭해주세요.</h6>
+	<img src="/resources/img/payment_icon_yellow_large.png" id="btn_kakaopay" style="cursor:pointer; width: 70px;">
 </div>
+
+	<%@include file="/WEB-INF/views/include/footer.jsp" %>
 
 
 <script>

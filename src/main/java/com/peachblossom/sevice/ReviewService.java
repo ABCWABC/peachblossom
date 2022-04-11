@@ -16,4 +16,5 @@ public interface ReviewService {
 	public void reviewEdit(ReviewVO vo);
 	
 	public void reviewDel(Integer rew_num);
+	
 }
