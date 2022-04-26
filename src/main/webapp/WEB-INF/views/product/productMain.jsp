@@ -33,14 +33,6 @@
   			<a href=""><img alt="" id="Slide2" src="/resources/img/main_image_2.jpg" width="1000px"></a>
   			<a href=""><img alt="" id="Slide3" src="/resources/img/main_image_3.jpg" width="1000px"></a>
   		</div>
-		<button class="carousel-control-prev" type="button" data-bs-slide="prev">
-			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			<span class="visually-hidden"></span>
-		</button>
-		<button class="carousel-control-next" type="button" data-bs-slide="next">
-			<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			<span class="visually-hidden"></span>
-		</button>
   	</div>
 	
 	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -194,28 +186,6 @@
 				currentIndex = nextIndex;
 			}
 	
-	        //메인슬라이드 prev, next 처리
-	        $(".carousel-control-prev").on("click", function(){
-	        	
-	        	showNextSlide().stop();                            //멈춤오류
-	        	
-	        	var prevIndex = (currentIndex-1) % slideCount;
-	        	var nextIndex = (currentIndex+1) % slideCount;
-	        	
-	        	slides.eq(currentIndex).hide();
-				slides.eq(prevIndex).show();
-				currentIndex = nextIndex;
-	        });
-	        $(".carousel-control-next").on("click", function(){
-	        	
-	        	showNextSlide().stop();
-	        	
-	        	var nextIndex = (currentIndex+1) % slideCount;
-	        	slides.eq(currentIndex).hide();
-				slides.eq(nextIndex).show();
-				currentIndex = nextIndex;
-	        });
-	        
 	        //슬라이드바 클릭시 처리
 	        $("#indicators1").on("click", function() {
 	        	showNextSlide().stop();                             //멈춤오류

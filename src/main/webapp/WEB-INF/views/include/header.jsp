@@ -149,15 +149,13 @@
 			location.href = "/product/productList?cate_code=" + $(this).attr("href");
 		});
 		*/
+		
+		let cateRemove1 = true;
+		let cateRemove2 = true;
 
-		let iscateRemove1 = false;
-		let iscateRemove2 = false;
 		
 		//1차카테고리 클릭시
 		$(".nav .nav-item a.nav-link").on("mouseenter", function(){
-			
-			iscateRemove1 = true;
-			iscateRemove2 = true;
 			
 			let url = "/product/subCategory/" + $(this).attr("href");
 			let curAnchor = $(this);                                   // ajax메서드 호출전에 선택자 this를 전역변수로 받아야 한다.
@@ -177,11 +175,14 @@
 			});
 		});
 		
-		$(".nav .nav-item a.nav-link").on("mouseleave", function(){
+		$(".nav .nav-item").on("mouseenter", function(){ cateRemove1 = false; });
+		
+		$(".nav .nav-item").on("mouseleave", function(){
 			
-			iscateRemove1 = false;
-			
-			if(!iscateRemove1 && !iscateRemove2){
+			cateRemove1 = true;
+		
+			if(cateRemove1&&cateRemove2) {
+				
 				let url = "/product/subCategory/" + $(".nav .nav-item a.nav-link").attr("href");
 				
 				$.getJSON(url, function(data){
@@ -190,22 +191,39 @@
 					});
 				});
 			}
+		
 		});
+		
+		$(".nav .nav-item div.subCategory").on("mouseenter", function(){ cateRemove2 = false; });
+		
+/* 		$(".nav .nav-item a.nav-link").on("mouseleave", function(){
+			
+			if(cateRemove1&&cateRemove2) {
+				
+				let url = "/product/subCategory/" + $(".nav .nav-item a.nav-link").attr("href");
+				
+				$.getJSON(url, function(data){
+					$(".nav .nav-item div.subCategory").each(function(){   // 기존 2차카테고리 정보 모두 삭제
+						$(this).empty();
+					});
+				});
+				
+			}
+		}); */
 		
 		$(".nav .nav-item div.subCategory").on("mouseleave", function(){
 			
-			iscateRemove2 = false;
+			cateRemove2 = true;
 			
-			/*
 			let url = "/product/subCategory/" + $(".nav .nav-item a.nav-link").attr("href");
 			
 			$.getJSON(url, function(data){
 				$(".nav .nav-item div.subCategory").each(function(){   // 기존 2차카테고리 정보 모두 삭제
 					$(this).empty();
-					
 				});
 			});
-			*/
+			
+
 		});
 		
 		$(".nav .nav-item a.nav-link").on("click", function(e){
