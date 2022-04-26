@@ -44,6 +44,9 @@ public class AdProductController {
 	@Resource(name = "uploadFolder")
 	String uploadFolder;              // d:\\dev\\upload *
 	
+	@Resource(name = "ckUploadFolder")
+	String ckUploadFolder;              // d:\\dev\\upload *
+	
 	private AdminProductService service;
 	
 	// 상품등록폼 - 1차카테고리 정보 출력
@@ -73,10 +76,12 @@ public class AdProductController {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		
-		try {
+		try { //D:\Dev\Program\Spring\workspace\peachblossom\src\main\webapp\resources
 			String fileName = upload.getOriginalFilename();
 			byte[] bytes = upload.getBytes();
-			String uploadPath = request.getSession().getServletContext().getRealPath("/resources/upload/") + fileName;
+			
+			//String uploadPath =  ckUploadFolder + "\\WEB-INF\\views\\admin\\product\\upload\\" + fileName;
+			String uploadPath = ckUploadFolder + fileName;
 			
 			log.info("업로드폴더 물리적경로: " + uploadPath);
 			
@@ -89,7 +94,8 @@ public class AdProductController {
 			log.info(callback);
 			
 			printWriter = response.getWriter();
-			String fileUrl = "/upload/" + fileName;
+//			String fileUrl = "/upload/" + fileName;
+			String fileUrl = "/product/upload/" + fileName;
 			printWriter.println("<script>window.parent.CKEDITOR.tools.callFunction("
 								+ callback
 								+ ",'"

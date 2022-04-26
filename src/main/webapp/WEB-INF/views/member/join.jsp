@@ -43,7 +43,8 @@
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
-	              <input type="text" id="mb_id" name="mb_id"> (영문소문자/숫자, 4~16자) &nbsp
+	              <input type="text" id="mb_id" name="mb_id">
+	              <span id="idCheckState"></span> (영문소문자/숫자 조합, 4~16자) &nbsp
 	              <button type="button" class="btnNormal" id="btnUseIDChk">중복체크</button>
 	            </td>
 	          </tr>
@@ -53,19 +54,8 @@
 	            </th>
 	            <td>
 	              <div class="">
-	                <input type="password" id="mb_password" name="mb_password"> (영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)
-	                <div class="">
-	                  <div class="">
-	                    <!-- 클릭시 나타나게 표시
-	                    <strong class="">※ 비밀번호 입력 조건</strong>
-	                    <ul class="">
-	                      - 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자
-	                      <br> - 입력 가능 특수문자
-	                      <br> &nbsp;&nbsp;&nbsp; ~ ` ! @ # $ % ^ ( ) _ - = { } [ ] | ; : &lt; &gt; , . ? /
-	                      <br> - 공백 입력 불가능
-	                    </ul> -->
-	                  </div>
-	                </div>
+	                <input type="password" id="mb_password" name="mb_password">
+	                <span id="pwCheckState"></span> (영문 대소문자/숫자/특수문자[~!@\#$%^*] 조합, 8자~16자)
 	              </div> 
 	            </td>
 	          </tr>
@@ -74,7 +64,7 @@
 	              <img src="//img.echosting.cafe24.com/skin/base/common/ico_required.gif" alt="필수">
 	            </th>
 	            <td>
-	              <input type="text" id="exampleInputEmail1">
+	              <input type="password" id="mb_passwordConfirm">
 	            </td>
 	          </tr>
 	          <tr>
@@ -134,9 +124,9 @@
 	            </th>
 	            <td>
 				
-	              <input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y">
-	              <label for="mb_accept_e_Y">동의함</label>
-	              <input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N" checked="checked">
+	              <input type="radio" id="mb_accept_e_Y" name="mb_accept_e" value="Y" checked="checked">
+	              <label for="mb_accept_e_Y">동의함</label> &nbsp
+	              <input type="radio" id="mb_accept_e_N" name="mb_accept_e" value="N">
 	              <label for="mb_accept_e_N">동의안함</label>
 	            <!-- 
 	            	<div id="checkbox">
@@ -149,7 +139,7 @@
 	      </table>
 	    </div>
 	    <div class="joinButton">
-	      <button type="submit" id="btnJoin" class="btn btn-dark btn-sm">회원가입</button>
+	      <button type="button" id="btnJoin" class="btn btn-dark btn-sm">회원가입</button>
 	    </div>
 	  </form>
 	  
@@ -159,20 +149,51 @@
 <script>
 
   $(document).ready(function(){
+	  
+	let isValidityId = false;                         // 아이디유효성체크
+	let isValidityPw = false;                         // 비밀번호유효성체크
+	let isValidityTel = false;                         // 전화번호유효성체크
 
     let isCheckID = false;                            // 아이디중복체크 
 
     let isMailAuthConfirm = false;                    // 메일인증확인체크
     
+    let isNotNullId = false;                    	  // 아이디 NotNull값체크
+    let isNotNullPw = false;                    	  // 비밀번호 NotNull값체크
+    let isNotNullName = false;                    	  // 이름 NotNull값체크
+    let isNotNullEmail = false;                    	  // 이메일 NotNull값체크
+    let isNotNulladdr = false;                    	  // 주소 NotNull값체크
+    let isNotNullAll = false;                    	  // 전체 NotNull값체크
+    
+	let patternNum = /[0-9]/;
+	let patternCha1 = /[a-z]/;
+	let patternCha2 = /[a-zA-Z]/;
+	let patternSym = /[~!@\#$%^*]/;
+	let patternTel1 = /^([1-9]+[0-9]{2,3})/
+	let patternTel2 = /([0-9]{4})/
+    
     //회원가입 처리
-    $("#joinForm").on("submit", function(){
+    $("#btnJoin").on("click", function(){
+    	
+	  checkNull();
+	  checkValidityId();
+	  checkValidityPw();
+	  checkValidityTel();
+	  
+      if(!isNotNullId){
+    	  return false;
+      }
       
       console.log("아이디중복체크? " + isCheckID)
-
+      
       if(isCheckID == false){
         alert("아이디 중복체크 확인바람");
         $("#mb_id").focus();
         return false;
+      }
+      
+      if(!isNotNullPw || !isNotNullName || !isNotNullEmail){
+    	  return false;
       }
 
       if(isMailAuthConfirm == false){
@@ -180,18 +201,116 @@
         $("#btnMailAuthReq").focus();
         return false;
       }
+      
+      if(isNotNullAll == false || isValidityId == false || isValidityPw == false || isValidityTel == false){
+    	  return false;
+      }
+      
+      $("#joinForm").submit();
  
     });
+    
+    //Null값 체크
+    function checkNull() {
+    	
+    	var mb_id = $("#mb_id");
+    	var mb_password = $("#mb_password");
+    	var mb_passwordConfirm = $("#mb_passwordConfirm");
+    	var mb_name = $("#mb_name");
+    	var mb_email = $("#mb_email");
+    	var mb_zipcode = $("#mb_zipcode");
+    	var mb_addr = $("#mb_addr");
+    	var mb_addr_d = $("#mb_addr_d");
+    	var mb_mobile1 = $("#mb_mobile1");
+    	var mb_mobile2 = $("#mb_mobile2");
+    	var mb_mobile3 = $("#mb_mobile3");
+    	
+    	if(mb_id.val() == "" || mb_id.val() == null) { alert("아이디를 입력하세요."); mb_id.focus(); return; } else { isNotNullId = true; }
+    	if(mb_password.val() == "" || mb_password.val() == null) { alert("비밀번호를 입력하세요."); mb_password.focus(); return; }
+    	if(mb_passwordConfirm.val() == "" || mb_passwordConfirm.val() == null) { alert("비밀번호 확인을 입력하세요."); mb_passwordConfirm.focus(); return; } else { isNotNullPw = true; }
+    	if(mb_name.val() == "" || mb_name.val() == null) { alert("이름을 입력하세요."); mb_name.focus(); return; } else { isNotNullName = true; }
+    	if(mb_email.val() == "" || mb_email.val() == null) { alert("이메일을 입력하세요."); mb_email.focus(); return; } else { isNotNullEmail = true; }
+    	if(mb_zipcode.val() == "" || mb_zipcode.val() == null) { alert("우편번호를 입력하세요."); mb_zipcode.focus(); return; }
+    	if(mb_addr.val() == "" || mb_addr.val() == null) { alert("주소를 입력하세요."); mb_addr.focus(); return; }
+    	if(mb_addr_d.val() == "" || mb_addr_d.val() == null) { alert("주소를 입력하세요."); mb_addr_d.focus(); return; } else { isNotNulladdr = true; }
+    	if(mb_mobile1.val() == "" || mb_mobile1.val() == null) { alert("전화번호를 입력하세요."); mb_mobile1.focus(); return; }
+    	if(mb_mobile2.val() == "" || mb_mobile2.val() == null) { alert("전화번호를 입력하세요."); mb_mobile2.focus(); return; }
+	   	if(mb_mobile3.val() == "" || mb_mobile3.val() == null) { alert("전화번호를 입력하세요."); mb_mobile3.focus(); return; } else { isNotNullAll = true; }
+	   	
+    }
+    
+    //id 유효성검사
+    function checkValidityId() {
+    	
+    	var mb_id = $("#mb_id").val();
+    	
+    	console.log("아이디 유효성체크");
+    	if(!patternNum.test(mb_id) || !patternCha1.test(mb_id) || mb_id.length<4 || mb_id.length>16) {
+    		
+    		$('#idCheckState').css("color", "red");
+    		$('#idCheckState').html("아이디는 영문소문자+숫자 4~16자리로 입력해주세요.");
+    		
+    		return false;
+    		
+    	}else {
+    		isValidityId = true;
+    	}
+    	
+    }
+    
+    //pw 유효성검사
+    function checkValidityPw() {
+    	
+    	var mb_password = $("#mb_password").val();
+    	
+    	if(!isCheckID) {
+    		return false;
+    	}
+    	
+		if(!patternNum.test(mb_password) || !patternCha2.test(mb_password) || !patternSym.test(mb_password) || mb_password.length<8 || mb_password.length>16) {
+    		
+    		$('#pwCheckState').css("color", "red");
+    		$('#pwCheckState').html("비밀번호는 영문대소문자+숫자+특수문자[~!@\#$%^*] 조합인 8~16자리로 입력해주세요.<br>");
+    		
+    		return false;
+    		
+		}else {
+			isValidityPw = true;
+    	}
+    	
+    }
+    
+    //전화번호 유효성검사
+    function checkValidityTel() {
+    	
+    	var mb_mobile2 = $("#mb_mobile2").val();
+    	var mb_mobile3 = $("#mb_mobile3").val();
+    	
+    	if(!isCheckID || !isValidityPw || !isNotNullPw || !isNotNullName || !isNotNullEmail || !isMailAuthConfirm || !isNotNulladdr) {
+    		return false;
+    	}	
+    	
+		if(!patternTel1.test(mb_mobile2) || !patternTel2.test(mb_mobile3)) {
+    		
+			alert("유효한 전화번호를 입력해주세요.");
+    		
+    		return false;
+    		
+		}else {
+			isValidityTel = true;
+    	}
+    }
 
     //아이디중복체크
     $("#btnUseIDChk").on("click", function(){
     	
       isCheckID = false;
       let mb_id = $("#mb_id");
+      
+      checkValidityId();
 
-      if(mb_id.val() == "" || mb_id.val() == null){
-        alert("아이디를 입력하세요");
-        mb_id.focus();
+      if(!isValidityId){
+        alert("아이디는 영문소문자+숫자 조합인 4~16자리로 입력해주세요.");
         return;
       }
 
@@ -235,7 +354,7 @@
           if(data == "success"){
             alert("인증요청 메일발송됨.");
           }else if(data == "fail"){
-        	  alert("인증요청 메일발송 에러.");
+        	  alert("유효한 이메일을 입력해주세요.");
           }
         }
       });

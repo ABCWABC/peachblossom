@@ -196,7 +196,7 @@
 		let templateObj = Handlebars.compile(template.html());
 		let subCateOptionsResult = templateObj(subCategory);
 		
-		$("#subCategory option").remove();                                  //누적되는 증상발생. 처리..
+		$("#subCategory option").remove();                        //누적되는 증상발생. 처리..
 		target.append(subCateOptionsResult);
 	}
 

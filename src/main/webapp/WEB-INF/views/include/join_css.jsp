@@ -1,4 +1,7 @@
 <style>
+	.container {
+		min-width: 1000px;
+	}
     .titleArea {
       margin: 5% 0 30px;
       text-align: center;

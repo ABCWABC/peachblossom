@@ -99,7 +99,8 @@ public class MemberController {
 		} catch(Exception e) {
 			
 			e.printStackTrace();
-			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			//entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<String>("fail", HttpStatus.OK);
 			
 		}
 		return entity;
