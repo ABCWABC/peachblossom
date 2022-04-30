@@ -151,6 +151,7 @@
 				</li>
 			</c:forEach>
 		</ul>
+	<%@include file="/WEB-INF/views/include/footer.jsp" %>
 	</div>
 	<!--prev,page number, next 를 클릭하면 아래 form이 작동된다.-->
 	<form id="actionForm" action="/product/productList" method="get">
@@ -161,7 +162,6 @@
 		
 		<!--글번호추가-->
 	</form>
-	<%@include file="/WEB-INF/views/include/footer.jsp" %>
     
 	<script>
 

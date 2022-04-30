@@ -80,8 +80,8 @@ public class AdProductController {
 			String fileName = upload.getOriginalFilename();
 			byte[] bytes = upload.getBytes();
 			
-			//String uploadPath =  ckUploadFolder + "\\WEB-INF\\views\\admin\\product\\upload\\" + fileName;
-			String uploadPath = ckUploadFolder + fileName;
+			String uploadPath =  ckUploadFolder + "\\WEB-INF\\views\\admin\\product\\upload\\" + fileName;
+//			String uploadPath = ckUploadFolder + fileName;
 			
 			log.info("업로드폴더 물리적경로: " + uploadPath);
 			
@@ -94,8 +94,8 @@ public class AdProductController {
 			log.info(callback);
 			
 			printWriter = response.getWriter();
-//			String fileUrl = "/upload/" + fileName;
-			String fileUrl = "/product/upload/" + fileName;
+			String fileUrl = "/upload/" + fileName;
+//			String fileUrl = "/product/upload/" + fileName;
 			printWriter.println("<script>window.parent.CKEDITOR.tools.callFunction("
 								+ callback
 								+ ",'"

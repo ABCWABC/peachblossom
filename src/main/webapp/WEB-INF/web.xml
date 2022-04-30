@@ -31,8 +31,12 @@
 		
 		<!-- 파일업로드 설정 -->
 		<multipart-config>
-			<!-- <location>D:\\Dev\\temp</location>  -->
-			<location>/usr/local/tomcat/tomcat-9/webapps/temp/</location>
+		
+			<!-- 데스크탑 SQL 사용시 -->
+			<location>D:\\Dev\\temp</location>
+			<!-- 아마존 서버 사용시 -->
+			<!-- <location>/usr/local/tomcat/tomcat-9/webapps/temp/</location>  -->
+			
 			<max-file-size>20971520</max-file-size> <!-- 20mb -->
 			<max-request-size>41943040</max-request-size> <!--  40mb -->
 			<file-size-threshold>20971520</file-size-threshold> <!-- 20mb -->
