@@ -26,6 +26,22 @@ import com.peachblossom.util.UploadFileUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+/**
+ * @Class Name : UserProductController.java
+ * @Description : 쇼핑몰 사용자 -제품리스트- 작업을 위한 Controller
+ * @Modification Information
+ * @
+ * @ 수정일              수정자          수정내용
+ * @ ----------  --------  ---------------------------
+ *   2022.03.11  이유미          최초 생성
+ *
+ *  @author 이유미
+ *  @since 2022.03.11
+ *  @version 1.0
+ *  @see
+ *
+ */
+
 @Log4j
 @AllArgsConstructor
 @RequestMapping("/product/*")
@@ -40,7 +56,7 @@ public class UserProductController {
 	//2차카테고리 출력
 	@ResponseBody
 	@GetMapping(value = "/subCategory/{mainCategoryCode}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<CategoryVO>> subCategory(@PathVariable("mainCategoryCode") Integer cate_code){
+	public ResponseEntity<List<CategoryVO>> subCategory(@PathVariable("mainCategoryCode") Integer cate_code) throws Exception {
 		
 		log.info(cate_code);
 		
@@ -51,7 +67,7 @@ public class UserProductController {
 	
 	//메인에서 BEST , NEW 상품리스트
 	@GetMapping("/productMain")
-	public void productMain(Model model) {
+	public void productMain(Model model) throws Exception {
 		
 		List<ProductVO> newList = service.productNewList();
 		for(int i=0; i<newList.size(); i++) {
@@ -71,7 +87,7 @@ public class UserProductController {
 
 	//2차카테고리 - 각 상품리스트
 	@GetMapping("/productList")
-	public void productList(@ModelAttribute("cri") Criteria cri, @ModelAttribute("cate_code") Integer cate_code, Model model) {
+	public void productList(@ModelAttribute("cri") Criteria cri, @ModelAttribute("cate_code") Integer cate_code, Model model) throws Exception {
 		
 		cri.setAmount(8);
 		
@@ -89,7 +105,7 @@ public class UserProductController {
 	}
 	
 	@GetMapping("/productListSearch")
-	public void productListSearch(@ModelAttribute("cri") Criteria cri, Model model) {
+	public void productListSearch(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
 		
 		cri.setAmount(8);
 		
@@ -109,7 +125,7 @@ public class UserProductController {
 	//상품상세페이지 출력
 	@GetMapping("/productDetail")
 	public void productDetail(@RequestParam(value = "type", defaultValue = "Y") String type, @ModelAttribute("cri") Criteria cri
-								, @ModelAttribute("cate_code") Integer cate_code, @RequestParam("pro_num") Integer pro_num, Model model) {
+								, @ModelAttribute("cate_code") Integer cate_code, @RequestParam("pro_num") Integer pro_num, Model model) throws Exception {
 		
 		ProductVO vo = service.productDetail(pro_num);
 		vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
@@ -121,7 +137,7 @@ public class UserProductController {
 	//상품리스트의 이미지출력(썸네일)
 	@ResponseBody
 	@GetMapping("/displayFile")
-	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) {
+	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) throws Exception {
 		
 		ResponseEntity<byte[]> entity = null;
 		

@@ -20,6 +20,22 @@ import com.peachblossom.sevice.ChartService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+/**
+ * @Class Name : ChartController.java
+ * @Description : 쇼핑몰 관리자 -통계차트- 작업을 위한 Controller
+ * @Modification Information
+ * @
+ * @ 수정일              수정자          수정내용
+ * @ ----------  --------  ---------------------------
+ *   2022.04.06  이유미          최초 생성
+ *
+ *  @author 이유미
+ *  @since 2022.04.06
+ *  @version 1.0
+ *  @see
+ *
+ */
+
 @Log4j
 @AllArgsConstructor
 @RequestMapping("/admin/chart/*")

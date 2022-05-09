@@ -14,13 +14,15 @@ public class AdminServiceImpl implements AdminService {
 	@Setter(onMethod_ = @Autowired)
 	private AdminMapper mapper;
 
+	/** 관리자계정 로그인을 처리 한다. */
 	@Override
-	public AdminVO adminLogin(String ad_userid) {
+	public AdminVO adminLogin(String ad_userid) throws Exception {
 		return mapper.adminLogin(ad_userid);
 	}
 
+	/** 관리자계정을 생성한다. */
 	@Override
-	public int adminRegister(AdminVO vo) {
+	public int adminRegister(AdminVO vo) throws Exception {
 		return mapper.adminRegister(vo);
 	}
 

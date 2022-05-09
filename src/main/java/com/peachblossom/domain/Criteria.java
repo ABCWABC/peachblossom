@@ -9,11 +9,18 @@ import lombok.ToString;
 @ToString
 @Setter
 @Getter
-public class Criteria { // 나중에 @Data 로 바꿔서 테스트 해보기
+public class Criteria {
 
+	/** 페이지 번호 */
 	private int pageNum;
+	
+	/** 페이지당 글의 수 */
 	private int amount;
+	
+	/** 검색어 종류 */
 	private String type;
+	
+	/** 검색 키워드 */
 	private String keyword;
 	
 	public Criteria() {

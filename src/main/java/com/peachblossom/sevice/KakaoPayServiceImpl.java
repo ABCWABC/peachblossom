@@ -17,7 +17,7 @@ import lombok.extern.log4j.Log4j;
 public class KakaoPayServiceImpl {
 
 	
-	public ReadyResponse payReady(int totalAmount) {
+	public ReadyResponse payReady(int totalAmount) throws Exception {
 		
 		String order_id = "100";
 		String itemName = "테스트상품";
@@ -49,7 +49,7 @@ public class KakaoPayServiceImpl {
 	}
 	
     // 결제 승인요청 메서드
-	public ApproveResponse payApprove(String tid, String pgToken) {
+	public ApproveResponse payApprove(String tid, String pgToken) throws Exception {
 		
 			
 		String order_id = "100";
@@ -76,7 +76,7 @@ public class KakaoPayServiceImpl {
 		return approveResponse;
 	}
 	// header() 셋팅
-	private HttpHeaders getHeaders() {
+	private HttpHeaders getHeaders() throws Exception {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "KakaoAK 어드민키");
 		headers.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");

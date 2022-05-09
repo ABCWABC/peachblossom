@@ -10,12 +10,15 @@ import com.peachblossom.domain.OrderVO;
 
 public interface OrderMapper {
 	
-	public List<OrderInfoVO> orderInfo(String mb_id);
+	/** 장바구니페이지부터 전달된 주문페이지 내용을 가져온다. */
+	public List<OrderInfoVO> orderInfo(String mb_id) throws Exception;
 	
-	public void orderInsert(OrderVO vo);
+	/** 주문내역을 등록한다. */
+	public void orderInsert(OrderVO vo) throws Exception;
 	
-	public void orderDetailInsert(OrderDetail vo);
+	/** 주문상세내역을 등록한다. */
+	public void orderDetailInsert(OrderDetail vo) throws Exception;
 
-	public List<OrderInfoVO> directOrderInfo(@Param("pro_num") Integer pro_num, @Param("ord_amount") Integer ord_amount);
-	
+	/** 메인페이지부터 전달된 주문페이지 내용을 가져온다. */
+	public List<OrderInfoVO> directOrderInfo(@Param("pro_num") Integer pro_num, @Param("ord_amount") Integer ord_amount) throws Exception;
 }

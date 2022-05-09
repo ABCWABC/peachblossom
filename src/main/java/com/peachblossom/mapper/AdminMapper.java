@@ -4,8 +4,10 @@ import com.peachblossom.domain.AdminVO;
 
 public interface AdminMapper {
 
-	public AdminVO adminLogin(String ad_userid);
+	/** 관리자계정 로그인을 처리 한다. */
+	public AdminVO adminLogin(String ad_userid) throws Exception;
 	
-	public int adminRegister(AdminVO vo);
+	/** 관리자계정을 생성한다. */
+	public int adminRegister(AdminVO vo) throws Exception;
 	
 }

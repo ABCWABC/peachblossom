@@ -26,6 +26,24 @@ import com.peachblossom.sevice.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+/**
+ * @Class Name : MemberController.java
+ * @Description : 쇼핑몰 사용자 -회원가입,정보수정,마이페이지- 작업을 위한 Controller
+ * @Modification Information
+ * @
+ * @ 수정일              수정자          수정내용
+ * @ ----------  --------  ---------------------------
+ *   2022.02.20  이유미          최초 생성
+ *   2022.03.31  이유미          정보수신여부 radio 버튼 변경
+ *   2022.04.26  이유미          회원가입페이지 유효성 검사 추가
+ *
+ *  @author 이유미
+ *  @since 2022.02.20
+ *  @version 1.0
+ *  @see
+ *
+ */
+
 @Log4j
 @AllArgsConstructor
 @RequestMapping("/member/*")
@@ -40,12 +58,12 @@ public class MemberController {
 	
 	//회원가입 폼
 	@GetMapping("/join")
-	public void join() {
+	public void join() throws Exception {
 	}
 	
 	//회원가입 저장
 	@PostMapping("/join")
-	public String joinOk(MemberVO vo, RedirectAttributes rttr) throws Exception{
+	public String joinOk(MemberVO vo, RedirectAttributes rttr) throws Exception {
 		
 		vo.setMb_password(cryptPassEnc.encode(vo.getMb_password()));
 		
@@ -59,7 +77,7 @@ public class MemberController {
 	//아이디 중복체크
 	@ResponseBody
 	@GetMapping("/checkID")
-	public ResponseEntity<String> checkID(@RequestParam("mb_id") String mb_id) throws Exception{
+	public ResponseEntity<String> checkID(@RequestParam("mb_id") String mb_id) throws Exception {
 		
 		String result = "";
 		ResponseEntity<String> entity = null;
@@ -73,7 +91,7 @@ public class MemberController {
 	//메일인증요청
 	@ResponseBody
 	@GetMapping("/sendMailAuth")
-	public ResponseEntity<String> sendMailAuth(@RequestParam("mb_email") String mb_email, HttpSession session){
+	public ResponseEntity<String> sendMailAuth(@RequestParam("mb_email") String mb_email, HttpSession session) throws Exception {
 		
 		ResponseEntity<String> entity = null;
 		
@@ -109,7 +127,7 @@ public class MemberController {
 	//메일인증요청 확인
 	@ResponseBody
 	@GetMapping("/mailAuthConfirm")
-	public ResponseEntity<String> MailAuthConfirm(@RequestParam("uAuthCode") String uAuthCode, HttpSession session){
+	public ResponseEntity<String> MailAuthConfirm(@RequestParam("uAuthCode") String uAuthCode, HttpSession session)  throws Exception {
 		
 		ResponseEntity<String> entity = null;
 		String authCode = (String)session.getAttribute("authCode");
@@ -124,7 +142,7 @@ public class MemberController {
 	
 	
 	//메일인증코드 생성 및 임시비밀번호 생성
-	private String makeAuthCode() {
+	private String makeAuthCode() throws Exception {
 		
 		String authCode = "";
 		
@@ -137,7 +155,7 @@ public class MemberController {
 	
 	//회원수정 폼 및 마이페이지 폼 
 	@GetMapping(value = {"/modify", "/mypage"})
-	public void modify(HttpSession session, Model model) {
+	public void modify(HttpSession session, Model model) throws Exception {
 		
 		MemberVO vo = (MemberVO) session.getAttribute("loginStatus");
 		
@@ -148,7 +166,7 @@ public class MemberController {
 	
 	//회원수정 저장
 	@PostMapping("/modify")
-	public String modify(MemberVO vo, HttpSession session, RedirectAttributes rttr) {
+	public String modify(MemberVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
 		
 		String redirectURL = "";
 		
@@ -176,7 +194,7 @@ public class MemberController {
 	//회원삭제
 	@ResponseBody
 	@PostMapping("/regDelete")
-	public ResponseEntity<String> regDelete(@RequestParam("mb_password") String mb_password, HttpSession session){
+	public ResponseEntity<String> regDelete(@RequestParam("mb_password") String mb_password, HttpSession session) throws Exception {
 		
 		ResponseEntity<String> entity = null;
 		
@@ -191,13 +209,13 @@ public class MemberController {
 	
 	//로그인 폼
 	@GetMapping("/login")
-	public void login() {
+	public void login() throws Exception {
 	}
 
 	//로그인 처리
 	@ResponseBody
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestParam("mb_id") String mb_id, @RequestParam("mb_password") String mb_password, HttpSession session) throws Exception{
+	public ResponseEntity<String> login(@RequestParam("mb_id") String mb_id, @RequestParam("mb_password") String mb_password, HttpSession session) throws Exception {
 		
 		String result = "";
 		ResponseEntity<String> entity = null;
@@ -219,7 +237,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login2")
-	public String login2(@RequestParam("mb_id") String mb_id, @RequestParam("mb_password") String mbsp_password, HttpSession session, RedirectAttributes rttr) throws Exception{
+	public String login2(@RequestParam("mb_id") String mb_id, @RequestParam("mb_password") String mbsp_password, HttpSession session, RedirectAttributes rttr) throws Exception {
 		
 		String url = "";
 
@@ -252,7 +270,7 @@ public class MemberController {
 	
 	//로그아웃처리
 	@GetMapping("/logout")
-	public String logout(HttpSession session, RedirectAttributes rttr) {
+	public String logout(HttpSession session, RedirectAttributes rttr) throws Exception {
 		
 		session.invalidate();
 		
@@ -261,7 +279,7 @@ public class MemberController {
 	
 	//비밀번호찾기 폼
 	@GetMapping("/searchPw")
-	public void searchPwReq() {
+	public void searchPwReq() throws Exception {
 	}
 	
 	//비밀번호찾기 처리
@@ -269,7 +287,7 @@ public class MemberController {
 	@PostMapping("/searchPw")
 	public ResponseEntity<String> searchPwAction(@RequestParam("mb_id") String mb_id
 													, @RequestParam("mb_name") String mb_name
-													, @RequestParam("mb_email") String mb_email){
+													, @RequestParam("mb_email") String mb_email) throws Exception {
 		
 		ResponseEntity<String> entity = null;
 		
@@ -307,13 +325,13 @@ public class MemberController {
 	
 	//아이디찾기 폼
 	@GetMapping("/searchId")
-	public void IdReq() {
+	public void IdReq() throws Exception {
 	}
 	
 	//아이디찾기 처리
 	@ResponseBody
 	@PostMapping("/searchId")
-	public ResponseEntity<String> searchIdAction(@RequestParam("mb_email") String mb_email) {
+	public ResponseEntity<String> searchIdAction(@RequestParam("mb_email") String mb_email) throws Exception {
 	
 		ResponseEntity<String> entity = null;
 		
@@ -349,7 +367,7 @@ public class MemberController {
 	@ResponseBody
 	@PostMapping("/changePw")
 	public ResponseEntity<String> changePw(@RequestParam("cur_mb_password") String cur_mb_password,
-											@RequestParam("change_mb_password") String change_mb_password, HttpSession session){
+											@RequestParam("change_mb_password") String change_mb_password, HttpSession session) throws Exception {
 		
 		ResponseEntity<String> entity = null;
 		MemberVO vo = (MemberVO) session.getAttribute("loginStatus");

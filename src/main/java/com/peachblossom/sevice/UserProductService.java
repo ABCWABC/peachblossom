@@ -8,23 +8,33 @@ import com.peachblossom.domain.ProductVO;
 
 public interface UserProductService {
 	
-	public List<CategoryVO> mainCategory();
+	/** 1차카테고리를 출력한다. */
+	public List<CategoryVO> mainCategory() throws Exception;
 	
-	public List<CategoryVO> subCategory(Integer cate_code);
+	/** 1차카테고리 선택시 2차카테고리를 출력한다. */
+	public List<CategoryVO> subCategory(Integer cate_code) throws Exception;
 	
-	public List<ProductVO> getListWithPaging(Integer cate_code, Criteria cri);
+	/** 제품 2차카테고리페이지를 출력한다. - 카테고리 선택시 */
+	public List<ProductVO> getListWithPaging(Integer cate_code, Criteria cri) throws Exception;
 	
-	public List<ProductVO> getListWithPagingSearch(Criteria cri);
+	/** 제품 2차카테고리페이지를 출력한다. - 검색시 */
+	public List<ProductVO> getListWithPagingSearch(Criteria cri) throws Exception;
 	
-	public int getTotalCount(Integer cate_code);
+	/** 제품 2차카테고리페이지의 총 갯수를 계산한다. - 카테고리 선택시 */
+	public int getTotalCount(Integer cate_code) throws Exception;
 	
-	public int getTotalCountSearch(Criteria cri);
+	/** 제품 2차카테고리페이지의 총 갯수를 계산한다. - 검색시 */
+	public int getTotalCountSearch(Criteria cri) throws Exception;
 	
-	public ProductVO productDetail(Integer pro_num);
+	/** 제품 상세페이지를 출력한다. */
+	public ProductVO productDetail(Integer pro_num) throws Exception;
 	
-	public List<ProductVO> productListByCategory(Integer cate_code);
+	/** 제품 2차카테고리페이지를 출력한다. - 사용X */
+	public List<ProductVO> productListByCategory(Integer cate_code) throws Exception;
 	
-	public List<ProductVO> productNewList();
+	/** 메인페이지에서 신상품 부문을 출력한다. */
+	public List<ProductVO> productNewList() throws Exception;
 	
-	public List<ProductVO> productBestList();
+	/** 메인페이지에서 베스트 부문을 출력한다. */
+	public List<ProductVO> productBestList() throws Exception;
 }

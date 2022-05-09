@@ -35,6 +35,23 @@ import com.peachblossom.util.UploadFileUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+/**
+ * @Class Name : AdProductController.java
+ * @Description : 쇼핑몰 관리자 -상품등록,상품리스트- 작업을 위한 Controller
+ * @Modification Information
+ * @
+ * @ 수정일              수정자          수정내용
+ * @ ----------  --------  ---------------------------
+ *   2022.02.25  이유미          최초 생성
+ *   2022.03.02  이유미          관리자 상품등록,상품리스트확인 기능 추가
+ *
+ *  @author 이유미
+ *  @since 2022.02.25
+ *  @version 1.0
+ *  @see
+ *
+ */
+
 @Log4j
 @AllArgsConstructor
 @RequestMapping("/admin/product/*")
@@ -51,14 +68,14 @@ public class AdProductController {
 	
 	// 상품등록폼 - 1차카테고리 정보 출력
 	@GetMapping("/productInsert")
-	public void product_insert(Model model) {
+	public void product_insert(Model model) throws Exception {
 		model.addAttribute("mainCategory", service.mainCategory());
 	}
 	
 	// 상품등록폼 - 2차카테고리 정보 출력
 	@ResponseBody
 	@GetMapping(value = "/subCategory/{mainCategoryCode}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<List<CategoryVO>> subCategory(@PathVariable("mainCategoryCode") Integer cate_code){
+	public ResponseEntity<List<CategoryVO>> subCategory(@PathVariable("mainCategoryCode") Integer cate_code) throws Exception {
 		
 		ResponseEntity<List<CategoryVO>> entity = null;
 		entity = new ResponseEntity<List<CategoryVO>>(service.subCategory(cate_code), HttpStatus.OK);
@@ -68,7 +85,7 @@ public class AdProductController {
 	
 	//CKEditor 상품설명 이미지.
 	@PostMapping("/editor/imageUpload")
-	public void imageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam("upload") MultipartFile upload) {
+	public void imageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam("upload") MultipartFile upload) throws Exception {
 		
 		OutputStream out = null;
 		PrintWriter printWriter = null;
@@ -119,7 +136,7 @@ public class AdProductController {
 	
 	//상품등록 저장
 	@PostMapping("/productInsert")
-	public String product_insert(ProductVO vo, RedirectAttributes rttr) {
+	public String product_insert(ProductVO vo, RedirectAttributes rttr) throws Exception {
 		
 		log.info("상품정보" + vo);
 		
@@ -137,7 +154,7 @@ public class AdProductController {
 	
 	//상품리스트
 	@GetMapping("/productList")
-	public void product_list(Criteria cri, Model model) {
+	public void product_list(Criteria cri, Model model) throws Exception {
 		
 		cri.setAmount(4);
 		List<ProductVO> list = service.getListWithPaging(cri);
@@ -155,7 +172,7 @@ public class AdProductController {
 	
 	//상품수정 폼
 	@GetMapping("/productModify")
-	public void product_modify(@RequestParam("pro_num") Integer pro_num, @ModelAttribute("cri") Criteria cri, Model model) {
+	public void product_modify(@RequestParam("pro_num") Integer pro_num, @ModelAttribute("cri") Criteria cri, Model model) throws Exception {
 		
 		ProductVO vo = service.product_modify(pro_num);
 		vo.setPro_uploadpath(vo.getPro_uploadpath().replace("\\", "/"));
@@ -166,7 +183,7 @@ public class AdProductController {
 	
 	//상품수정 저장
 	@PostMapping("/productModify")
-	public String product_modify(Criteria cri, ProductVO vo, RedirectAttributes rttr) {
+	public String product_modify(Criteria cri, ProductVO vo, RedirectAttributes rttr) throws Exception {
 		
 		//1)이미지가 변경된 경우
 		if(vo.getUpload().getSize() > 0) {
@@ -190,7 +207,7 @@ public class AdProductController {
 	//상품리스트의 이미지출력(썸네일)
 	@ResponseBody
 	@GetMapping("/displayFile")  // (클라이언트에서 보내는 특수문자중에 \ 데이타를 스프링에서 지원하지 않음)
-	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) {
+	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) throws Exception {
 		
 		ResponseEntity<byte[]> entity = null;
 		
@@ -205,7 +222,7 @@ public class AdProductController {
 	public ResponseEntity<String> checkDelete(
 				@RequestParam("pro_numArr[]") List<Integer> pro_numArr, 
 				@RequestParam("pro_imgArr[]") List<String> pro_imgArr,
-				@RequestParam("pro_uploadpathArr[]") List<String> pro_uploadpathArr){
+				@RequestParam("pro_uploadpathArr[]") List<String> pro_uploadpathArr) throws Exception {
 		
 		ResponseEntity<String> entity = null;
 		
@@ -228,16 +245,16 @@ public class AdProductController {
 	
 	//상품개별삭제
 	@PostMapping("/productDelete")
-	public String productDelete(Criteria cri, @RequestParam("pro_num") Integer pro_num, RedirectAttributes rttr) {
+	public String productDelete(Criteria cri, @RequestParam("pro_num") Integer pro_num, RedirectAttributes rttr) throws Exception {
 		
 		System.out.println("상품삭제: " + cri);
 		System.out.println("상품코드: " + pro_num);
 		
 		service.product_delete(pro_num);
 		
-		rttr.addFlashAttribute("msg", "deleteOk"); // jsp에서 참조.
+		rttr.addFlashAttribute("msg", "deleteOk");
 		
-		rttr.addAttribute("pageNum", cri.getPageNum()); // 주소에서 호출되는 메서드 파라미터 참조.
+		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());

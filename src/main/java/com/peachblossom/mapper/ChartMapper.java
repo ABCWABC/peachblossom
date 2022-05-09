@@ -6,9 +6,16 @@ import com.peachblossom.domain.ChartVO;
 
 public interface ChartMapper {
 	
-	public List<ChartVO> primaryChart();
-	public List<ChartVO> secondaryChart();
-	public List<ChartVO> salesByYearChart();
+	/** 1차 카테고리 차트작업한다. */
+	public List<ChartVO> primaryChart() throws Exception;
+	
+	/** 2차 카테고리 차트작업한다. */
+	public List<ChartVO> secondaryChart() throws Exception;
+	
+	/** 년도별 매출 차트작업한다. */
+	public List<ChartVO> salesByYearChart() throws Exception;
 
-	public List<ChartVO> primaryChartByMonth(String ord_date);
+	/** 월별 매출 차트작업한다. */
+	public List<ChartVO> primaryChartByMonth(String ord_date) throws Exception;
+	
 }

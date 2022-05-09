@@ -13,14 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.extern.log4j.Log4j;
 import net.coobird.thumbnailator.Thumbnailator;
 
-@Log4j
 public class UploadFileUtils {
 	
 	// 파일업로드
-	public static String uploadFile(String uploadFolder, MultipartFile multipartFile) {
+	public static String uploadFile(String uploadFolder, MultipartFile multipartFile) throws Exception {
 		
 		String uploadFolderPath = getFolder();
 		File uploadPath = new File(uploadFolder, uploadFolderPath);
@@ -49,7 +47,7 @@ public class UploadFileUtils {
 		return uploadFileName;
 	}
 	
-	public static ResponseEntity<byte[]> getFileByte(String uploadFolder, String uploadPath, String fileName){
+	public static ResponseEntity<byte[]> getFileByte(String uploadFolder, String uploadPath, String fileName) throws Exception {
 		
 		ResponseEntity<byte[]> entity = null;
 		File file = new File(uploadFolder + "\\" + uploadPath + "\\" + fileName);
@@ -66,7 +64,7 @@ public class UploadFileUtils {
 	}
 	
 	// 업로드파일 이미지파일 여부 체크
-	private static boolean checkImageType(File saveFile) {
+	private static boolean checkImageType(File saveFile) throws Exception {
 		
 		try {
 			String contentType = Files.probeContentType(saveFile.toPath());
@@ -78,7 +76,7 @@ public class UploadFileUtils {
 	}
 
 	// 업로드 폴더명 생성 (날짜이용)
-	public static String getFolder() {
+	public static String getFolder() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date();
 		String str = sdf.format(date);
@@ -87,7 +85,7 @@ public class UploadFileUtils {
 	}
 	
 	//원본이미지, 썸네일이미지 삭제작업
-	public static void deleteFile(String uploadFolder, String uploadPath, String fileName) {
+	public static void deleteFile(String uploadFolder, String uploadPath, String fileName) throws Exception {
 		new File(uploadFolder+ "\\"+ uploadPath.replace('/', File.separatorChar), fileName).delete();
 		new File(uploadFolder+"\\"+"s_"+uploadPath.replace('/', File.separatorChar), fileName).delete();
 	}

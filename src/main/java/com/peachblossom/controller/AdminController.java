@@ -16,6 +16,23 @@ import com.peachblossom.sevice.AdminService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+/**
+ * @Class Name : AdminController.java
+ * @Description : 쇼핑몰 관리자 -로그인,계정- 작업을 위한 Controller
+ * @Modification Information
+ * @
+ * @ 수정일              수정자          수정내용
+ * @ ----------  --------  ---------------------------
+ *   2022.02.22  이유미          최초 생성
+ *   2022.03.11  이유미          관리자 로그인 및 계정 추가
+ *
+ *  @author 이유미
+ *  @since 2022.02.22
+ *  @version 1.0
+ *  @see
+ *
+ */
+
 @Log4j
 @AllArgsConstructor
 @RequestMapping("/admin/*")
@@ -28,12 +45,12 @@ public class AdminController {
 	
 	//관리자로그인 폼
 	@GetMapping("/logon")
-	public void adLoginForm() {
+	public void adLoginForm() throws Exception {
 	}
 	
-	//관리자로그인 처리
+	//관리자로그인 처리폼
 	@PostMapping("/logon")
-	public String adLoginOk(String ad_userid, String ad_userpw, HttpSession session, RedirectAttributes rttr) {
+	public String adLoginOk(String ad_userid, String ad_userpw, HttpSession session, RedirectAttributes rttr) throws Exception {
 		
 		log.info("관리자아이디: " + ad_userid + ", 관리자비번 :" + ad_userpw);
 		
@@ -57,42 +74,28 @@ public class AdminController {
 		return "redirect:"+redirectUrl;
 	}
 	
+	//로그아웃
 	@GetMapping("/logout")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session) throws Exception {
 		
 		session.invalidate();
 		
 		return "/admin/logon";
 	}
 	
+	//메인페이지
 	@GetMapping("/main")
-	public void main() {
+	public void main() throws Exception {
 	}
-	
-	//관리자메인페이지 폼  -- 로그인 한 경우만 들어갈수 있게 해줌
-//	@GetMapping("/main")
-//	public String main(String ad_userid) {
-//		
-//		String redirectUrl = "";
-//		AdminVO vo = service.adminLogin(ad_userid);
-//		
-//		if(!StringUtils.isEmpty(vo)) {
-//			redirectUrl = "/admin/main";
-//		}else {
-//			redirectUrl = "/admin/logon";
-//		}
-//		
-//		return "redirect:"+redirectUrl;
-//	}
 	
 	//관리자계정 추가 폼
 	@GetMapping("/adminRegister")
-	public void adminRegister() {
+	public void adminRegister() throws Exception {
 	}
 	
 	//관리자계정 추가 처리
 	@PostMapping("/adminRegister")
-	public String adminRegister(AdminVO vo, RedirectAttributes rttr) {
+	public String adminRegister(AdminVO vo, RedirectAttributes rttr) throws Exception {
 		
 		vo.setAd_userpw(cryptPassEnc.encode(vo.getAd_userpw()));
 		

@@ -9,13 +9,18 @@ import com.peachblossom.domain.CartVO;
 
 public interface CartMapper {
 	
-	public void cartAdd(CartVO vo);
+	/** 장바구니에 추가한다. */
+	public void cartAdd(CartVO vo) throws Exception;
 	
-	public List<CartListVO> cartList(String mb_id);
+	/** 장바구니 리스트를 가져온다. */
+	public List<CartListVO> cartList(String mb_id) throws Exception;
 	
-	public void cartDel(Integer cart_code);
+	/** 장바구니 리스트를 전체 삭제한다. */
+	public void cartDel(Integer cart_code) throws Exception;
 	
-	public void cartAllDel(String mb_id);
+	/** 장바구니 리스트를 선택 삭제한다. */
+	public void cartAllDel(String mb_id) throws Exception;
 
-	public void cartAmountModify(CartVO vo);
+	/** 장바구니 수량을 변경한다. */
+	public void cartAmountModify(CartVO vo) throws Exception;
 }

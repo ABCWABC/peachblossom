@@ -275,6 +275,5 @@
 			ord_state = #{ord_state}
 	
 	</select>
-
-	
+	 
 </mapper>

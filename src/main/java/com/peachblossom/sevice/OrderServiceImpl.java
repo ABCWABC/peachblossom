@@ -22,14 +22,16 @@ public class OrderServiceImpl implements OrderService {
 	@Inject
 	private CartMapper cartMapper;
 
+	/** 장바구니페이지부터 전달된 주문페이지 내용을 가져온다. */
 	@Override
-	public List<OrderInfoVO> orderInfo(String mb_id) {
+	public List<OrderInfoVO> orderInfo(String mb_id) throws Exception {
 		return mapper.orderInfo(mb_id);
 	}
 
+	/** 주문내역을 등록한다. */
 	@Transactional
 	@Override
-	public void orderInsert(OrderVO order, OrderDetailList orderDetail) {
+	public void orderInsert(OrderVO order, OrderDetailList orderDetail) throws Exception {
 		mapper.orderInsert(order);
 		
 		Integer ord_code = order.getOrd_code();
@@ -37,14 +39,19 @@ public class OrderServiceImpl implements OrderService {
 		
 		orderDetail.getOrderDetailList().forEach(oDetail -> {
 			oDetail.setOrd_code(ord_code);
-			mapper.orderDetailInsert(oDetail);
+			try {
+				mapper.orderDetailInsert(oDetail);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		});
 		
 		cartMapper.cartAllDel(mb_id);
 	}
 
+	/** 메인페이지부터 전달된 주문페이지 내용을 가져온다. */
 	@Override
-	public List<OrderInfoVO> directOrderInfo(Integer pro_num, Integer ord_amount) {
+	public List<OrderInfoVO> directOrderInfo(Integer pro_num, Integer ord_amount) throws Exception {
 		return mapper.directOrderInfo(pro_num, ord_amount);
 	}
 	

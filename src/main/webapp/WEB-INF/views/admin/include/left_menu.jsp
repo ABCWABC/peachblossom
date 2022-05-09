@@ -48,8 +48,6 @@
           <ul class="treeview-menu">
             <li><a href="/admin/product/productInsert">상품등록</a></li>
             <li><a href="/admin/product/productList">상품리스트</a></li>
-            <li><a href="/admin/slide/slideInsert">슬라이드등록</a></li>
-            <li><a href="/admin/slide/slideList">슬라이드리스트</a></li>
           </ul>
         </li>
         
@@ -65,31 +63,17 @@
             <li><a href="/admin/order/orderList">주문리스트</a></li>
           </ul>
         </li>
-        
-        <li class="treeview">
-          <a href="#">
-          	<i class="fa fa-link"></i>
-          	<span>회원관리</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="/admin/member/userinfo_list">회원목록</a></li>
-            <li><a href="#">Link in level 2</a></li>
-          </ul>
-        </li>
-        
         <li class="treeview">
           <a href="#">
           <i class="fa fa-link"></i>
           <span>통계관리</span>
-            <span class="pull-right-container">
-            	<i class="fa fa-angle-left pull-right"></i>
-            </span>
+          <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+          </span>
           </a>
           <ul class="treeview-menu">
             <li><a href="/admin/chart/overall">주문통계</a></li>
+            <!-- <li><a href="/admin/order/order_sale">매출현황</a></li>  -->
           </ul>
         </li>
         

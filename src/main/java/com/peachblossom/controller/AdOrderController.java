@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -36,6 +35,23 @@ import com.peachblossom.util.UploadFileUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+/**
+ * @Class Name : AdOrderController.java
+ * @Description : 쇼핑몰 관리자 -주문페이지- 작업을 위한 Controller
+ * @Modification Information
+ * @
+ * @ 수정일              수정자          수정내용
+ * @ ----------  --------  ---------------------------
+ *   2022.03.28  이유미          최초 생성
+ *   2022.04.06  이유미          엑셀데이터 다운 기능 추가
+ *
+ *  @author 이유미
+ *  @since 2022.03.28
+ *  @version 1.0
+ *  @see
+ *
+ */
+
 @Log4j
 @AllArgsConstructor
 @RequestMapping("/admin/order/*")
@@ -50,7 +66,7 @@ public class AdOrderController {
 	//관리자 주문페이지 출력
 	@GetMapping("/orderList")
 	public void orderList(Criteria cri, @RequestParam(value = "startDate", required = false) String startDate, 
-							@RequestParam(value = "endDate", required = false) String endDate, Model model) {
+							@RequestParam(value = "endDate", required = false) String endDate, Model model) throws Exception {
 		
 		log.info("시작날짜: " + startDate);
 		log.info("종료날짜: " + endDate);
@@ -74,7 +90,7 @@ public class AdOrderController {
 	
 	//주문상태별 목록보기
 	@GetMapping("/orderStateList")
-	public String orderStateList(@ModelAttribute("ord_state") String ord_state, Criteria cri, Model model) {
+	public String orderStateList(@ModelAttribute("ord_state") String ord_state, Criteria cri, Model model) throws Exception {
 		
 		cri.setAmount(1);
 		List<OrderVO> list = oService.getOrderStateListWithPaging(cri, ord_state);
@@ -99,7 +115,7 @@ public class AdOrderController {
 	@ResponseBody  
 	@PostMapping("/orderStateAll")
 	public ResponseEntity<String> checkDelete(@RequestParam("ord_codeArr[]") List<Integer> ord_codeArr, 
-												@RequestParam("ord_StateArr[]") List<String> ord_StateArr) {
+												@RequestParam("ord_StateArr[]") List<String> ord_StateArr) throws Exception {
 		
 		ResponseEntity<String> entity = null;
 		
@@ -118,7 +134,7 @@ public class AdOrderController {
 	//주문삭제(주문테이블, 주문상세테이블)
 	@ResponseBody
 	@PostMapping("/checkDelete")
-	public ResponseEntity<String> checkDelete(@RequestParam("ord_codeArr[]") List<Integer> ord_codeArr) {
+	public ResponseEntity<String> checkDelete(@RequestParam("ord_codeArr[]") List<Integer> ord_codeArr) throws Exception {
 	
 		ResponseEntity<String> entity = null;
 		
@@ -136,7 +152,7 @@ public class AdOrderController {
 	
 	//관리자 주문상세페이지 출력
 	@GetMapping("/detailInfo")
-	public void detailInfo(Integer ord_code, Model model) {
+	public void detailInfo(Integer ord_code, Model model) throws Exception {
 		
 		List<OrderDetailInfo> list = oService.ordDetailInfo(ord_code);
 		
@@ -150,7 +166,7 @@ public class AdOrderController {
 	//주문삭제(주문상세테이블만)
 	@ResponseBody
 	@PostMapping("/detailListDelete")
-	public ResponseEntity<String> detailListDelete(Integer ord_code, Integer pro_num) {
+	public ResponseEntity<String> detailListDelete(Integer ord_code, Integer pro_num) throws Exception {
 		
 		ResponseEntity<String> entity = null;
 		
@@ -167,7 +183,7 @@ public class AdOrderController {
 	//상품리스트의 이미지출력(썸네일)
 	@ResponseBody
 	@GetMapping("/displayFile")
-	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) {
+	public ResponseEntity<byte[]> displayFile(String uploadPath, String fileName) throws Exception {
 		
 		ResponseEntity<byte[]> entity = null;
 		
@@ -286,4 +302,5 @@ public class AdOrderController {
 		wb.close();
 	
 	}
+	
 }

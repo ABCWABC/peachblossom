@@ -6,22 +6,31 @@ import com.peachblossom.domain.MemberVO;
 
 public interface MemberService {
 	
-	public int join(MemberVO vo);
+	/** 회원가입한다. */
+	public int join(MemberVO vo) throws Exception;
 	
-	public String checkID(String mb_id);
+	/** 회원가입시 아이디 중복체크를 한다. */
+	public String checkID(String mb_id) throws Exception;
 	
-	public MemberVO login(String mb_id);
+	/** 로그인을 한다. */
+	public MemberVO login(String mb_id) throws Exception;
 	
-	public int modify(MemberVO vo);
+	/** 회원정보를 수정한다. */
+	public int modify(MemberVO vo) throws Exception;
 	
-	public String searchPwByEmail(String mb_id, String mb_name, String mb_email);
+	/** 비밀번호를 찾는다. */
+	public String searchPwByEmail(String mb_id, String mb_name, String mb_email) throws Exception;
 	
-	public String searchIdByEmail(String mb_email);
+	/** 아이디를 찾는다. */
+	public String searchIdByEmail(String mb_email) throws Exception;
 	
-	public int changePw(String mb_email, String mb_password);
+	/** 비밀번호찾기시 메일에 전송된 임의번호로 비밀번호를 변경한다. */
+	public int changePw(String mb_email, String mb_password) throws Exception;
 	
-	public String currentPwConfirm(String mb_id, PasswordEncoder cryptPassEnc, String cur_mb_password, String change_mb_password);
+	/** 회원정보수정에서 비밀번호를 변경 한다. */
+	public String currentPwConfirm(String mb_id, PasswordEncoder cryptPassEnc, String cur_mb_password, String change_mb_password) throws Exception;
 	
-	public int regDelete(String mb_id, PasswordEncoder cryptPassEnc, String mb_password);
+	/** 회원탈퇴한다. */
+	public int regDelete(String mb_id, PasswordEncoder cryptPassEnc, String mb_password) throws Exception;
 
 }
